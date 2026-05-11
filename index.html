@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>FixMyLife v10.1.2</title>
+<title>FixMyLife v10.1.6</title>
 <meta name="theme-color" content="#fbfaf7">
 <style>
 *{box-sizing:border-box}
@@ -28,22 +28,38 @@ body{display:grid;place-items:center}
 .info{position:relative;z-index:10;height:42px;margin:0 10px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;padding:0 12px;background:rgba(255,255,255,.76);border:1px solid rgba(22,32,58,.10);border-radius:14px;box-shadow:var(--soft);font-size:12px;font-weight:700}
 #date{justify-self:start}#time{justify-self:center}.loc{justify-self:end;max-width:145px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:transparent;border:0;color:var(--ink);font:inherit;text-align:right}
 .info.hidden-location .loc{opacity:.45}
-.map{position:absolute;inset:136px 0 126px}
+.map{position:absolute;inset:136px 0 112px}
 .wheel{position:absolute;inset:2px 0;border-radius:50%/49%;overflow:hidden;background:radial-gradient(ellipse at center,rgba(255,255,255,0) 0 27%,rgba(255,255,255,.96) 27.4% 34%,rgba(255,255,255,0) 34.4%),conic-gradient(from -22.5deg,rgba(45,145,232,.19) 0 45deg,rgba(43,168,91,.17) 45deg 90deg,rgba(243,95,77,.16) 90deg 135deg,rgba(214,149,0,.17) 135deg 180deg,rgba(240,91,79,.15) 180deg 225deg,rgba(223,101,145,.16) 225deg 270deg,rgba(123,97,199,.17) 270deg 315deg,rgba(0,158,170,.15) 315deg 360deg);box-shadow:inset 0 0 0 7px rgba(255,255,255,.75)}
 .wheel:after{content:"";position:absolute;inset:0;background:repeating-conic-gradient(from -22.5deg,rgba(255,255,255,.92) 0deg 1.4deg,transparent 1.4deg 45deg);opacity:.86}
 .ring{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:4}.ring ellipse{fill:none;stroke:rgba(17,32,68,.34);stroke-width:3.2;vector-effect:non-scaling-stroke}
-.center{position:absolute;left:50%;top:51%;transform:translate(-50%,-50%);width:128px;height:128px;border-radius:999px;border:9px solid rgba(255,255,255,.88);background:radial-gradient(circle at 50% 32%,#fff,#fffdf9 58%,#f5efe6);z-index:8;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:var(--big),inset 0 0 0 1px rgba(17,32,68,.06);color:#112044}
-.center svg{width:32px;height:32px;margin-bottom:2px}.center svg *{fill:none;stroke:#112044;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
-.center strong{font-family:Georgia,serif;font-size:38px;line-height:.92}.center small{font-size:13px;color:#5f6678}
-.domain{position:absolute;z-index:3;font-size:18px;font-weight:750;text-shadow:0 1px 0 rgba(255,255,255,.7);pointer-events:none}
-.housing{top:14%;left:50%;transform:translate(-50%,-50%);color:var(--housing)}.money{top:24%;left:78%;transform:translate(-50%,-50%);color:var(--money)}.legal{top:50%;left:88%;transform:translate(-50%,-50%);color:var(--legal)}.health{top:76%;left:78%;transform:translate(-50%,-50%);color:var(--health)}.relationships{top:88%;left:50%;transform:translate(-50%,-50%);color:var(--relationships)}.family{top:76%;left:22%;transform:translate(-50%,-50%);color:var(--family)}.work{top:50%;left:12%;transform:translate(-50%,-50%);color:var(--work)}.creative{top:24%;left:22%;transform:translate(-50%,-50%);color:var(--creative)}
+.center{position:absolute;left:50%;top:51%;transform:translate(-50%,-50%);width:112px;height:112px;border-radius:999px;border:9px solid rgba(255,255,255,.88);background:radial-gradient(circle at 50% 32%,#fff,#fffdf9 58%,#f5efe6);z-index:8;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:var(--big),inset 0 0 0 1px rgba(17,32,68,.06);color:#112044}
+.center svg{width:28px;height:28px;margin-bottom:2px}.center svg *{fill:none;stroke:#112044;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.center strong{font-family:Georgia,serif;font-size:32px;line-height:.92}.center small{font-size:13px;color:#5f6678}
+.domain{position:absolute;z-index:12;font-size:15px;font-weight:800;letter-spacing:.03em;text-shadow:0 1px 0 rgba(255,255,255,.7);pointer-events:auto;cursor:pointer;white-space:nowrap;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.46);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.46);box-shadow:0 6px 14px rgba(36,38,54,.08)}.domain:active{filter:brightness(.96);transform:translate(-50%,-50%) scale(.98)}
+.housing{top:8.8%;left:50%;transform:translate(-50%,-50%) rotate(0deg);color:var(--housing)}
+.money{top:18.5%;left:84%;transform:translate(-50%,-50%) rotate(52deg);color:var(--money)}
+.legal{top:50%;left:95%;transform:translate(-50%,-50%) rotate(90deg);color:var(--legal)}
+.health{top:81.5%;left:84%;transform:translate(-50%,-50%) rotate(-52deg);color:var(--health)}
+.relationships{top:94.2%;left:50%;transform:translate(-50%,-50%) rotate(0deg);color:var(--relationships)}
+.family{top:81.5%;left:16%;transform:translate(-50%,-50%) rotate(52deg);color:var(--family)}
+.work{top:50%;left:5%;transform:translate(-50%,-50%) rotate(-90deg);color:var(--work)}
+.creative{top:18.5%;left:16%;transform:translate(-50%,-50%) rotate(-52deg);color:var(--creative)}
+.housing:active{transform:translate(-50%,-50%) rotate(0deg) scale(.98)}
+.money:active{transform:translate(-50%,-50%) rotate(52deg) scale(.98)}
+.legal:active{transform:translate(-50%,-50%) rotate(90deg) scale(.98)}
+.health:active{transform:translate(-50%,-50%) rotate(-52deg) scale(.98)}
+.relationships:active{transform:translate(-50%,-50%) rotate(0deg) scale(.98)}
+.family:active{transform:translate(-50%,-50%) rotate(52deg) scale(.98)}
+.work:active{transform:translate(-50%,-50%) rotate(-90deg) scale(.98)}
+.creative:active{transform:translate(-50%,-50%) rotate(-52deg) scale(.98)}
+
 .layer{position:absolute;inset:0;z-index:6}
 .node{position:absolute;transform:translate(-50%,-50%);border:0;background:transparent;padding:0;display:grid;place-items:center;transition:left .23s,top .23s,transform .12s;color:#1d253f}
 .node:active{transform:translate(-50%,-50%) scale(.96)}
 .shape{display:grid;place-items:center;background:rgba(255,255,255,.92);border:1.6px solid var(--domain-color,#999);box-shadow:0 8px 18px rgba(36,38,54,.11),inset 0 0 0 1px rgba(255,255,255,.55);backdrop-filter:blur(10px)}
-.choice .shape{width:54px;height:54px;border-radius:999px}.facet{width:92px;height:28px;z-index:9}.facet .shape{width:90px;height:26px;border-radius:999px}
+.choice .shape{width:46px;height:46px;border-radius:999px}.facet{width:82px;height:26px;z-index:9}.facet .shape{width:80px;height:24px;border-radius:999px}
 .press .shape{box-shadow:0 12px 26px rgba(36,38,54,.18),0 0 0 4px color-mix(in srgb,var(--domain-color),transparent 78%)}
-.label{display:block;max-width:78px;padding:0 5px;text-align:center;font-size:10.5px;font-weight:750;line-height:1.05;color:#1d253f}.facet .label{max-width:84px;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.label{display:block;max-width:70px;padding:0 4px;text-align:center;font-size:9.5px;font-weight:750;line-height:1.05;color:#1d253f}.facet .label{max-width:74px;font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .footer{position:absolute;left:0;right:0;bottom:14px;z-index:7;display:grid;justify-items:center;gap:11px;padding:0 24px}
 .legend{display:inline-grid;grid-template-columns:auto 1px auto;gap:16px;align-items:center;padding:10px 20px;border-radius:999px;background:rgba(255,255,255,.76);border:1px solid rgba(22,32,58,.10);box-shadow:var(--soft);font-size:13px;font-weight:750}.legend span{display:inline-flex;align-items:center;gap:8px}.divider{width:1px;height:22px;background:rgba(22,32,58,.14)}.lc,.lf{display:inline-block;border:2px solid #16203a}.lc{width:20px;height:20px;border-radius:999px}.lf{width:34px;height:13px;border-radius:999px}
 .hope{width:100%;max-width:360px;margin:0;min-height:48px;padding:10px 15px;display:flex;align-items:center;justify-content:center;gap:9px;border-radius:20px;background:rgba(255,255,255,.72);border:1px solid rgba(22,32,58,.10);box-shadow:var(--soft);color:#5f6678;font-family:Georgia,serif;font-size:15px;font-style:italic;text-align:center}
@@ -61,7 +77,7 @@ label{display:block;margin:13px 0 7px;color:var(--muted);text-transform:uppercas
 textarea,select,input[type=text]{width:100%;background:rgba(255,255,255,.82);color:var(--ink);border:1px solid rgba(22,32,58,.14);border-radius:15px;padding:13px;font:inherit;font-size:16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.70)}
 textarea{resize:vertical}.save,.secondary,.delete{width:100%;min-height:52px;margin-top:16px;border-radius:999px;border:1px solid rgba(22,32,58,.18);background:#112044;color:#fff;box-shadow:var(--soft);font-size:16px;font-weight:750}.secondary{background:rgba(255,255,255,.85);color:#112044}.delete{background:#f35f4d}.help{color:var(--muted)!important;font-size:15px!important}
 .range{display:grid;grid-template-columns:42px 1fr 42px;gap:10px;align-items:center;color:var(--muted);text-transform:uppercase;font-size:12px;font-weight:750}input[type=range]{width:100%}output{display:block;margin:10px 0 0;font-size:18px;color:var(--ink);font-weight:750}.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}.quick button{min-height:42px;border-radius:999px;border:1px solid rgba(22,32,58,.14);background:rgba(255,255,255,.72);color:var(--ink);font-weight:750}.links{padding-left:18px;color:var(--muted);font-size:16px;line-height:1.6}
-@media(max-width:390px){.app{border-left:0;border-right:0;border-radius:0}.top h1{font-size:30px}.info{font-size:10.5px;padding:0 9px}.center{width:118px;height:118px}.center strong{font-size:34px}.center small{font-size:12px}.center svg{width:30px;height:30px}.domain{font-size:15px}.choice .shape{width:47px;height:47px}.facet{width:78px;height:25px}.facet .shape{width:76px;height:24px}.label{font-size:9px;max-width:40px}.facet .label{font-size:9px;max-width:72px}.legend{font-size:12px;padding:9px 16px}.hope{font-size:13px;min-height:44px}}
+@media(max-width:390px){.app{border-left:0;border-right:0;border-radius:0}.top h1{font-size:30px}.info{font-size:10.5px;padding:0 9px}.center{width:118px;height:118px}.center strong{font-size:34px}.center small{font-size:12px}.center svg{width:30px;height:30px}.domain{font-size:13px}.choice .shape{width:42px;height:42px}.facet{width:72px;height:24px}.facet .shape{width:70px;height:22px}.label{font-size:9px;max-width:40px}.facet .label{font-size:8.5px;max-width:66px}.legend{font-size:12px;padding:9px 16px}.hope{font-size:13px;min-height:44px}}
 </style>
 </head>
 <body>
@@ -72,7 +88,7 @@ textarea{resize:vertical}.save,.secondary,.delete{width:100%;min-height:52px;mar
 <section class="map" id="map">
 <div class="wheel"></div><svg class="ring" viewBox="0 0 100 100" preserveAspectRatio="none"><ellipse cx="50" cy="50" rx="49" ry="48"></ellipse></svg>
 <button class="center" id="centerBtn"><svg viewBox="0 0 64 64"><circle cx="32" cy="16" r="8"></circle><path d="M20 55c0-9 4-17 12-17s12 8 12 17"></path><path d="M24 31c2 3 5 5 8 5s6-2 8-5"></path></svg><strong>FML</strong><small>FixMyLife</small></button>
-<div class="domain housing">Housing</div><div class="domain money">Money</div><div class="domain legal">Legal</div><div class="domain health">Health</div><div class="domain work">Work</div><div class="domain family">Family</div><div class="domain relationships">Relationships</div><div class="domain creative">Creative</div>
+<button class="domain housing" data-domain="Housing">Housing</button><button class="domain money" data-domain="Money">Money</button><button class="domain legal" data-domain="Legal">Legal</button><button class="domain health" data-domain="Health">Health</button><button class="domain work" data-domain="Work">Work</button><button class="domain family" data-domain="Family">Family</button><button class="domain relationships" data-domain="Relationships">Relationships</button><button class="domain creative" data-domain="Creative">Creative</button>
 <div class="layer" id="layer"></div>
 </section>
 
@@ -103,6 +119,17 @@ textarea{resize:vertical}.save,.secondary,.delete{width:100%;min-height:52px;mar
 <button class="save" id="createBtn">Create</button>
 </section>
 
+
+<section class="panel hidden" id="domainPanel">
+<button class="close" data-close="domainPanel">×</button>
+<p class="kicker">Life Domain</p><h2 id="domainPanelTitle">Edit Domain</h2><p class="sub">Edit how this Life Domain appears on your map. This changes the display name, not the underlying category.</p>
+<label>Display name</label><input id="domainDisplayName" type="text">
+<label>Domain note</label><textarea id="domainNote" rows="5" placeholder="What does this area of life mean to you? What belongs here?"></textarea>
+<div class="grid"><article><span>Choices</span><strong id="domainChoiceCount">0</strong></article><article><span>Facets</span><strong id="domainFacetCount">0</strong></article></div>
+<button class="save" id="saveDomain">Save domain</button>
+<button class="secondary" id="resetDomain">Reset this domain</button>
+</section>
+
 <section class="panel hidden" id="itemPanel">
 <button class="close" data-close="itemPanel">×</button><p class="kicker" id="itemZone"></p><h2 id="itemTitle"></h2><p class="sub" id="itemType"></p>
 <nav class="tabs choiceTabs" id="choiceTabs"><button class="tab active" data-tab="overview">Overview</button><button class="tab" data-tab="data">Data</button><button class="tab" data-tab="next">Next</button><button class="tab" data-tab="move">Move</button><button class="tab" data-tab="delete">Delete</button></nav>
@@ -127,10 +154,11 @@ textarea{resize:vertical}.save,.secondary,.delete{width:100%;min-height:52px;mar
 </main>
 
 <script>
-const NODES_KEY="fml-v10-1-2-nodes", PERSON_KEY="fml-v10-person", SETTINGS_KEY="fml-v10-settings", LOCATION_KEY="fml-v10-location";
+const NODES_KEY="fml-v10-1-6-nodes", PERSON_KEY="fml-v10-1-6-person", SETTINGS_KEY="fml-v10-1-6-settings", LOCATION_KEY="fml-v10-1-6-location", DOMAINS_KEY="fml-v10-1-6-domains";
 const COLORS={Housing:"#2d91e8",Money:"#2ba85b",Legal:"#f35f4d",Health:"#d69500",Work:"#7b61c7",Family:"#df6591",Relationships:"#f05b4f",Creative:"#009eaa"};
 const ANGLES={Housing:0,Money:45,Legal:90,Health:135,Relationships:180,Family:225,Work:270,Creative:315};
 const DEFAULT_SETTINGS={theme:"hope",tempUnit:"fahrenheit",locationVisibility:"visible",timezone:"local"};
+const DEFAULT_DOMAINS={Housing:{name:"Housing",note:""},Money:{name:"Money",note:""},Legal:{name:"Legal",note:""},Health:{name:"Health",note:""},Relationships:{name:"Relationships",note:""},Family:{name:"Family",note:""},Work:{name:"Work",note:""},Creative:{name:"Creative",note:""}};
 const STATES={"New Hampshire":"NH","New York":"NY","New Jersey":"NJ","New Mexico":"NM","Rhode Island":"RI","North Carolina":"NC","North Dakota":"ND","South Carolina":"SC","South Dakota":"SD","West Virginia":"WV","District of Columbia":"DC",Alabama:"AL",Alaska:"AK",Arizona:"AZ",Arkansas:"AR",California:"CA",Colorado:"CO",Connecticut:"CT",Delaware:"DE",Florida:"FL",Georgia:"GA",Hawaii:"HI",Idaho:"ID",Illinois:"IL",Indiana:"IN",Iowa:"IA",Kansas:"KS",Kentucky:"KY",Louisiana:"LA",Maine:"ME",Maryland:"MD",Massachusetts:"MA",Michigan:"MI",Minnesota:"MN",Mississippi:"MS",Missouri:"MO",Montana:"MT",Nebraska:"NE",Nevada:"NV",Ohio:"OH",Oklahoma:"OK",Oregon:"OR",Pennsylvania:"PA",Tennessee:"TN",Texas:"TX",Utah:"UT",Vermont:"VT",Virginia:"VA",Washington:"WA",Wisconsin:"WI",Wyoming:"WY"};
 function make(type,title,zone,angle,imp,summary){return{id:"d-"+type+"-"+title.toLowerCase().replace(/[^a-z0-9]+/g,"-")+"-"+zone.toLowerCase(),type,title,zone,angle,importance:imp,status:type==="choice"?"Not started":"Active",summary,next:""}}
 const DEFAULT_NODES=[
@@ -143,33 +171,28 @@ make("facet","Children","Family",225,0,"Children, parenting, connection, respons
 make("facet","Job","Work",270,0,"Job, employer, work role, or main income anchor."),
 make("facet","Ideas","Creative",315,0,"Creative hub: songs, writing, invention, spiritual work, app ideas."),
 
-make("choice","Rent","Housing",348,70,"Rent, first month, housing payment, or urgent place-to-live issue."),
-make("choice","Utilities","Housing",12,45,"Power, water, heat, internet, phone, or basic services."),
-
-make("choice","Bills","Money",35,65,"Bills, overdraft, debt, urgent payment, or money pressure."),
-make("choice","Budget","Money",55,48,"Spending choices, what gets paid, what waits, and what is protected."),
-
-make("choice","Contract","Legal",80,52,"Contracts, agreements, rental terms, signatures, or written promises."),
-make("choice","Taxes","Legal",100,35,"Taxes, filing, forms, documents, or financial records."),
-
-make("choice","Fitness","Health",125,30,"Movement, exercise, body care, or physical strength."),
-make("choice","Sleep","Health",145,62,"Sleep, rest, recovery, exhaustion, or calming your system."),
-
-make("choice","Date Night","Relationships",170,32,"Connection, romance, time together, or intentional care."),
-make("choice","Check In","Relationships",190,55,"A call, text, honest conversation, or relationship check-in."),
-
-make("choice","School","Family",215,42,"School, child-related responsibility, schedule, or family education issue."),
-make("choice","Quality Time","Family",235,58,"Family time, contact, call, visit, or being emotionally present."),
-
-make("choice","Deadline","Work",260,78,"Deadline, deliverable, court date, work date, or time-sensitive pressure."),
-make("choice","Project","Work",280,45,"Work project, app build, application, job task, or long-form effort."),
-
-make("choice","Ideas","Creative",305,40,"Creative spark, lyric, app idea, book idea, or new concept."),
-make("choice","Journal","Creative",325,30,"Writing, reflection, lyrics, book notes, or private processing.")
+make("choice","Rent","Housing",350,45,"Rent, first month, housing payment, or urgent place-to-live issue."),
+make("choice","Utilities","Housing",10,35,"Power, water, heat, internet, phone, or basic services."),
+make("choice","Bills","Money",35,50,"Bills, overdraft, debt, urgent payment, or money pressure."),
+make("choice","Budget","Money",55,32,"Spending choices, what gets paid, what waits, and what is protected."),
+make("choice","Contract","Legal",80,40,"Contracts, agreements, rental terms, signatures, or written promises."),
+make("choice","Taxes","Legal",100,28,"Taxes, filing, forms, documents, or financial records."),
+make("choice","Fitness","Health",125,24,"Movement, exercise, body care, or physical strength."),
+make("choice","Sleep","Health",145,45,"Sleep, rest, recovery, exhaustion, or calming your system."),
+make("choice","Date Night","Relationships",170,25,"Connection, romance, time together, or intentional care."),
+make("choice","Check In","Relationships",190,38,"A call, text, honest conversation, or relationship check-in."),
+make("choice","School","Family",215,34,"School, child-related responsibility, schedule, or family education issue."),
+make("choice","Quality Time","Family",235,44,"Family time, contact, call, visit, or being emotionally present."),
+make("choice","Deadline","Work",260,54,"Deadline, deliverable, court date, work date, or time-sensitive pressure."),
+make("choice","Project","Work",280,32,"Work project, app build, application, job task, or long-form effort."),
+make("choice","Ideas","Creative",305,35,"Creative spark, lyric, app idea, book idea, or new concept."),
+make("choice","Journal","Creative",325,25,"Writing, reflection, lyrics, book notes, or private processing.")
 ];
-let nodes=load(NODES_KEY,DEFAULT_NODES,true), person=load(PERSON_KEY,{money:"",stress:"",energy:"",today:""}), settings=load(SETTINGS_KEY,DEFAULT_SETTINGS), current=null, mode="choice";
+let nodes=load(NODES_KEY,DEFAULT_NODES,true), person=load(PERSON_KEY,{money:"",stress:"",energy:"",today:""}), settings=load(SETTINGS_KEY,DEFAULT_SETTINGS), domains=load(DOMAINS_KEY,DEFAULT_DOMAINS), current=null, currentDomain=null, mode="choice";
 function load(k,d,init){try{let v=localStorage.getItem(k);if(!v&&init){localStorage.setItem(k,JSON.stringify(d));return structuredClone(d)}return v?JSON.parse(v):structuredClone(d)}catch{return structuredClone(d)}}
 function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function syncDomainLabels(){document.querySelectorAll(".domain[data-domain]").forEach(el=>{let key=el.dataset.domain;el.textContent=(domains[key]&&domains[key].name)||key})}
+
 function $(id){return document.getElementById(id)}
 function show(id){$(id).classList.remove("hidden")}function hide(id){$(id).classList.add("hidden")}
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
@@ -177,7 +200,20 @@ function rad(d){return d*Math.PI/180}function item(id){return nodes.find(n=>n.id
 function impLabel(v){return v>=80?"pressing":v>=55?"important":v>=30?"active":"background"}
 function uid(){return"i-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,8)}
 function zoneAngle(z){let p=[-14,0,14,-26,26,-36,36,-46,46],c=nodes.filter(n=>n.zone===z).length;return (ANGLES[z]||0)+(p[c%p.length]||0)}
-function pos(n){let r=$("map").getBoundingClientRect(),w=r.width,h=r.height,cx=w/2,cy=h*.51,t=rad(n.angle);if(n.type==="facet")return{x:cx+Math.sin(t)*(w/2-45),y:cy-Math.cos(t)*(h/2-25)};let ox=w/2-98,oy=h/2-92,ix=88,iy=80,k=Math.min(100,Math.max(0,n.importance||50))/100;return{x:cx+Math.sin(t)*(ox-k*(ox-ix)),y:cy-Math.cos(t)*(oy-k*(oy-iy))}}
+function pos(n){let r=$("map").getBoundingClientRect(),w=r.width,h=r.height,cx=w/2,cy=h*.51,t=rad(n.angle);
+if(n.type==="facet"){
+  return{x:cx+Math.sin(t)*(w/2-42),y:cy-Math.cos(t)*(h/2-23)}
+}
+/*
+  Choices live in an outer-mid band of their Life Domain.
+  High importance still moves inward, but never enough to crowd the FML center.
+*/
+let ox=w/2-112, oy=h/2-110;
+let ix=122, iy=110;
+let k=Math.min(100,Math.max(0,n.importance||50))/100;
+let inward=k*.42; 
+return{x:cx+Math.sin(t)*(ox-inward*(ox-ix)),y:cy-Math.cos(t)*(oy-inward*(oy-iy))}
+}
 function render(){let layer=$("layer");layer.innerHTML="";nodes.forEach(n=>{let b=document.createElement("button");b.className=`node ${n.type} ${(n.importance||0)>=80?"press":""}`;b.style.setProperty("--domain-color",COLORS[n.zone]||"#999");let p=pos(n);b.style.left=p.x+"px";b.style.top=p.y+"px";b.innerHTML=`<span class="shape"><span class="label">${esc(n.title)}</span></span>`;b.onclick=()=>openItem(n.id);layer.appendChild(b)})}
 function openAdd(t){mode=t;hide("drawer");$("newTitle").value="";$("newSummary").value="";$("newZone").value="Money";$("addKicker").textContent=t==="choice"?"Add choice":"Add facet";$("addTitle").textContent=t==="choice"?"Add choice":"Add facet";$("addSub").textContent=t==="choice"?"This creates a circle inside the map.":"This creates a thin tappable tab on the outside oval.";show("addPanel")}
 function create(){let title=$("newTitle").value.trim()||(mode==="choice"?"New choice":"New facet"),zone=$("newZone").value;let n={id:uid(),type:mode,title,zone,angle:zoneAngle(zone),importance:mode==="choice"?55:0,status:mode==="choice"?"Not started":"Active",summary:$("newSummary").value.trim(),next:""};nodes.push(n);save(NODES_KEY,nodes);hide("addPanel");render();openItem(n.id)}
@@ -190,18 +226,47 @@ function deleteItem(){let n=item(current);if(!confirm(`Delete "${n.title}"?`))re
 function fillPerson(){pMoney.textContent=person.money||"Tap Stats";pStress.textContent=person.stress||"Tap Stats";pEnergy.textContent=person.energy||"Tap Stats";pFocus.textContent=person.today||"Tap Today";moneyInput.value=person.money;stressInput.value=person.stress;energyInput.value=person.energy;todayInput.value=person.today}
 function saveTodayFn(){person.today=todayInput.value.trim();save(PERSON_KEY,person);fillPerson();activateTab($("personPanel"),"pstatus")}
 function saveStatsFn(){person.money=moneyInput.value.trim();person.stress=stressInput.value.trim();person.energy=energyInput.value.trim();save(PERSON_KEY,person);fillPerson();activateTab($("personPanel"),"pstatus")}
+
+function openDomain(key){
+  currentDomain=key;
+  let d=domains[key]||{name:key,note:""};
+  domainPanelTitle.textContent=d.name||key;
+  domainDisplayName.value=d.name||key;
+  domainNote.value=d.note||"";
+  domainChoiceCount.textContent=nodes.filter(n=>n.type==="choice"&&n.zone===key).length;
+  domainFacetCount.textContent=nodes.filter(n=>n.type==="facet"&&n.zone===key).length;
+  show("domainPanel");
+}
+function saveDomainFn(){
+  if(!currentDomain)return;
+  let clean=domainDisplayName.value.trim()||currentDomain;
+  domains[currentDomain]={name:clean,note:domainNote.value.trim()};
+  save(DOMAINS_KEY,domains);
+  syncDomainLabels();
+  hide("domainPanel");
+}
+function resetDomainFn(){
+  if(!currentDomain)return;
+  domains[currentDomain]=structuredClone(DEFAULT_DOMAINS[currentDomain]||{name:currentDomain,note:""});
+  save(DOMAINS_KEY,domains);
+  syncDomainLabels();
+  openDomain(currentDomain);
+}
+
 function applySettings(){document.body.classList.remove("theme-hope","theme-ocean","theme-sunrise","theme-forest","theme-lavender");document.body.classList.add("theme-"+settings.theme);theme.value=settings.theme;temp.value=settings.tempUnit;locVisible.value=settings.locationVisibility;tz.value=settings.timezone;info.classList.toggle("hidden-location",settings.locationVisibility==="hidden");updateClock();updateLocationDisplay()}
 function saveSettingsFn(){settings={theme:theme.value,tempUnit:temp.value,locationVisibility:locVisible.value,timezone:tz.value};save(SETTINGS_KEY,settings);applySettings();hide("settingsPanel")}
 function resetDefaults(){if(!confirm("Reset to the default FixMyLife starter map?"))return;nodes=structuredClone(DEFAULT_NODES);save(NODES_KEY,nodes);render();hide("settingsPanel")}
 function updateClock(){let now=new Date(),zone=settings.timezone==="local"?undefined:settings.timezone;date.textContent=new Intl.DateTimeFormat(undefined,{month:"short",day:"numeric",year:"numeric",timeZone:zone}).format(now);time.textContent=new Intl.DateTimeFormat(undefined,{hour:"numeric",minute:"2-digit",hour12:true,timeZone:zone}).format(now)}
 function updateLocationDisplay(){if(settings.locationVisibility==="hidden"){locBtn.textContent="Location hidden";return}let saved=load(LOCATION_KEY,null);locBtn.textContent=saved?.label||"Location off"}
 async function requestLocation(){if(settings.locationVisibility==="hidden"){locBtn.textContent="Location hidden";return}if(!navigator.geolocation){locBtn.textContent="No location";return}locBtn.textContent="Locating...";navigator.geolocation.getCurrentPosition(async p=>{let lat=p.coords.latitude,lon=p.coords.longitude,place=`${lat.toFixed(2)}, ${lon.toFixed(2)}`,tempText="";try{let g=await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`);let j=await g.json(),a=j.address||{},town=a.city||a.town||a.village||a.hamlet||a.county||"Location",state=a.state?STATES[a.state]||a.state:"",country=a.country_code?String(a.country_code).toUpperCase():a.country||"";place=[town,state,country].filter(Boolean).join(", ")}catch{}try{let unit=settings.tempUnit==="fahrenheit"?"fahrenheit":"celsius";let w=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m&temperature_unit=${unit}`);let j=await w.json();tempText=` ${Math.round(j.current.temperature_2m)}°${unit==="fahrenheit"?"F":"C"}`}catch{}let label=place+tempText;save(LOCATION_KEY,{label,lat,lon});locBtn.textContent=label},()=>locBtn.textContent="Location off",{enableHighAccuracy:false,timeout:9000,maximumAge:600000})}
+document.querySelectorAll(".domain[data-domain]").forEach(b=>b.onclick=()=>openDomain(b.dataset.domain));
+saveDomain.onclick=saveDomainFn;resetDomain.onclick=resetDomainFn;
 menuBtn.onclick=()=>show("drawer");addChoice.onclick=()=>openAdd("choice");addFacet.onclick=()=>openAdd("facet");settingsBtn.onclick=()=>{hide("drawer");applySettings();show("settingsPanel")};createBtn.onclick=create;saveSettings.onclick=saveSettingsFn;resetBtn.onclick=resetDefaults;
 document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>hide(b.dataset.close));document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>activateTab(b.closest(".panel"),b.dataset.tab));document.querySelectorAll("[data-jump]").forEach(b=>b.onclick=()=>activateTab(b.closest(".panel"),b.dataset.jump));
 centerBtn.onclick=()=>{fillPerson();activateTab(personPanel,"pstatus");show("personPanel")};saveData.onclick=saveData;saveNext.onclick=saveNext;saveMove.onclick=saveMove;deleteItem.onclick=deleteItem;saveToday.onclick=saveTodayFn;saveStats.onclick=saveStatsFn;locBtn.onclick=requestLocation;
 importance.oninput=e=>{let n=item(current);if(!n)return;n.importance=Number(e.target.value);importanceOut.value=`${n.importance} / 100 — ${impLabel(n.importance)}`;render()};document.querySelectorAll("[data-imp]").forEach(b=>b.onclick=()=>{importance.value=b.dataset.imp;importance.dispatchEvent(new Event("input"))});
-window.addEventListener("resize",render);document.addEventListener("keydown",e=>{if(e.key==="Escape")["drawer","settingsPanel","addPanel","itemPanel","personPanel"].forEach(hide)});
-applySettings();setInterval(updateClock,1000);render();
+window.addEventListener("resize",render);document.addEventListener("keydown",e=>{if(e.key==="Escape")["drawer","settingsPanel","addPanel","domainPanel","itemPanel","personPanel"].forEach(hide)});
+syncDomainLabels();applySettings();setInterval(updateClock,1000);render();
 </script>
 </body>
 </html>
