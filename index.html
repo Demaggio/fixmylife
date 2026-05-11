@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>FixMyLife v8</title>
+  
+  <style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #000;
+  --line: rgba(255,255,255,0.92);
+  --soft: rgba(255,255,255,0.68);
+  --muted: rgba(255,255,255,0.55);
+  --text: rgba(255,255,255,0.97);
+
+  --housing: #3fb8ff;
+  --money: #4ee28a;
+  --legal: #ff5f6d;
+  --health: #ffcf5a;
+  --work: #9b7bff;
+  --family: #ff8bd1;
+  --relationships: #ff9f45;
+  --creative: #5de6d9;
+  --appointments: #b9f26b;
+}
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: #000;
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+}
+body { display: grid; place-items: center; }
+.app {
+  position: relative;
+  width: min(100vw, 430px);
+  height: min(100vh, 932px);
+  min-height: 760px;
+  overflow: hidden;
+  background: #000;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+}
+.top-bar {
+  position: relative;
+  height: 86px;
+  display: grid;
+  grid-template-columns: 70px 1fr 70px;
+  align-items: end;
+  padding: env(safe-area-inset-top) 22px 8px 6px;
+  z-index: 5;
+}
+.top-bar h1 {
+  margin: 0 0 3px;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+}
+.icon-button, .more-button {
+  background: transparent;
+  border: 0;
+  color: var(--text);
+}
+.icon-button {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  gap: 5px;
+  align-content: center;
+  padding: 9px;
+}
+.icon-button span {
+  display: block;
+  width: 25px;
+  height: 1px;
+  background: var(--line);
+}
+.more-button {
+  justify-self: end;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 19px;
+  line-height: 1;
+}
+.info-strip {
+  position: relative;
+  z-index: 5;
+  height: 34px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 6px;
+  padding: 0 18px;
+  border-top: 1px solid rgba(255,255,255,0.22);
+  border-bottom: 1px solid rgba(255,255,255,0.22);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-shadow: 0 0 8px rgba(255,255,255,0.35);
+}
+#dateText {
+  justify-self: start;
+  color: #ffffff;
+  font-weight: 500;
+  text-shadow: 0 0 8px rgba(255,255,255,0.35);
+}
+#clockText {
+  justify-self: center;
+  color: #ffffff;
+  font-weight: 600;
+  text-shadow: 0 0 8px rgba(255,255,255,0.45);
+}
+.location-button {
+  justify-self: end;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: transparent;
+  border: 0;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 500;
+  text-shadow: 0 0 8px rgba(255,255,255,0.35);
+  text-transform: uppercase;
+  padding: 4px 0;
+}
+.life-map {
+  position: absolute;
+  inset: 120px 0 0;
+}
+.domain-wheel {
+  position: absolute;
+  inset: 3%;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at center, rgba(0,0,0,0) 0 28%, rgba(0,0,0,0.92) 28.3% 34%, rgba(0,0,0,0.15) 34.3% 100%),
+    conic-gradient(
+      from -20deg,
+      rgba(63,184,255,0.28) 0deg 40deg,
+      rgba(78,226,138,0.28) 40deg 80deg,
+      rgba(255,95,109,0.28) 80deg 120deg,
+      rgba(255,207,90,0.28) 120deg 160deg,
+      rgba(155,123,255,0.28) 160deg 200deg,
+      rgba(255,139,209,0.28) 200deg 240deg,
+      rgba(255,159,69,0.28) 240deg 280deg,
+      rgba(93,230,217,0.28) 280deg 320deg,
+      rgba(185,242,107,0.28) 320deg 360deg
+    );
+  opacity: 0.92;
+  filter: saturate(1.1);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.spokes {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.spokes line {
+  stroke: var(--line);
+  stroke-width: 0.18;
+  vector-effect: non-scaling-stroke;
+}
+.center-button {
+  position: absolute;
+  left: 50%;
+  top: 49%;
+  transform: translate(-50%, -50%);
+  width: 118px;
+  height: 118px;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  background:
+    radial-gradient(circle at center, rgba(255,255,255,0.08), rgba(0,0,0,0.98) 58%),
+    #000;
+  color: var(--text);
+  z-index: 8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+.person-icon { width: 43px; height: 43px; }
+.person-icon circle, .person-icon path {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.center-button .fml-mark {
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+
+.center-button small {
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  color: var(--soft);
+}
+.zone-label {
+  position: absolute;
+  z-index: 1;
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+  text-shadow: 0 0 8px #000;
+}
+.z-housing { top: 14%; left: 50%; transform: translate(-50%, -50%); color: var(--housing); }
+.z-money { top: 24%; left: 78%; transform: translate(-50%, -50%) rotate(35deg); color: var(--money); }
+.z-legal { top: 46%; right: 5%; transform: translateY(-50%) rotate(88deg); color: var(--legal); }
+.z-health { top: 71%; right: 7%; transform: translateY(-50%) rotate(-68deg); color: var(--health); }
+.z-work { bottom: 8%; left: 64%; transform: translate(-50%, -50%) rotate(-18deg); color: var(--work); }
+.z-family { bottom: 8%; left: 36%; transform: translate(-50%, -50%) rotate(18deg); color: var(--family); }
+.z-relationships { top: 76%; left: 7%; transform: translateY(-50%) rotate(64deg); color: var(--relationships); }
+.z-creative { top: 50%; left: 5%; transform: translateY(-50%) rotate(-90deg); color: var(--creative); }
+.z-appointments { top: 26%; left: 18%; transform: translate(-50%, -50%) rotate(-44deg); color: var(--appointments); }
+.node-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+}
+.node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background: transparent;
+  border: 0;
+  color: var(--text);
+  padding: 0;
+  width: 76px;
+  height: 76px;
+  display: grid;
+  place-items: center;
+  transition: left 230ms ease, top 230ms ease, opacity 150ms ease;
+}
+.node .shape {
+  display: block;
+  background: #000;
+  border: 2px solid var(--domain-color, var(--line));
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.85), 0 0 12px color-mix(in srgb, var(--domain-color, white), transparent 65%);
+}
+.node.circle .shape {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+}
+.node.square .shape {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+}
+.node.press .shape {
+  border-width: 3px;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.85), 0 0 20px color-mix(in srgb, var(--domain-color, white), transparent 40%);
+}
+.node-label {
+  position: absolute;
+  top: 58px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 82px;
+  text-align: center;
+  font-size: 10px;
+  line-height: 1.05;
+  color: var(--text);
+  text-shadow: 0 0 8px #000, 0 0 8px #000;
+}
+.node.square .node-label { top: 62px; }
+.empty-state {
+  position: absolute;
+  left: 50%;
+  top: 70%;
+  transform: translateX(-50%);
+  z-index: 2;
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+  width: 70%;
+  pointer-events: none;
+}
+.empty-state.hidden { display: none; }
+.legend {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 14px;
+  display: grid;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  z-index: 2;
+}
+.legend span {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+.legend-circle, .legend-square {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  border: 1px solid var(--soft);
+}
+.legend-circle { border-radius: 999px; }
+.legend-square { border-radius: 3px; }
+
+.domain-name {
+  color: var(--domain-color, var(--text));
+}
+button:active { opacity: 0.82; }
+button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+.panel, .drawer {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background: rgba(0,0,0,0.975);
+  padding: max(42px, env(safe-area-inset-top)) 24px 26px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+.drawer {
+  justify-content: flex-start;
+  padding-top: max(86px, env(safe-area-inset-top));
+}
+.panel.hidden, .drawer.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.98);
+}
+.close-button {
+  position: absolute;
+  top: max(22px, env(safe-area-inset-top));
+  right: 22px;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text);
+  font-size: 32px;
+  font-weight: 200;
+  line-height: 1;
+}
+.panel-kicker {
+  margin: 0 0 8px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.17em;
+  font-size: 12px;
+}
+.panel h2, .drawer h2 {
+  margin: 0 0 5px;
+  font-size: 36px;
+  line-height: 1.05;
+  font-weight: 300;
+}
+.panel-subtitle {
+  margin: 0 0 16px;
+  color: var(--soft);
+  font-size: 14px;
+  letter-spacing: 0.04em;
+}
+.drawer-action {
+  width: 100%;
+  min-height: 100px;
+  margin: 12px 0 0;
+  border: 1px solid rgba(255,255,255,0.7);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--text);
+  padding: 18px;
+  text-align: left;
+}
+.drawer-action strong {
+  display: block;
+  font-size: 22px;
+  font-weight: 300;
+  margin-bottom: 8px;
+}
+.drawer-action span {
+  display: block;
+  color: var(--soft);
+  font-size: 15px;
+  line-height: 1.35;
+}
+.privacy-note {
+  margin-top: 22px;
+  color: var(--soft);
+  border: 1px solid rgba(255,255,255,0.35);
+  border-radius: 18px;
+  padding: 16px;
+  line-height: 1.45;
+  font-size: 14px;
+}
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+  margin: 4px 0 16px;
+}
+#elementPanel .tabs,
+#personPanel .tabs {
+  grid-template-columns: repeat(4, 1fr);
+}
+.tab {
+  min-height: 38px;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 11px;
+}
+.tab.active {
+  color: var(--text);
+  border-color: var(--line);
+}
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+.tab-pane p, .panel p {
+  font-size: 16px;
+  line-height: 1.48;
+  color: rgba(255,255,255,0.82);
+}
+.menu-grid, .field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+  margin-top: 14px;
+}
+.menu-grid button {
+  min-height: 58px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.55);
+  background: transparent;
+  color: var(--text);
+  font-size: 14px;
+  text-align: left;
+  padding: 12px;
+}
+.menu-grid button:disabled {
+  color: var(--muted);
+  border-color: rgba(255,255,255,0.25);
+}
+.field-grid article {
+  border: 1px solid rgba(255,255,255,0.55);
+  border-radius: 16px;
+  min-height: 80px;
+  padding: 12px;
+}
+.field-grid span {
+  display: block;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+  margin-bottom: 12px;
+}
+.field-grid strong {
+  font-size: 17px;
+  font-weight: 300;
+}
+label {
+  display: block;
+  margin: 13px 0 7px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  font-size: 12px;
+}
+textarea, select, input[type="text"] {
+  width: 100%;
+  background: #000;
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.48);
+  border-radius: 14px;
+  padding: 13px;
+  font: inherit;
+  font-size: 16px;
+}
+textarea { resize: vertical; }
+.save-button, .delete-button {
+  width: 100%;
+  min-height: 50px;
+  margin-top: 16px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text);
+  font-size: 16px;
+}
+.delete-button {
+  border-color: rgba(255,255,255,0.72);
+}
+.small-help, .ground-text {
+  color: var(--soft) !important;
+  font-size: 15px !important;
+}
+.range-row {
+  display: grid;
+  grid-template-columns: 42px 1fr 42px;
+  gap: 10px;
+  align-items: center;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+}
+input[type="range"] { width: 100%; }
+output {
+  display: block;
+  margin: 10px 0 0;
+  font-size: 18px;
+  color: var(--text);
+}
+.quick-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 14px;
+}
+.quick-row button {
+  min-height: 42px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.48);
+  background: transparent;
+  color: var(--text);
+}
+.linked-list {
+  padding-left: 18px;
+  color: var(--soft);
+  font-size: 16px;
+  line-height: 1.6;
+}
+@media (max-width: 390px) {
+  .app {
+    border-left: 0;
+    border-right: 0;
+    border-radius: 0;
+  }
+  .zone-label { font-size: 14px; }
+  .node { width: 68px; height: 68px; }
+  .node.circle .shape { width: 31px; height: 31px; }
+  .node.square .shape { width: 40px; height: 40px; }
+  .node-label { top: 53px; font-size: 9px; }
+  .node.square .node-label { top: 57px; }
+  .tabs { gap: 3px; }
+  .tab { font-size: 10px; }
+  .info-strip { font-size: 10.5px; padding: 0 12px; }
+}
+
+</style>
+  <meta name="theme-color" content="#000000" />
+</head>
+<body>
+  <main class="app" aria-label="FixMyLife app prototype">
+    <header class="top-bar">
+      <button class="icon-button" id="menuButton" aria-label="Open menu"><span></span><span></span><span></span></button>
+      <h1>FixMyLife</h1>
+      <button class="more-button" aria-label="More options">•••</button>
+    </header>
+
+    <section class="info-strip" aria-label="Date time and location">
+      <span id="dateText">--</span>
+      <span id="clockText">--:--</span>
+      <button id="locationButton" class="location-button" aria-label="Set location">Location off</button>
+    </section>
+
+    <section class="life-map" id="lifeMap" aria-label="Life map">
+      <div class="domain-wheel" aria-hidden="true"></div>
+      <svg class="spokes" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <line x1="50" y1="50" x2="50" y2="-18" />
+        <line x1="50" y1="50" x2="88" y2="-8" />
+        <line x1="50" y1="50" x2="118" y2="25" />
+        <line x1="50" y1="50" x2="116" y2="58" />
+        <line x1="50" y1="50" x2="88" y2="122" />
+        <line x1="50" y1="50" x2="50" y2="124" />
+        <line x1="50" y1="50" x2="12" y2="122" />
+        <line x1="50" y1="50" x2="-16" y2="58" />
+        <line x1="50" y1="50" x2="-18" y2="25" />
+        <line x1="50" y1="50" x2="12" y2="-8" />
+      </svg>
+
+      <button class="center-button" id="centerButton" aria-label="Open FixMyLife center menu">
+        <svg class="person-icon" viewBox="0 0 64 64" aria-hidden="true">
+          <circle cx="32" cy="16" r="8"></circle>
+          <path d="M20 55c0-9 4-17 12-17s12 8 12 17"></path>
+          <path d="M24 31c2 3 5 5 8 5s6-2 8-5"></path>
+        </svg>
+        <span class="fml-mark">FML</span><small>FixMyLife</small>
+      </button>
+
+      <div class="zone-label z-housing">Housing</div>
+      <div class="zone-label z-money">Money</div>
+      <div class="zone-label z-legal">Legal</div>
+      <div class="zone-label z-health">Health</div>
+      <div class="zone-label z-work">Work</div>
+      <div class="zone-label z-family">Family</div>
+      <div class="zone-label z-relationships">Relationships</div>
+      <div class="zone-label z-creative">Creative</div>
+      <div class="zone-label z-appointments">Appointments</div>
+
+      <div id="nodeLayer" class="node-layer"></div>
+
+      <div class="empty-state" id="emptyState">
+        <p>Tap ☰ to add a choice or element.</p>
+      </div>
+
+      <aside class="legend" aria-label="Shape key">
+        <span><i class="legend-circle"></i> choice = circle</span>
+        <span><i class="legend-square"></i> element = square</span>
+      </aside>
+    </section>
+
+    <!-- Left hamburger menu -->
+    <section class="drawer hidden" id="drawer" aria-hidden="true">
+      <button class="close-button drawer-close" data-close="drawer" aria-label="Close">×</button>
+      <p class="panel-kicker">Menu</p>
+      <h2>Add to FixMyLife</h2>
+      <p class="panel-subtitle">Your data stays in this browser prototype. Nothing is sent anywhere.</p>
+
+      <button class="drawer-action" id="addChoiceButton">
+        <strong>Add choice</strong>
+        <span>Add a circle to the map. Use for problems, decisions, appointments, plans, and active life items.</span>
+      </button>
+
+      <button class="drawer-action" id="addElementButton">
+        <strong>Add element</strong>
+        <span>Add a square to the outside edge. Use for more permanent fixtures like children, parents, home, car, job.</span>
+      </button>
+
+      <div class="privacy-note">
+        <strong>Privacy idea:</strong> users enter their own information knowingly. The app should not scrape or access private data unless they choose to enter it.
+      </div>
+    </section>
+
+    <!-- Add item menu -->
+    <section class="panel hidden" id="addPanel" aria-hidden="true">
+      <button class="close-button" data-close="addPanel" aria-label="Close">×</button>
+      <p class="panel-kicker" id="addKicker">Add</p>
+      <h2 id="addTitle">Add item</h2>
+      <p class="panel-subtitle" id="addSubtitle">Choose which Life Domain this belongs in.</p>
+
+      <label for="newTitle">Title</label>
+      <input id="newTitle" type="text" placeholder="Example: Rent, Court date, Children, Job" />
+
+      <label for="newZone">Life Domain</label>
+      <select id="newZone">
+        <option>Housing</option>
+        <option>Money</option>
+        <option>Legal</option>
+        <option>Health</option>
+        <option>Work</option>
+        <option>Family</option>
+        <option>Relationships</option>
+        <option>Creative</option>
+        <option>Appointments</option>
+      </select>
+
+      <label for="newSummary">Starting note</label>
+      <textarea id="newSummary" rows="4" placeholder="Optional. What is this?"></textarea>
+
+      <button class="save-button" id="createItemButton">Create</button>
+    </section>
+
+    <!-- Choice / circle detail menu -->
+    <section class="panel hidden" id="choicePanel" aria-hidden="true">
+      <button class="close-button" data-close="choicePanel" aria-label="Close">×</button>
+      <p class="panel-kicker" id="choiceZoneText"></p>
+      <h2 id="choiceTitleText"></h2>
+      <p class="panel-subtitle">Choice / circle / active life item</p>
+
+      <nav class="tabs" aria-label="Choice menus">
+        <button class="tab active" data-panel="choicePanel" data-tab="choiceOverview">Overview</button>
+        <button class="tab" data-panel="choicePanel" data-tab="choiceData">Data</button>
+        <button class="tab" data-panel="choicePanel" data-tab="choiceNext">Next</button>
+        <button class="tab" data-panel="choicePanel" data-tab="choiceMove">Move</button>
+        <button class="tab" data-panel="choicePanel" data-tab="choiceDanger">Delete</button>
+      </nav>
+
+      <div class="tab-pane active" id="choiceOverview">
+        <p id="choiceSummaryText"></p>
+        <div class="menu-grid">
+          <button data-jump="choiceData">Enter data</button>
+          <button data-jump="choiceNext">Next action</button>
+          <button data-jump="choiceMove">Importance / position</button>
+          <button data-jump="choiceDanger">Delete</button>
+        </div>
+        <div class="field-grid">
+          <article><span>Life Domain</span><strong id="choiceZoneDisplay"></strong></article>
+          <article><span>Status</span><strong id="choiceStatusDisplay"></strong></article>
+          <article><span>Importance</span><strong id="choiceImportanceDisplay"></strong></article>
+          <article><span>Shape</span><strong>Circle</strong></article>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="choiceData">
+        <label for="choiceTitleInput">Title</label>
+        <input id="choiceTitleInput" type="text" />
+        <label for="choiceZoneInput">Life Domain</label>
+        <select id="choiceZoneInput">
+          <option>Housing</option>
+          <option>Money</option>
+          <option>Legal</option>
+          <option>Health</option>
+          <option>Work</option>
+          <option>Family</option>
+          <option>Relationships</option>
+          <option>Creative</option>
+          <option>Appointments</option>
+        </select>
+        <label for="choiceSummaryInput">Data / details</label>
+        <textarea id="choiceSummaryInput" rows="7" placeholder="Enter only what you choose to enter."></textarea>
+        <button class="save-button" id="saveChoiceData">Save data</button>
+      </div>
+
+      <div class="tab-pane" id="choiceNext">
+        <label for="choiceNextInput">Next action</label>
+        <textarea id="choiceNextInput" rows="4" placeholder="What is the next real move?"></textarea>
+        <label for="choiceStatusInput">Status</label>
+        <select id="choiceStatusInput">
+          <option>Not started</option>
+          <option>Needs action</option>
+          <option>Waiting</option>
+          <option>In progress</option>
+          <option>Done</option>
+        </select>
+        <button class="save-button" id="saveChoiceNext">Save next action</button>
+      </div>
+
+      <div class="tab-pane" id="choiceMove">
+        <p class="small-help">Move this closer to the person when it matters more right now. Move it outward when it becomes background.</p>
+        <label for="choiceImportanceInput">Importance right now</label>
+        <div class="range-row">
+          <span>edge</span>
+          <input id="choiceImportanceInput" type="range" min="0" max="100" step="1" />
+          <span>me</span>
+        </div>
+        <output id="choiceImportanceOutput"></output>
+        <div class="quick-row">
+          <button data-importance="20">Background</button>
+          <button data-importance="55">Active</button>
+          <button data-importance="88">Pressing</button>
+        </div>
+        <button class="save-button" id="saveChoiceMove">Save position</button>
+      </div>
+
+      <div class="tab-pane" id="choiceDanger">
+        <p class="small-help">Delete this circle from the map. This removes the data saved for this item in this browser.</p>
+        <button class="delete-button" id="deleteChoice">Delete choice</button>
+      </div>
+    </section>
+
+    <!-- Element / square detail menu -->
+    <section class="panel hidden" id="elementPanel" aria-hidden="true">
+      <button class="close-button" data-close="elementPanel" aria-label="Close">×</button>
+      <p class="panel-kicker" id="elementZoneText"></p>
+      <h2 id="elementTitleText"></h2>
+      <p class="panel-subtitle">Element / square / permanent fixture</p>
+
+      <nav class="tabs" aria-label="Element menus">
+        <button class="tab active" data-panel="elementPanel" data-tab="elementOverview">Overview</button>
+        <button class="tab" data-panel="elementPanel" data-tab="elementData">Data</button>
+        <button class="tab" data-panel="elementPanel" data-tab="elementLinked">Linked</button>
+        <button class="tab" data-panel="elementPanel" data-tab="elementDanger">Delete</button>
+      </nav>
+
+      <div class="tab-pane active" id="elementOverview">
+        <p id="elementSummaryText"></p>
+        <div class="menu-grid">
+          <button data-jump="elementData">Enter data</button>
+          <button data-jump="elementLinked">Linked choices</button>
+          <button disabled>Pinned to edge</button>
+          <button data-jump="elementDanger">Delete</button>
+        </div>
+        <div class="field-grid">
+          <article><span>Life Domain</span><strong id="elementZoneDisplay"></strong></article>
+          <article><span>Position</span><strong>Outer edge</strong></article>
+          <article><span>Meaning</span><strong>Permanent</strong></article>
+          <article><span>Shape</span><strong>Square</strong></article>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="elementData">
+        <label for="elementTitleInput">Title</label>
+        <input id="elementTitleInput" type="text" />
+        <label for="elementZoneInput">Life Domain</label>
+        <select id="elementZoneInput">
+          <option>Housing</option>
+          <option>Money</option>
+          <option>Legal</option>
+          <option>Health</option>
+          <option>Work</option>
+          <option>Family</option>
+          <option>Relationships</option>
+          <option>Creative</option>
+          <option>Appointments</option>
+        </select>
+        <label for="elementSummaryInput">Data / details</label>
+        <textarea id="elementSummaryInput" rows="8" placeholder="Address, relationship, account, notes, contact info — only if the user chooses."></textarea>
+        <button class="save-button" id="saveElementData">Save data</button>
+      </div>
+
+      <div class="tab-pane" id="elementLinked">
+        <p class="small-help">Choices in the same section can be visually understood as related to this element.</p>
+        <ul class="linked-list" id="elementLinkedList"></ul>
+      </div>
+
+      <div class="tab-pane" id="elementDanger">
+        <p class="small-help">Delete this square from the map. This removes the data saved for this item in this browser.</p>
+        <button class="delete-button" id="deleteElement">Delete element</button>
+      </div>
+    </section>
+
+    <!-- Center person menu -->
+    <section class="panel hidden" id="personPanel" aria-hidden="true">
+      <button class="close-button" data-close="personPanel" aria-label="Close">×</button>
+      <p class="panel-kicker">Center</p>
+      <h2>FixMyLife</h2>
+      <p class="panel-subtitle">Person / status / whole-life view</p>
+
+      <nav class="tabs" aria-label="Person menus">
+        <button class="tab active" data-panel="personPanel" data-tab="personStatus">Status</button>
+        <button class="tab" data-panel="personPanel" data-tab="personToday">Today</button>
+        <button class="tab" data-panel="personPanel" data-tab="personStats">Stats</button>
+        <button class="tab" data-panel="personPanel" data-tab="personPrivacy">Privacy</button>
+      </nav>
+
+      <div class="tab-pane active" id="personStatus">
+        <div class="field-grid">
+          <article><span>Money</span><strong id="personMoneyDisplay">Tap Stats</strong></article>
+          <article><span>Stress</span><strong id="personStressDisplay">Tap Stats</strong></article>
+          <article><span>Energy</span><strong id="personEnergyDisplay">Tap Stats</strong></article>
+          <article><span>Focus</span><strong id="personFocusDisplay">Tap Today</strong></article>
+        </div>
+        <div class="menu-grid">
+          <button data-jump="personToday">Today’s focus</button>
+          <button data-jump="personStats">Edit status</button>
+          <button data-jump="personPrivacy">Privacy</button>
+          <button disabled>Main map stays clean</button>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="personToday">
+        <label for="personTodayInput">Today’s one next move</label>
+        <textarea id="personTodayInput" rows="4" placeholder="One thing. Not your whole life."></textarea>
+        <button class="save-button" id="savePersonToday">Save today</button>
+      </div>
+
+      <div class="tab-pane" id="personStats">
+        <label for="personMoneyInput">Money status</label>
+        <input id="personMoneyInput" type="text" placeholder="Only enter what you choose" />
+        <label for="personStressInput">Stress status</label>
+        <input id="personStressInput" type="text" placeholder="Only enter what you choose" />
+        <label for="personEnergyInput">Energy status</label>
+        <input id="personEnergyInput" type="text" placeholder="Only enter what you choose" />
+        <button class="save-button" id="savePersonStats">Save status</button>
+      </div>
+
+      <div class="tab-pane" id="personPrivacy">
+        <p class="ground-text">MyLife should be user-entered by design. The app should not secretly read bank accounts, texts, emails, contacts, location, or private documents.</p>
+        <p class="ground-text">Location at the top only appears if the user presses the location button and allows browser location access.</p>
+      </div>
+    </section>
+  </main>
+  <script>
+const NODES_KEY = "fixmylife-v6-user-nodes";
+const PERSON_KEY = "fixmylife-v6-person";
+const LOCATION_KEY = "fixmylife-v6-location-label";
+
+const ZONES = ["Housing", "Money", "Legal", "Health", "Work", "Family", "Relationships", "Creative", "Appointments"];
+const ZONE_ANGLES = {
+  Housing: 0,
+  Money: 52,
+  Legal: 95,
+  Health: 135,
+  Work: 165,
+  Family: 205,
+  Relationships: 248,
+  Creative: 292,
+  Appointments: 335
+};
+
+const DOMAIN_COLORS = {
+  Housing: "#3fb8ff",
+  Money: "#4ee28a",
+  Legal: "#ff5f6d",
+  Health: "#ffcf5a",
+  Work: "#9b7bff",
+  Family: "#ff8bd1",
+  Relationships: "#ff9f45",
+  Creative: "#5de6d9",
+  Appointments: "#b9f26b"
+};
+
+let nodes = loadNodes();
+let person = loadPerson();
+let currentId = null;
+let addMode = "choice";
+
+const lifeMap = document.getElementById("lifeMap");
+const nodeLayer = document.getElementById("nodeLayer");
+const emptyState = document.getElementById("emptyState");
+
+function loadNodes() {
+  try {
+    return JSON.parse(localStorage.getItem(NODES_KEY) || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function saveNodes() {
+  localStorage.setItem(NODES_KEY, JSON.stringify(nodes));
+}
+
+function loadPerson() {
+  try {
+    return { money: "", stress: "", energy: "", today: "", ...JSON.parse(localStorage.getItem(PERSON_KEY) || "{}") };
+  } catch {
+    return { money: "", stress: "", energy: "", today: "" };
+  }
+}
+
+function savePerson() {
+  localStorage.setItem(PERSON_KEY, JSON.stringify(person));
+}
+
+function uid() {
+  return "item-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8);
+}
+
+function getNode(id) {
+  return nodes.find(n => n.id === id);
+}
+
+function zoneAngle(zone) {
+  const base = ZONE_ANGLES[zone] ?? 0;
+  const sameZoneCount = nodes.filter(n => n.zone === zone).length;
+  const offsetPattern = [-12, 0, 12, -24, 24, -36, 36];
+  return base + (offsetPattern[sameZoneCount % offsetPattern.length] || 0);
+}
+
+function radians(deg) {
+  return deg * Math.PI / 180;
+}
+
+function edgeRadius(cx, cy, angle, width, height, margin) {
+  const theta = radians(angle);
+  const dx = Math.sin(theta);
+  const dy = -Math.cos(theta);
+  const candidates = [];
+  if (dx > 0) candidates.push((width - margin - cx) / dx);
+  if (dx < 0) candidates.push((margin - cx) / dx);
+  if (dy > 0) candidates.push((height - margin - cy) / dy);
+  if (dy < 0) candidates.push((margin - cy) / dy);
+  return Math.min(...candidates.filter(v => v > 0));
+}
+
+function importanceLabel(value) {
+  if (value >= 80) return "pressing";
+  if (value >= 55) return "important";
+  if (value >= 30) return "active";
+  return "background";
+}
+
+function positionFor(node) {
+  const rect = lifeMap.getBoundingClientRect();
+  const w = rect.width;
+  const h = rect.height;
+  const cx = w * 0.5;
+  const cy = h * 0.49;
+  const margin = node.type === "element" ? 40 : 32;
+  const edge = edgeRadius(cx, cy, node.angle, w, h, margin);
+
+  let radius;
+  if (node.type === "element") {
+    radius = edge;
+  } else {
+    const inner = 86;
+    const outer = Math.max(edge - 54, inner + 20);
+    const t = Math.min(100, Math.max(0, node.importance || 50)) / 100;
+    radius = outer - t * (outer - inner);
+  }
+
+  const theta = radians(node.angle);
+  return {
+    x: cx + Math.sin(theta) * radius,
+    y: cy - Math.cos(theta) * radius
+  };
+}
+
+function renderNodes() {
+  nodeLayer.innerHTML = "";
+  emptyState.classList.toggle("hidden", nodes.length > 0);
+
+  nodes.forEach(node => {
+    const btn = document.createElement("button");
+    btn.className = `node ${node.type === "element" ? "square" : "circle"} ${(node.importance || 0) >= 80 ? "press" : ""}`;
+    btn.dataset.id = node.id;
+    btn.setAttribute("aria-label", `${node.title}, ${node.zone}`);
+    const pos = positionFor(node);
+    btn.style.left = `${pos.x}px`;
+    btn.style.top = `${pos.y}px`;
+    btn.style.setProperty("--domain-color", DOMAIN_COLORS[node.zone] || "#ffffff");
+    btn.innerHTML = `<span class="shape"></span><span class="node-label">${escapeHtml(node.title || "Untitled")}</span>`;
+    btn.addEventListener("click", () => openItem(node.id));
+    nodeLayer.appendChild(btn);
+  });
+}
+
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, ch => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  }[ch]));
+}
+
+function showPanel(id) {
+  document.getElementById(id).classList.remove("hidden");
+  document.getElementById(id).setAttribute("aria-hidden", "false");
+}
+
+function hidePanel(id) {
+  document.getElementById(id).classList.add("hidden");
+  document.getElementById(id).setAttribute("aria-hidden", "true");
+}
+
+function closeAllPanels() {
+  ["drawer", "addPanel", "choicePanel", "elementPanel", "personPanel"].forEach(hidePanel);
+}
+
+function setTab(panelId, tabId) {
+  const panel = document.getElementById(panelId);
+  panel.querySelectorAll(".tab").forEach(tab => tab.classList.toggle("active", tab.dataset.tab === tabId));
+  panel.querySelectorAll(".tab-pane").forEach(pane => pane.classList.toggle("active", pane.id === tabId));
+}
+
+function openAddPanel(type) {
+  addMode = type;
+  hidePanel("drawer");
+
+  document.getElementById("newTitle").value = "";
+  document.getElementById("newSummary").value = "";
+  document.getElementById("newZone").value = "Money";
+
+  if (type === "choice") {
+    document.getElementById("addKicker").textContent = "Add choice";
+    document.getElementById("addTitle").textContent = "Add choice";
+    document.getElementById("addSubtitle").textContent = "This creates a circle in the section you choose.";
+  } else {
+    document.getElementById("addKicker").textContent = "Add element";
+    document.getElementById("addTitle").textContent = "Add element";
+    document.getElementById("addSubtitle").textContent = "This creates a square on the outside edge in the section you choose.";
+  }
+
+  showPanel("addPanel");
+}
+
+function createItem() {
+  const title = document.getElementById("newTitle").value.trim() || (addMode === "choice" ? "New choice" : "New element");
+  const zone = document.getElementById("newZone").value;
+  const summary = document.getElementById("newSummary").value.trim();
+
+  const node = {
+    id: uid(),
+    type: addMode === "choice" ? "choice" : "element",
+    title,
+    zone,
+    angle: zoneAngle(zone),
+    importance: addMode === "choice" ? 55 : 0,
+    status: "Not started",
+    summary,
+    next: "",
+    details: "",
+    notes: ""
+  };
+
+  nodes.push(node);
+  saveNodes();
+  hidePanel("addPanel");
+  renderNodes();
+  openItem(node.id);
+}
+
+function openItem(id) {
+  currentId = id;
+  const node = getNode(id);
+  if (!node) return;
+
+  if (node.type === "choice") {
+    fillChoicePanel(node);
+    setTab("choicePanel", "choiceOverview");
+    showPanel("choicePanel");
+  } else {
+    fillElementPanel(node);
+    setTab("elementPanel", "elementOverview");
+    showPanel("elementPanel");
+  }
+}
+
+function fillChoicePanel(node) {
+  document.getElementById("choiceZoneText").textContent = node.zone;
+  document.getElementById("choiceTitleText").textContent = node.title || "Untitled";
+  document.getElementById("choiceSummaryText").textContent = node.summary || "No data entered yet.";
+  document.getElementById("choiceZoneDisplay").textContent = node.zone;
+  document.getElementById("choiceStatusDisplay").textContent = node.status || "Not started";
+  document.getElementById("choiceImportanceDisplay").textContent = `${node.importance || 0} / 100`;
+
+  document.getElementById("choiceTitleInput").value = node.title || "";
+  document.getElementById("choiceZoneInput").value = node.zone;
+  document.getElementById("choiceSummaryInput").value = node.summary || "";
+  document.getElementById("choiceNextInput").value = node.next || "";
+  document.getElementById("choiceStatusInput").value = node.status || "Not started";
+  document.getElementById("choiceImportanceInput").value = node.importance || 55;
+  document.getElementById("choiceImportanceOutput").value = `${node.importance || 55} / 100 — ${importanceLabel(node.importance || 55)}`;
+}
+
+function fillElementPanel(node) {
+  document.getElementById("elementZoneText").textContent = node.zone;
+  document.getElementById("elementTitleText").textContent = node.title || "Untitled";
+  document.getElementById("elementSummaryText").textContent = node.summary || "No data entered yet.";
+  document.getElementById("elementZoneDisplay").textContent = node.zone;
+
+  document.getElementById("elementTitleInput").value = node.title || "";
+  document.getElementById("elementZoneInput").value = node.zone;
+  document.getElementById("elementSummaryInput").value = node.summary || "";
+
+  const linked = nodes.filter(n => n.type === "choice" && n.zone === node.zone);
+  document.getElementById("elementLinkedList").innerHTML = linked.length
+    ? linked.map(n => `<li>${escapeHtml(n.title)} — ${importanceLabel(n.importance || 0)}</li>`).join("")
+    : "<li>No choices in this section yet.</li>";
+}
+
+function saveChoiceData() {
+  const node = getNode(currentId);
+  if (!node) return;
+  const oldZone = node.zone;
+  node.title = document.getElementById("choiceTitleInput").value.trim() || "Untitled";
+  node.zone = document.getElementById("choiceZoneInput").value;
+  node.summary = document.getElementById("choiceSummaryInput").value.trim();
+  if (node.zone !== oldZone) node.angle = zoneAngle(node.zone);
+  saveNodes();
+  fillChoicePanel(node);
+  renderNodes();
+  setTab("choicePanel", "choiceOverview");
+}
+
+function saveChoiceNext() {
+  const node = getNode(currentId);
+  if (!node) return;
+  node.next = document.getElementById("choiceNextInput").value.trim();
+  node.status = document.getElementById("choiceStatusInput").value;
+  saveNodes();
+  fillChoicePanel(node);
+  setTab("choicePanel", "choiceOverview");
+}
+
+function saveChoiceMove() {
+  const node = getNode(currentId);
+  if (!node) return;
+  node.importance = Number(document.getElementById("choiceImportanceInput").value);
+  saveNodes();
+  fillChoicePanel(node);
+  renderNodes();
+  setTab("choicePanel", "choiceOverview");
+}
+
+function saveElementData() {
+  const node = getNode(currentId);
+  if (!node) return;
+  const oldZone = node.zone;
+  node.title = document.getElementById("elementTitleInput").value.trim() || "Untitled";
+  node.zone = document.getElementById("elementZoneInput").value;
+  node.summary = document.getElementById("elementSummaryInput").value.trim();
+  if (node.zone !== oldZone) node.angle = zoneAngle(node.zone);
+  saveNodes();
+  fillElementPanel(node);
+  renderNodes();
+  setTab("elementPanel", "elementOverview");
+}
+
+function deleteCurrent(type) {
+  const node = getNode(currentId);
+  if (!node) return;
+  const ok = confirm(`Delete "${node.title}"? This removes its data from this browser prototype.`);
+  if (!ok) return;
+  nodes = nodes.filter(n => n.id !== currentId);
+  saveNodes();
+  renderNodes();
+  hidePanel(type === "choice" ? "choicePanel" : "elementPanel");
+  currentId = null;
+}
+
+function fillPersonPanel() {
+  document.getElementById("personMoneyDisplay").textContent = person.money || "Tap Stats";
+  document.getElementById("personStressDisplay").textContent = person.stress || "Tap Stats";
+  document.getElementById("personEnergyDisplay").textContent = person.energy || "Tap Stats";
+  document.getElementById("personFocusDisplay").textContent = person.today || "Tap Today";
+  document.getElementById("personMoneyInput").value = person.money || "";
+  document.getElementById("personStressInput").value = person.stress || "";
+  document.getElementById("personEnergyInput").value = person.energy || "";
+  document.getElementById("personTodayInput").value = person.today || "";
+}
+
+function savePersonToday() {
+  person.today = document.getElementById("personTodayInput").value.trim();
+  savePerson();
+  fillPersonPanel();
+  setTab("personPanel", "personStatus");
+}
+
+function savePersonStats() {
+  person.money = document.getElementById("personMoneyInput").value.trim();
+  person.stress = document.getElementById("personStressInput").value.trim();
+  person.energy = document.getElementById("personEnergyInput").value.trim();
+  savePerson();
+  fillPersonPanel();
+  setTab("personPanel", "personStatus");
+}
+
+function updateClock() {
+  const now = new Date();
+
+  // Uses the user's own device/browser local time.
+  // No server time is used.
+  const dateFormatter = new Intl.DateTimeFormat(undefined, {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    year: "numeric"
+  });
+
+  const timeFormatter = new Intl.DateTimeFormat(undefined, {
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true
+  });
+
+  document.getElementById("dateText").textContent = dateFormatter.format(now);
+  document.getElementById("clockText").textContent = timeFormatter.format(now);
+}
+
+function setLocationLabel(label) {
+  localStorage.setItem(LOCATION_KEY, label);
+  document.getElementById("locationButton").textContent = label;
+}
+
+function initLocation() {
+  const saved = localStorage.getItem(LOCATION_KEY);
+  if (saved) document.getElementById("locationButton").textContent = saved;
+}
+
+function requestLocation() {
+  const button = document.getElementById("locationButton");
+  if (!navigator.geolocation) {
+    setLocationLabel("No location");
+    return;
+  }
+  button.textContent = "Locating...";
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      const lat = pos.coords.latitude.toFixed(2);
+      const lon = pos.coords.longitude.toFixed(2);
+      setLocationLabel(`${lat}, ${lon}`);
+    },
+    () => {
+      setLocationLabel("Location off");
+    },
+    { enableHighAccuracy: false, timeout: 7000, maximumAge: 600000 }
+  );
+}
+
+document.getElementById("menuButton").addEventListener("click", () => showPanel("drawer"));
+document.getElementById("addChoiceButton").addEventListener("click", () => openAddPanel("choice"));
+document.getElementById("addElementButton").addEventListener("click", () => openAddPanel("element"));
+document.getElementById("createItemButton").addEventListener("click", createItem);
+
+document.querySelectorAll("[data-close]").forEach(btn => {
+  btn.addEventListener("click", () => hidePanel(btn.dataset.close));
+});
+
+document.querySelectorAll(".tab").forEach(tab => {
+  tab.addEventListener("click", () => setTab(tab.dataset.panel, tab.dataset.tab));
+});
+
+document.querySelectorAll("[data-jump]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const panel = btn.closest(".panel");
+    setTab(panel.id, btn.dataset.jump);
+  });
+});
+
+document.getElementById("centerButton").addEventListener("click", () => {
+  fillPersonPanel();
+  setTab("personPanel", "personStatus");
+  showPanel("personPanel");
+});
+
+document.getElementById("saveChoiceData").addEventListener("click", saveChoiceData);
+document.getElementById("saveChoiceNext").addEventListener("click", saveChoiceNext);
+document.getElementById("saveChoiceMove").addEventListener("click", saveChoiceMove);
+document.getElementById("deleteChoice").addEventListener("click", () => deleteCurrent("choice"));
+
+document.getElementById("choiceImportanceInput").addEventListener("input", e => {
+  const node = getNode(currentId);
+  if (!node) return;
+  node.importance = Number(e.target.value);
+  document.getElementById("choiceImportanceOutput").value = `${node.importance} / 100 — ${importanceLabel(node.importance)}`;
+  renderNodes();
+});
+
+document.querySelectorAll("[data-importance]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const node = getNode(currentId);
+    if (!node) return;
+    node.importance = Number(btn.dataset.importance);
+    document.getElementById("choiceImportanceInput").value = node.importance;
+    document.getElementById("choiceImportanceOutput").value = `${node.importance} / 100 — ${importanceLabel(node.importance)}`;
+    renderNodes();
+  });
+});
+
+document.getElementById("saveElementData").addEventListener("click", saveElementData);
+document.getElementById("deleteElement").addEventListener("click", () => deleteCurrent("element"));
+
+document.getElementById("savePersonToday").addEventListener("click", savePersonToday);
+document.getElementById("savePersonStats").addEventListener("click", savePersonStats);
+
+document.getElementById("locationButton").addEventListener("click", requestLocation);
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") closeAllPanels();
+});
+
+window.addEventListener("resize", renderNodes);
+
+updateClock();
+setInterval(updateClock, 1000);
+initLocation();
+renderNodes();
+
+if (false && "serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js").catch(() => {});
+  });
+}
+
+</script>
+</body>
+</html>
