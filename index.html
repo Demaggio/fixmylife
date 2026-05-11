@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>FixMyLife v10.1.1</title>
+<title>FixMyLife v10.1.2</title>
 <meta name="theme-color" content="#fbfaf7">
 <style>
 *{box-sizing:border-box}
@@ -29,14 +29,14 @@ body{display:grid;place-items:center}
 #date{justify-self:start}#time{justify-self:center}.loc{justify-self:end;max-width:145px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:transparent;border:0;color:var(--ink);font:inherit;text-align:right}
 .info.hidden-location .loc{opacity:.45}
 .map{position:absolute;inset:136px 0 126px}
-.wheel{position:absolute;inset:2px 0;border-radius:50%/49%;overflow:hidden;background:radial-gradient(ellipse at center,rgba(255,255,255,0) 0 27%,rgba(255,255,255,.96) 27.4% 34%,rgba(255,255,255,0) 34.4%),conic-gradient(from -20deg,rgba(45,145,232,.19) 0 40deg,rgba(43,168,91,.17) 40deg 80deg,rgba(243,95,77,.16) 80deg 120deg,rgba(214,149,0,.17) 120deg 160deg,rgba(123,97,199,.17) 160deg 200deg,rgba(223,101,145,.16) 200deg 240deg,rgba(240,91,79,.15) 240deg 280deg,rgba(0,158,170,.15) 280deg 320deg,rgba(101,169,47,.17) 320deg 360deg);box-shadow:inset 0 0 0 7px rgba(255,255,255,.75)}
-.wheel:after{content:"";position:absolute;inset:0;background:repeating-conic-gradient(from -20deg,rgba(255,255,255,.92) 0deg 1.3deg,transparent 1.3deg 40deg);opacity:.86}
+.wheel{position:absolute;inset:2px 0;border-radius:50%/49%;overflow:hidden;background:radial-gradient(ellipse at center,rgba(255,255,255,0) 0 27%,rgba(255,255,255,.96) 27.4% 34%,rgba(255,255,255,0) 34.4%),conic-gradient(from -22.5deg,rgba(45,145,232,.19) 0 45deg,rgba(43,168,91,.17) 45deg 90deg,rgba(243,95,77,.16) 90deg 135deg,rgba(214,149,0,.17) 135deg 180deg,rgba(240,91,79,.15) 180deg 225deg,rgba(223,101,145,.16) 225deg 270deg,rgba(123,97,199,.17) 270deg 315deg,rgba(0,158,170,.15) 315deg 360deg);box-shadow:inset 0 0 0 7px rgba(255,255,255,.75)}
+.wheel:after{content:"";position:absolute;inset:0;background:repeating-conic-gradient(from -22.5deg,rgba(255,255,255,.92) 0deg 1.4deg,transparent 1.4deg 45deg);opacity:.86}
 .ring{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:4}.ring ellipse{fill:none;stroke:rgba(17,32,68,.34);stroke-width:3.2;vector-effect:non-scaling-stroke}
 .center{position:absolute;left:50%;top:51%;transform:translate(-50%,-50%);width:128px;height:128px;border-radius:999px;border:9px solid rgba(255,255,255,.88);background:radial-gradient(circle at 50% 32%,#fff,#fffdf9 58%,#f5efe6);z-index:8;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:var(--big),inset 0 0 0 1px rgba(17,32,68,.06);color:#112044}
 .center svg{width:32px;height:32px;margin-bottom:2px}.center svg *{fill:none;stroke:#112044;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 .center strong{font-family:Georgia,serif;font-size:38px;line-height:.92}.center small{font-size:13px;color:#5f6678}
 .domain{position:absolute;z-index:3;font-size:18px;font-weight:750;text-shadow:0 1px 0 rgba(255,255,255,.7);pointer-events:none}
-.housing{top:21%;left:50%;transform:translate(-50%,-50%);color:var(--housing)}.money{top:30%;left:76%;transform:translate(-50%,-50%);color:var(--money)}.legal{top:49%;left:86%;transform:translate(-50%,-50%);color:var(--legal)}.health{top:70%;left:81%;transform:translate(-50%,-50%);color:var(--health)}.relationships{top:84%;left:63%;transform:translate(-50%,-50%);color:var(--relationships)}.family{top:84%;left:36%;transform:translate(-50%,-50%);color:var(--family)}.work{top:70%;left:16%;transform:translate(-50%,-50%);color:var(--work)}.creative{top:49%;left:13%;transform:translate(-50%,-50%);color:var(--creative)}
+.housing{top:14%;left:50%;transform:translate(-50%,-50%);color:var(--housing)}.money{top:24%;left:78%;transform:translate(-50%,-50%);color:var(--money)}.legal{top:50%;left:88%;transform:translate(-50%,-50%);color:var(--legal)}.health{top:76%;left:78%;transform:translate(-50%,-50%);color:var(--health)}.relationships{top:88%;left:50%;transform:translate(-50%,-50%);color:var(--relationships)}.family{top:76%;left:22%;transform:translate(-50%,-50%);color:var(--family)}.work{top:50%;left:12%;transform:translate(-50%,-50%);color:var(--work)}.creative{top:24%;left:22%;transform:translate(-50%,-50%);color:var(--creative)}
 .layer{position:absolute;inset:0;z-index:6}
 .node{position:absolute;transform:translate(-50%,-50%);border:0;background:transparent;padding:0;display:grid;place-items:center;transition:left .23s,top .23s,transform .12s;color:#1d253f}
 .node:active{transform:translate(-50%,-50%) scale(.96)}
@@ -127,45 +127,45 @@ textarea{resize:vertical}.save,.secondary,.delete{width:100%;min-height:52px;mar
 </main>
 
 <script>
-const NODES_KEY="fml-v10-1-1-nodes", PERSON_KEY="fml-v10-person", SETTINGS_KEY="fml-v10-settings", LOCATION_KEY="fml-v10-location";
+const NODES_KEY="fml-v10-1-2-nodes", PERSON_KEY="fml-v10-person", SETTINGS_KEY="fml-v10-settings", LOCATION_KEY="fml-v10-location";
 const COLORS={Housing:"#2d91e8",Money:"#2ba85b",Legal:"#f35f4d",Health:"#d69500",Work:"#7b61c7",Family:"#df6591",Relationships:"#f05b4f",Creative:"#009eaa"};
-const ANGLES={Housing:0,Money:48,Legal:92,Health:132,Relationships:164,Family:198,Work:238,Creative:280};
+const ANGLES={Housing:0,Money:45,Legal:90,Health:135,Relationships:180,Family:225,Work:270,Creative:315};
 const DEFAULT_SETTINGS={theme:"hope",tempUnit:"fahrenheit",locationVisibility:"visible",timezone:"local"};
 const STATES={"New Hampshire":"NH","New York":"NY","New Jersey":"NJ","New Mexico":"NM","Rhode Island":"RI","North Carolina":"NC","North Dakota":"ND","South Carolina":"SC","South Dakota":"SD","West Virginia":"WV","District of Columbia":"DC",Alabama:"AL",Alaska:"AK",Arizona:"AZ",Arkansas:"AR",California:"CA",Colorado:"CO",Connecticut:"CT",Delaware:"DE",Florida:"FL",Georgia:"GA",Hawaii:"HI",Idaho:"ID",Illinois:"IL",Indiana:"IN",Iowa:"IA",Kansas:"KS",Kentucky:"KY",Louisiana:"LA",Maine:"ME",Maryland:"MD",Massachusetts:"MA",Michigan:"MI",Minnesota:"MN",Mississippi:"MS",Missouri:"MO",Montana:"MT",Nebraska:"NE",Nevada:"NV",Ohio:"OH",Oklahoma:"OK",Oregon:"OR",Pennsylvania:"PA",Tennessee:"TN",Texas:"TX",Utah:"UT",Vermont:"VT",Virginia:"VA",Washington:"WA",Wisconsin:"WI",Wyoming:"WY"};
 function make(type,title,zone,angle,imp,summary){return{id:"d-"+type+"-"+title.toLowerCase().replace(/[^a-z0-9]+/g,"-")+"-"+zone.toLowerCase(),type,title,zone,angle,importance:imp,status:type==="choice"?"Not started":"Active",summary,next:""}}
 const DEFAULT_NODES=[
 make("facet","Home","Housing",0,0,"Home base, address, rent, lease, or housing foundation."),
-make("facet","Bank","Money",48,0,"Bank, account, paycheck source, or money hub."),
-make("facet","Documents","Legal",92,0,"Legal papers, forms, IDs, PDFs, records, and evidence."),
-make("facet","Insurance","Health",132,0,"Health insurance, medical info, card, or coverage."),
-make("facet","Partner","Relationships",164,0,"Partner, relationship, marriage, dating, or primary emotional bond."),
-make("facet","Children","Family",198,0,"Children, parenting, connection, responsibility, and steady contact."),
-make("facet","Job","Work",238,0,"Job, employer, work role, or main income anchor."),
-make("facet","Ideas","Creative",280,0,"Creative hub: songs, writing, invention, spiritual work, app ideas."),
+make("facet","Bank","Money",45,0,"Bank, account, paycheck source, or money hub."),
+make("facet","Documents","Legal",90,0,"Legal papers, forms, IDs, PDFs, records, and evidence."),
+make("facet","Insurance","Health",135,0,"Health insurance, medical info, card, or coverage."),
+make("facet","Partner","Relationships",180,0,"Partner, relationship, marriage, dating, or primary emotional bond."),
+make("facet","Children","Family",225,0,"Children, parenting, connection, responsibility, and steady contact."),
+make("facet","Job","Work",270,0,"Job, employer, work role, or main income anchor."),
+make("facet","Ideas","Creative",315,0,"Creative hub: songs, writing, invention, spiritual work, app ideas."),
 
 make("choice","Rent","Housing",348,70,"Rent, first month, housing payment, or urgent place-to-live issue."),
-make("choice","Utilities","Housing",14,45,"Power, water, heat, internet, phone, or basic services."),
+make("choice","Utilities","Housing",12,45,"Power, water, heat, internet, phone, or basic services."),
 
-make("choice","Bills","Money",40,65,"Bills, overdraft, debt, urgent payment, or money pressure."),
-make("choice","Budget","Money",62,48,"Spending choices, what gets paid, what waits, and what is protected."),
+make("choice","Bills","Money",35,65,"Bills, overdraft, debt, urgent payment, or money pressure."),
+make("choice","Budget","Money",55,48,"Spending choices, what gets paid, what waits, and what is protected."),
 
-make("choice","Contract","Legal",82,52,"Contracts, agreements, rental terms, signatures, or written promises."),
-make("choice","Taxes","Legal",105,35,"Taxes, filing, forms, documents, or financial records."),
+make("choice","Contract","Legal",80,52,"Contracts, agreements, rental terms, signatures, or written promises."),
+make("choice","Taxes","Legal",100,35,"Taxes, filing, forms, documents, or financial records."),
 
-make("choice","Fitness","Health",122,30,"Movement, exercise, body care, or physical strength."),
+make("choice","Fitness","Health",125,30,"Movement, exercise, body care, or physical strength."),
 make("choice","Sleep","Health",145,62,"Sleep, rest, recovery, exhaustion, or calming your system."),
 
-make("choice","Date Night","Relationships",154,32,"Connection, romance, time together, or intentional care."),
-make("choice","Check In","Relationships",176,55,"A call, text, honest conversation, or relationship check-in."),
+make("choice","Date Night","Relationships",170,32,"Connection, romance, time together, or intentional care."),
+make("choice","Check In","Relationships",190,55,"A call, text, honest conversation, or relationship check-in."),
 
-make("choice","School","Family",188,42,"School, child-related responsibility, schedule, or family education issue."),
-make("choice","Quality Time","Family",215,58,"Family time, contact, call, visit, or being emotionally present."),
+make("choice","School","Family",215,42,"School, child-related responsibility, schedule, or family education issue."),
+make("choice","Quality Time","Family",235,58,"Family time, contact, call, visit, or being emotionally present."),
 
-make("choice","Deadline","Work",228,78,"Deadline, deliverable, court date, work date, or time-sensitive pressure."),
-make("choice","Project","Work",250,45,"Work project, app build, application, job task, or long-form effort."),
+make("choice","Deadline","Work",260,78,"Deadline, deliverable, court date, work date, or time-sensitive pressure."),
+make("choice","Project","Work",280,45,"Work project, app build, application, job task, or long-form effort."),
 
-make("choice","Ideas","Creative",270,40,"Creative spark, lyric, app idea, book idea, or new concept."),
-make("choice","Journal","Creative",294,30,"Writing, reflection, lyrics, book notes, or private processing.")
+make("choice","Ideas","Creative",305,40,"Creative spark, lyric, app idea, book idea, or new concept."),
+make("choice","Journal","Creative",325,30,"Writing, reflection, lyrics, book notes, or private processing.")
 ];
 let nodes=load(NODES_KEY,DEFAULT_NODES,true), person=load(PERSON_KEY,{money:"",stress:"",energy:"",today:""}), settings=load(SETTINGS_KEY,DEFAULT_SETTINGS), current=null, mode="choice";
 function load(k,d,init){try{let v=localStorage.getItem(k);if(!v&&init){localStorage.setItem(k,JSON.stringify(d));return structuredClone(d)}return v?JSON.parse(v):structuredClone(d)}catch{return structuredClone(d)}}
