@@ -3,627 +3,152 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>FixMyLife v10.1.15</title>
-<meta name="theme-color" content="#fbfaf7">
+<title>FixMyLife / NextMove v10.2.0</title>
+<meta name="theme-color" content="#0e1022">
 <style>
-*{box-sizing:border-box}
-:root{
---ink:#16203a;--muted:#687085;--paper:#fbfaf7;--accent:#f4c24d;
---housing:#2d91e8;--money:#2ba85b;--legal:#f35f4d;--health:#d69500;--work:#7b61c7;--family:#df6591;--relationships:#f05b4f;--creative:#009eaa;
---soft:0 8px 20px rgba(36,38,54,.08);--big:0 18px 48px rgba(36,38,54,.16)
-}
-body.theme-ocean{--accent:#50b8d8;--paper:#f5fbff}
-body.theme-sunrise{--accent:#ff9c62;--paper:#fff8f0}
-body.theme-forest{--accent:#80b56b;--paper:#f7fbf3}
-body.theme-lavender{--accent:#a897df;--paper:#faf7ff}
-html,body{margin:0;min-height:100%;background:linear-gradient(180deg,#fffdfa,#f4efe8);color:var(--ink);font-family:ui-rounded,"Avenir Next","SF Pro Rounded",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-body{display:grid;place-items:center}
-.app{position:relative;width:min(100vw,430px);height:min(100vh,932px);min-height:760px;overflow:hidden;border-radius:30px;background:radial-gradient(circle at 50% 34%,#fff,var(--paper) 58%,#eee8df);box-shadow:0 22px 70px rgba(36,38,54,.18)}
-.top{height:86px;display:grid;grid-template-columns:70px 1fr 70px;align-items:end;padding:env(safe-area-inset-top) 10px 4px;position:relative;z-index:10}
-.top h1{margin:0 0 2px;text-align:center;font-family:Georgia,serif;font-size:34px;font-weight:500;color:#112044}
-.menu,.more{width:44px;height:44px;border-radius:16px;background:rgba(255,255,255,.78);border:1px solid rgba(17,32,68,.08);box-shadow:var(--soft);color:#112044}
-.menu{display:grid;gap:6px;align-content:center;padding:10px}
-.menu span{display:block;width:24px;height:2px;border-radius:999px;background:#112044}
-.more{justify-self:end;border-radius:999px;font-size:18px}
-
-.calendar-top{justify-self:end;width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,.82);border:1px solid rgba(17,32,68,.12);box-shadow:var(--soft);color:#112044;display:grid;grid-template-rows:18px 1fr;align-items:center;justify-items:center;padding:4px 3px;line-height:1}
-.calendar-top span{font-size:9px;font-weight:850;text-transform:uppercase;letter-spacing:.06em;color:#fff;background:#f35f4d;border-radius:8px 8px 5px 5px;width:100%;padding:3px 0 2px}
-.calendar-top strong{font-size:22px;font-weight:900;font-family:ui-rounded,"Avenir Next","SF Pro Rounded",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;margin-top:1px}
-
-.info{position:relative;z-index:10;height:42px;margin:0 10px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;padding:0 12px;background:rgba(255,255,255,.76);border:1px solid rgba(22,32,58,.10);border-radius:14px;box-shadow:var(--soft);font-size:12px;font-weight:700}
-#date{justify-self:start}#time{justify-self:center}.loc{justify-self:end;max-width:145px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:transparent;border:0;color:var(--ink);font:inherit;text-align:right}
-.info.hidden-location .loc{opacity:.45}
-.map{position:absolute;inset:128px 0 80px}
-.wheel{position:absolute;inset:0;border-radius:0;overflow:hidden;background:conic-gradient(from -22.5deg,rgba(45,145,232,.20) 0 45deg,rgba(43,168,91,.18) 45deg 90deg,rgba(243,95,77,.17) 90deg 135deg,rgba(214,149,0,.17) 135deg 180deg,rgba(240,91,79,.16) 180deg 225deg,rgba(223,101,145,.17) 225deg 270deg,rgba(123,97,199,.17) 270deg 315deg,rgba(0,158,170,.16) 315deg 360deg)}
-.wheel:after{content:"";position:absolute;inset:0;background:repeating-conic-gradient(from -22.5deg,rgba(255,255,255,.68) 0deg 1.2deg,transparent 1.2deg 45deg);opacity:.65}
-.ring{display:none}.ring ellipse{fill:none;stroke:rgba(17,32,68,.34);stroke-width:3.2;vector-effect:non-scaling-stroke}
-.center{position:absolute;left:50%;top:51%;transform:translate(-50%,-50%);width:112px;height:112px;border-radius:999px;border:9px solid rgba(255,255,255,.88);background:radial-gradient(circle at 50% 32%,#fff,#fffdf9 58%,#f5efe6);z-index:8;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:var(--big),inset 0 0 0 1px rgba(17,32,68,.06);color:#112044}
-.center svg{width:28px;height:28px;margin-bottom:2px}.center svg *{fill:none;stroke:#112044;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
-.center strong{font-family:Georgia,serif;font-size:32px;line-height:.92}.center small{font-size:13px;color:#5f6678}
-.domain{position:absolute;z-index:8;font-size:13px;font-weight:850;letter-spacing:.05em;text-shadow:0 1px 0 rgba(255,255,255,.68);pointer-events:auto;cursor:pointer;white-space:nowrap;padding:4px 9px;border-radius:999px;background:rgba(255,255,255,.42);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.48);box-shadow:0 5px 12px rgba(36,38,54,.07);text-transform:uppercase}.domain:active{filter:brightness(.96)}
-.housing{top:4px;left:50%;transform:translate(-50%,0) rotate(0deg);color:var(--housing)}
-.money{top:18%;right:4px;left:auto;transform:translate(42%,-50%) rotate(90deg);color:var(--money)}
-.legal{top:50%;right:4px;left:auto;transform:translate(42%,-50%) rotate(90deg);color:var(--legal)}
-.health{top:82%;right:4px;left:auto;transform:translate(42%,-50%) rotate(90deg);color:var(--health)}
-.relationships{bottom:4px;top:auto;left:50%;transform:translate(-50%,0) rotate(0deg);color:var(--relationships)}
-.family{top:82%;left:4px;transform:translate(-42%,-50%) rotate(-90deg);color:var(--family)}
-.work{top:50%;left:4px;transform:translate(-42%,-50%) rotate(-90deg);color:var(--work)}
-.creative{top:18%;left:4px;transform:translate(-42%,-50%) rotate(-90deg);color:var(--creative)}
-
-
-.layer{position:absolute;inset:0;z-index:6}
-.node{position:absolute;transform:translate(-50%,-50%);border:0;background:transparent;padding:0;display:grid;place-items:center;transition:left .23s,top .23s,transform .12s;color:#1d253f}
-.node:active{transform:translate(-50%,-50%) scale(.96)}
-.shape{display:grid;place-items:center;background:rgba(255,255,255,.92);border:1.6px solid var(--domain-color,#999);box-shadow:0 8px 18px rgba(36,38,54,.11),inset 0 0 0 1px rgba(255,255,255,.55);backdrop-filter:blur(10px)}
-.choice .shape{width:42px;height:42px;border-radius:999px}.facet{width:86px;height:26px;z-index:22}.facet .shape{width:84px;height:24px;border-radius:999px}
-.press .shape{box-shadow:0 12px 26px rgba(36,38,54,.18),0 0 0 4px color-mix(in srgb,var(--domain-color),transparent 78%)}
-.label{display:block;max-width:66px;padding:0 3px;text-align:center;font-size:9px;font-weight:750;line-height:1.05;color:#1d253f}.facet .label{max-width:78px;font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.footer{position:absolute;left:0;right:0;bottom:10px;z-index:7;display:grid;justify-items:center;gap:11px;padding:0 24px}
-.legend{display:inline-grid;grid-template-columns:auto 1px auto;gap:16px;align-items:center;padding:10px 20px;border-radius:999px;background:rgba(255,255,255,.76);border:1px solid rgba(22,32,58,.10);box-shadow:var(--soft);font-size:13px;font-weight:750}.legend span{display:inline-flex;align-items:center;gap:8px}.divider{width:1px;height:22px;background:rgba(22,32,58,.14)}.lc,.lf{display:inline-block;border:2px solid #16203a}.lc{width:20px;height:20px;border-radius:999px}.lf{width:34px;height:13px;border-radius:999px}
-.hope{width:100%;max-width:340px;margin:0;min-height:40px;padding:10px 15px;display:flex;align-items:center;justify-content:center;gap:9px;border-radius:20px;background:rgba(255,255,255,.72);border:1px solid rgba(22,32,58,.10);box-shadow:var(--soft);color:#5f6678;font-family:Georgia,serif;font-size:15px;font-style:italic;text-align:center}
-.drawer,.panel{position:absolute;inset:0;z-index:30;background:rgba(251,250,247,.97);color:var(--ink);padding:max(42px,env(safe-area-inset-top)) 24px 26px;display:flex;flex-direction:column;justify-content:center;transition:opacity .18s,transform .18s;backdrop-filter:blur(20px)}
-.drawer{justify-content:flex-start;padding-top:max(84px,env(safe-area-inset-top));overflow-y:auto}.hidden{opacity:0;pointer-events:none;transform:scale(.985)}
-.close{position:absolute;top:max(22px,env(safe-area-inset-top));right:22px;width:44px;height:44px;border-radius:999px;border:1px solid rgba(22,32,58,.12);background:rgba(255,255,255,.78);color:var(--ink);box-shadow:var(--soft);font-size:32px;line-height:1}
-.kicker{margin:0 0 8px;color:var(--muted);text-transform:uppercase;letter-spacing:.15em;font-size:12px;font-weight:750}.panel h2,.drawer h2{margin:0 0 6px;font-family:Georgia,serif;font-size:36px;line-height:1.05;font-weight:500;color:#112044}.sub{margin:0 0 16px;color:var(--muted);font-size:15px;line-height:1.35}
-.action{width:100%;min-height:92px;margin:12px 0 0;border:1px solid rgba(22,32,58,.12);border-radius:22px;background:rgba(255,255,255,.76);color:var(--ink);box-shadow:var(--soft);padding:18px;text-align:left}.action.settings{min-height:82px;background:color-mix(in srgb,var(--accent),white 82%)}.action strong{display:block;font-size:21px;font-weight:800;margin-bottom:8px}.action span{display:block;color:var(--muted);font-size:14px;line-height:1.35}
-.privacy{margin:18px 0 28px;color:var(--muted);background:rgba(255,255,255,.62);border:1px solid rgba(22,32,58,.10);border-radius:18px;padding:16px;line-height:1.45;font-size:14px}
-.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin:8px 0 16px}.tabs.choiceTabs{grid-template-columns:repeat(5,1fr)}.tabs.facetTabs{grid-template-columns:repeat(5,1fr)}
-.tab{min-height:38px;border:1px solid rgba(22,32,58,.12);border-radius:999px;background:rgba(255,255,255,.62);color:var(--muted);font-size:11px;font-weight:750}.tab.active{color:#112044;border-color:rgba(17,32,68,.35);background:#fff;box-shadow:var(--soft)}
-.pane{display:none}.pane.active{display:block}.pane p,.panel p{font-size:16px;line-height:1.5;color:#4e5567}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.grid button,.grid article{min-height:76px;border-radius:18px;border:1px solid rgba(22,32,58,.12);background:rgba(255,255,255,.68);color:var(--ink);box-shadow:var(--soft);padding:12px}.grid button{text-align:left;font-size:14px;font-weight:750}.grid button:disabled{color:var(--muted);background:rgba(255,255,255,.42)}.grid span{display:block;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-size:11px;font-weight:750;margin-bottom:12px}.grid strong{font-size:17px;font-weight:700}
-label{display:block;margin:13px 0 7px;color:var(--muted);text-transform:uppercase;letter-spacing:.10em;font-size:12px;font-weight:750}
-textarea,select,input[type=text]{width:100%;background:rgba(255,255,255,.82);color:var(--ink);border:1px solid rgba(22,32,58,.14);border-radius:15px;padding:13px;font:inherit;font-size:16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.70)}
-textarea{resize:vertical}.save,.secondary,.delete{width:100%;min-height:52px;margin-top:16px;border-radius:999px;border:1px solid rgba(22,32,58,.18);background:#112044;color:#fff;box-shadow:var(--soft);font-size:16px;font-weight:750}.secondary{background:rgba(255,255,255,.85);color:#112044}.delete{background:#f35f4d}.help{color:var(--muted)!important;font-size:15px!important}
-.range{display:grid;grid-template-columns:42px 1fr 42px;gap:10px;align-items:center;color:var(--muted);text-transform:uppercase;font-size:12px;font-weight:750}input[type=range]{width:100%}output{display:block;margin:10px 0 0;font-size:18px;color:var(--ink);font-weight:750}.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}.quick button{min-height:42px;border-radius:999px;border:1px solid rgba(22,32,58,.14);background:rgba(255,255,255,.72);color:var(--ink);font-weight:750}.links{padding-left:18px;color:var(--muted);font-size:16px;line-height:1.6}
-
-.entry-card{border:1px solid rgba(22,32,58,.12);background:rgba(255,255,255,.72);box-shadow:var(--soft);border-radius:18px;padding:14px;margin:10px 0}
-.entry-card h3{margin:0 0 6px;font-size:18px;color:#112044}
-.entry-card p{margin:0;color:var(--muted);font-size:14px;line-height:1.35}
-.entry-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
-.entry-actions button,.field-row button{min-height:38px;border-radius:999px;border:1px solid rgba(22,32,58,.14);background:rgba(255,255,255,.78);color:var(--ink);font-weight:750}
-.entry-empty{padding:18px;border-radius:18px;background:rgba(255,255,255,.58);border:1px dashed rgba(22,32,58,.20);color:var(--muted);line-height:1.4}
-.field-row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end;margin:8px 0}
-.field-row input{min-width:0}
-
-
-.calendar-list{display:grid;gap:10px;margin-top:14px;max-height:330px;overflow:auto;padding-right:2px}
-.calendar-card{border:1px solid rgba(22,32,58,.12);background:rgba(255,255,255,.74);box-shadow:var(--soft);border-radius:18px;padding:14px}
-.calendar-card h3{margin:0 0 6px;font-size:18px;color:#112044}
-.calendar-card p{margin:0;color:var(--muted);font-size:14px;line-height:1.35}
-.calendar-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.calendar-pill{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:5px 8px;border-radius:999px;background:rgba(255,255,255,.72);border:1px solid rgba(22,32,58,.10)}
-.calendar-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-.calendar-actions button{min-height:38px;border-radius:999px;border:1px solid rgba(22,32,58,.14);background:rgba(255,255,255,.78);color:var(--ink);font-weight:750}
-.calendar-marker{position:absolute;z-index:17;transform:translate(-50%,-50%);width:18px;height:18px;border-radius:999px;border:2px solid #fff;background:var(--domain-color,#f4c24d);box-shadow:0 5px 12px rgba(36,38,54,.18);pointer-events:none}
-.calendar-marker::after{content:"";position:absolute;inset:-5px;border-radius:999px;border:1px solid var(--domain-color,#f4c24d);opacity:.5}
-
-
-.month-nav{display:grid;grid-template-columns:44px 1fr 44px;align-items:center;gap:8px;margin:8px 0 12px}
-.month-nav button{min-height:40px;border-radius:999px;border:1px solid rgba(22,32,58,.14);background:rgba(255,255,255,.78);color:var(--ink);font-weight:900}
-.month-nav h3{margin:0;text-align:center;font-family:Georgia,serif;font-size:24px;color:#112044;font-weight:500}
-.month-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
-.dow{font-size:10px;font-weight:900;text-transform:uppercase;color:var(--muted);text-align:center;padding:4px 0}
-.day-cell{position:relative;min-height:54px;border:1px solid rgba(22,32,58,.11);border-radius:12px;background:rgba(255,255,255,.62);box-shadow:0 3px 8px rgba(36,38,54,.05);padding:6px 4px;text-align:left;color:var(--ink)}
-.day-cell.out{opacity:.32}
-.day-cell.today{outline:2px solid var(--accent);outline-offset:1px;background:rgba(255,255,255,.86)}
-.day-num{font-size:12px;font-weight:900}
-.day-dots{position:absolute;left:5px;right:5px;bottom:5px;display:flex;gap:3px;flex-wrap:wrap}
-.day-dot{width:6px;height:6px;border-radius:999px;background:var(--dot-color,#112044)}
-.day-count{position:absolute;right:5px;top:5px;font-size:10px;font-weight:900;color:#fff;background:#112044;border-radius:999px;min-width:16px;text-align:center;padding:1px 4px}
-.day-editor-header{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;margin-bottom:10px}
-.day-editor-header h3{margin:0;font-family:Georgia,serif;font-size:24px;color:#112044;font-weight:500}
-.linked-entry-row{display:grid;grid-template-columns:1fr;gap:8px}
-
-@media(max-width:390px){.app{border-left:0;border-right:0;border-radius:0}.top h1{font-size:30px}.info{font-size:10.5px;padding:0 9px}.center{width:118px;height:118px}.center strong{font-size:34px}.center small{font-size:12px}.center svg{width:30px;height:30px}.domain{font-size:12px}.choice .shape{width:42px;height:42px}.facet{width:72px;height:24px}.facet .shape{width:70px;height:22px}.label{font-size:9px;max-width:40px}.facet .label{font-size:8.5px;max-width:66px}.legend{font-size:12px;padding:9px 16px}.hope{font-size:13px;min-height:44px}}
+*{box-sizing:border-box} :root{--bg:#0e1022;--panel:#151832;--panel2:#1d2141;--ink:#f7f4ea;--muted:#aeb4ca;--soft:rgba(255,255,255,.08);--line:rgba(255,255,255,.12);--accent:#f4c24d;--danger:#ff5b63;--ok:#48d17c;--shadow:0 24px 80px rgba(0,0,0,.42);--h:#2d91e8;--m:#2ed16f;--l:#ff6b5e;--he:#f4b342;--w:#9b7cff;--fa:#ff7db1;--r:#ff7a6d;--c:#18c7d4}
+body.theme-light{--bg:#f8f3ea;--panel:#fffaf1;--panel2:#fff;--ink:#14213d;--muted:#65708a;--soft:rgba(20,33,61,.08);--line:rgba(20,33,61,.14);--shadow:0 24px 80px rgba(20,33,61,.2)}
+body.theme-ocean{--accent:#46d8ff;--bg:#061522} body.theme-forest{--accent:#98e07b;--bg:#07170d} body.theme-lavender{--accent:#b5a4ff;--bg:#111022}
+html,body{margin:0;min-height:100%;font-family:ui-rounded,"SF Pro Rounded","Avenir Next",system-ui,-apple-system,Segoe UI,sans-serif;background:radial-gradient(circle at 50% 0%,color-mix(in srgb,var(--accent),transparent 82%),transparent 34%),linear-gradient(180deg,var(--bg),#090a14);color:var(--ink);overflow:hidden}
+button,input,textarea,select{font:inherit} button{cursor:pointer;color:inherit}.app{width:min(100vw,440px);height:100dvh;min-height:720px;margin:auto;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 44%,rgba(255,255,255,.08),transparent 28%),linear-gradient(180deg,rgba(255,255,255,.04),transparent);box-shadow:var(--shadow)}
+.top{position:absolute;top:0;left:0;right:0;z-index:20;display:grid;grid-template-columns:52px 1fr 52px;align-items:end;padding:calc(env(safe-area-inset-top) + 10px) 14px 8px;gap:8px}.top h1{margin:0;text-align:center;font-family:Georgia,serif;font-weight:500;letter-spacing:.02em;font-size:30px}.iconBtn{height:44px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.08);backdrop-filter:blur(18px);box-shadow:0 10px 24px rgba(0,0,0,.18)}.hamb{display:grid;gap:5px;place-content:center}.hamb span{width:22px;height:2px;border-radius:99px;background:var(--ink)}.calMini{display:grid;grid-template-rows:17px 1fr;place-items:center;padding:4px}.calMini span{font-size:9px;font-weight:900;text-transform:uppercase;background:var(--danger);border-radius:8px 8px 5px 5px;width:100%;padding:3px 0 2px;text-align:center}.calMini strong{font-size:21px;line-height:1}.statusbar{position:absolute;top:calc(env(safe-area-inset-top) + 66px);left:14px;right:14px;height:38px;z-index:19;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;padding:0 11px;border-radius:16px;background:rgba(255,255,255,.075);border:1px solid var(--line);backdrop-filter:blur(18px);font-size:12px;font-weight:750}.statusbar .loc{text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:transparent;border:0}.map{position:absolute;inset:116px 0 76px;overflow:hidden}.weather{position:absolute;inset:-10%;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.06),transparent 26%),conic-gradient(from -22.5deg,rgba(45,145,232,.22) 0 45deg,rgba(46,209,111,.19) 45deg 90deg,rgba(255,107,94,.18) 90deg 135deg,rgba(244,179,66,.18) 135deg 180deg,rgba(255,122,109,.18) 180deg 225deg,rgba(255,125,177,.18) 225deg 270deg,rgba(155,124,255,.19) 270deg 315deg,rgba(24,199,212,.18) 315deg 360deg);filter:saturate(1.15)}.weather:after{content:"";position:absolute;inset:0;background:repeating-conic-gradient(from -22.5deg,rgba(255,255,255,.16) 0 1deg,transparent 1deg 45deg),radial-gradient(ellipse at center,transparent 0 38%,rgba(0,0,0,.26) 72%)}.orbit{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border:1px solid rgba(255,255,255,.10);border-radius:50%;pointer-events:none}.orbit.o1{width:44%;height:34%}.orbit.o2{width:64%;height:50%}.orbit.o3{width:84%;height:66%}.domain{position:absolute;z-index:9;border:1px solid rgba(255,255,255,.16);background:rgba(0,0,0,.26);backdrop-filter:blur(10px);border-radius:999px;padding:5px 10px;font-size:12px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;box-shadow:0 8px 18px rgba(0,0,0,.18)}.d-housing{top:7px;left:50%;transform:translateX(-50%);color:var(--h)}.d-money{top:17%;right:6px;transform:rotate(90deg) translateY(-2px);color:var(--m)}.d-legal{top:50%;right:-7px;transform:translateY(-50%) rotate(90deg);color:var(--l)}.d-health{bottom:17%;right:1px;transform:rotate(90deg);color:var(--he)}.d-relationships{bottom:7px;left:50%;transform:translateX(-50%);color:var(--r)}.d-family{bottom:17%;left:1px;transform:rotate(-90deg);color:var(--fa)}.d-work{top:50%;left:-8px;transform:translateY(-50%) rotate(-90deg);color:var(--w)}.d-creative{top:17%;left:2px;transform:rotate(-90deg);color:var(--c)}.layer{position:absolute;inset:0;z-index:7}.node{position:absolute;transform:translate(-50%,-50%);border:0;background:transparent;padding:0;transition:left .28s,top .28s,transform .12s;z-index:8}.node:active{transform:translate(-50%,-50%) scale(.96)}.shape{display:grid;place-items:center;border:1.5px solid var(--dc);background:rgba(255,255,255,.90);color:#101427;box-shadow:0 10px 24px rgba(0,0,0,.2),0 0 calc(var(--pressure)*.18px) color-mix(in srgb,var(--dc),transparent 40%);backdrop-filter:blur(16px)}.choice .shape{width:44px;height:44px;border-radius:50%}.facet{z-index:13}.facet .shape{width:90px;height:25px;border-radius:999px}.critical .shape{animation:pulse 1.8s infinite}.stable .shape{opacity:.9}@keyframes pulse{50%{box-shadow:0 12px 30px rgba(0,0,0,.26),0 0 22px var(--dc)}}.label{max-width:70px;font-size:9.5px;font-weight:850;line-height:1.05;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.facet .label{max-width:78px}.badge{position:absolute;right:-4px;top:-5px;min-width:17px;height:17px;border-radius:99px;background:var(--danger);color:#fff;font-size:10px;font-weight:900;display:grid;place-items:center;border:2px solid rgba(255,255,255,.85)}.center{position:absolute;left:50%;top:50%;z-index:16;transform:translate(-50%,-50%);width:118px;height:118px;border-radius:50%;border:8px solid rgba(255,255,255,.72);background:radial-gradient(circle at 50% 25%,#fff,#f7f1df 58%,#e6dcc4);color:#12182f;box-shadow:0 28px 80px rgba(0,0,0,.42),inset 0 0 0 1px rgba(255,255,255,.6);display:flex;flex-direction:column;align-items:center;justify-content:center}.center strong{font-family:Georgia,serif;font-size:34px;line-height:.9}.center small{font-weight:800;color:#5a6075}.center span{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:#71778d;margin-top:3px}.footer{position:absolute;left:0;right:0;bottom:8px;z-index:19;display:grid;gap:9px;justify-items:center;padding:0 18px}.modePill{display:flex;gap:8px;align-items:center;padding:8px 13px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid var(--line);backdrop-filter:blur(18px);font-size:12px;font-weight:850}.hope{width:100%;margin:0;padding:10px 16px;border-radius:18px;background:rgba(255,255,255,.08);border:1px solid var(--line);text-align:center;color:var(--muted);font-family:Georgia,serif;font-style:italic;font-size:14px}.panel,.drawer{position:absolute;z-index:40;inset:0;background:linear-gradient(180deg,color-mix(in srgb,var(--panel),transparent 1%),color-mix(in srgb,var(--panel2),transparent 2%));backdrop-filter:blur(26px);display:flex;flex-direction:column;transition:.18s opacity,.2s transform}.drawer{transform:translateX(0)}.hidden{opacity:0;pointer-events:none;transform:translateY(14px) scale(.985)}.drawer.hidden{transform:translateX(-22px);opacity:0}.panelHead{flex:0 0 auto;display:grid;grid-template-columns:76px 1fr 52px;align-items:center;gap:8px;padding:calc(env(safe-area-inset-top) + 18px) 16px 10px;border-bottom:1px solid var(--line)}.panelHead h2{margin:0;text-align:center;font-family:Georgia,serif;font-weight:500;font-size:26px;line-height:1.05}.topSave{height:42px;border-radius:999px;border:1px solid var(--line);background:var(--accent);color:#101427;font-weight:950;box-shadow:0 9px 22px rgba(0,0,0,.18)}.topSave.ghost{background:rgba(255,255,255,.08);color:var(--ink)}.x{height:42px;width:42px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.08);font-size:26px}.panelBody{flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 20px calc(48px + env(safe-area-inset-bottom));}.kicker{margin:0 0 6px;color:var(--muted);text-transform:uppercase;letter-spacing:.14em;font-size:11px;font-weight:900}.sub{margin:0 0 14px;color:var(--muted);line-height:1.35} label{display:block;margin:13px 0 6px;color:var(--muted);text-transform:uppercase;letter-spacing:.10em;font-size:11px;font-weight:900}input,textarea,select{width:100%;border:1px solid var(--line);border-radius:15px;background:rgba(255,255,255,.08);color:var(--ink);padding:12px;outline:none}textarea{resize:vertical;min-height:84px}select option{background:#141832;color:#fff}.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0 14px}.tabs.five{grid-template-columns:repeat(5,1fr)}.tab{min-height:38px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.06);color:var(--muted);font-size:11px;font-weight:900}.tab.active{background:#fff;color:#11162c}.pane{display:none}.pane.active{display:block}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.card,.action,.miniCard{border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.07);box-shadow:0 10px 26px rgba(0,0,0,.13);padding:14px}.action{width:100%;min-height:82px;text-align:left;margin:10px 0}.action strong{display:block;font-size:20px;margin-bottom:5px}.action span,.miniCard span{display:block;color:var(--muted);font-size:13px;line-height:1.35}.miniCard strong{font-size:17px}.saveBtn,.secondary,.dangerBtn{width:100%;min-height:50px;margin-top:12px;border-radius:999px;border:1px solid var(--line);background:var(--accent);color:#101427;font-weight:950}.secondary{background:rgba(255,255,255,.08);color:var(--ink)}.dangerBtn{background:var(--danger);color:white}.list{display:grid;gap:10px}.row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}.itemCard h3,.calCard h3,.personCard h3{margin:0 0 5px;font-size:17px}.itemCard p,.calCard p,.personCard p{margin:0;color:var(--muted);font-size:13px;line-height:1.35}.pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}.pill{font-size:10.5px;font-weight:950;text-transform:uppercase;letter-spacing:.05em;padding:5px 8px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.07)}.splitBtns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.splitBtns button{min-height:38px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.08);font-weight:900}.monthNav{display:grid;grid-template-columns:44px 1fr 44px;gap:8px;align-items:center;margin-bottom:10px}.monthNav button{height:40px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid var(--line);font-weight:950}.monthNav h3{margin:0;text-align:center;font-family:Georgia,serif;font-weight:500}.monthGrid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.dow{text-align:center;color:var(--muted);font-size:10px;font-weight:950;text-transform:uppercase}.day{min-height:50px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.055);padding:5px;position:relative}.day.out{opacity:.28}.day.today{outline:2px solid var(--accent)}.day strong{font-size:12px}.dots{position:absolute;left:5px;right:5px;bottom:5px;display:flex;gap:3px;flex-wrap:wrap}.dot{width:6px;height:6px;border-radius:50%;background:var(--dc)}.orbitView{position:relative;height:340px;border:1px solid var(--line);border-radius:26px;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.12),transparent 18%);overflow:hidden}.orbitView:before,.orbitView:after{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border:1px solid var(--line);border-radius:50%}.orbitView:before{width:150px;height:150px}.orbitView:after{width:260px;height:260px}.orbEvent{position:absolute;transform:translate(-50%,-50%);border-radius:999px;background:#fff;color:#11162c;border:2px solid var(--dc);font-size:10px;font-weight:950;max-width:72px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:6px 8px;z-index:2}.empty{border:1px dashed var(--line);border-radius:18px;padding:16px;color:var(--muted);line-height:1.4}.rangeLine{display:grid;grid-template-columns:1fr 56px;gap:12px;align-items:center}input[type=range]{padding:0}.fieldRows{display:grid;gap:8px}.fieldRow{display:grid;grid-template-columns:1fr 1fr 42px;gap:8px}.fieldRow button{border-radius:12px;background:rgba(255,255,255,.08);border:1px solid var(--line)}.receipt{font-size:12px;color:var(--muted);border-left:2px solid var(--accent);padding:6px 0 6px 10px}.toast{position:absolute;left:18px;right:18px;bottom:86px;z-index:80;min-height:48px;border-radius:18px;background:#fff;color:#11162c;box-shadow:var(--shadow);display:grid;place-items:center;text-align:center;font-weight:900;padding:12px;transition:.18s}.toast.hidden{transform:translateY(12px);opacity:0}.tiny{font-size:12px;color:var(--muted);line-height:1.4}.dangerText{color:#ffb2b6}.hiddenSave{visibility:hidden}.sectionTitle{margin:18px 0 8px;font-family:Georgia,serif;font-size:22px;font-weight:500}.modeSurvival .node:not(.critical):not(.high){opacity:.25}.modeSurvival .weather{filter:saturate(.8) brightness(.72)}.modeVision .weather{filter:saturate(1.35) brightness(1.08)}
+@media(max-width:390px){.top h1{font-size:27px}.domain{font-size:11px;padding:4px 8px}.facet .shape{width:78px}.label{font-size:8.5px}.panelBody{padding-left:16px;padding-right:16px}.tabs{gap:4px}.tab{font-size:10px}.center{width:110px;height:110px}.center strong{font-size:31px}}
 </style>
 </head>
 <body>
-<main class="app">
-<header class="top"><button class="menu" id="menuBtn"><span></span><span></span><span></span></button><h1>FixMyLife</h1><button class="calendar-top" id="calendarBtn" aria-label="Open calendar"><span id="calTopMonth">--</span><strong id="calTopDay">--</strong></button></header>
-<section class="info" id="info"><span id="date">--</span><span id="time">--:--</span><button id="locBtn" class="loc">Location off</button></section>
-
-<section class="map" id="map">
-<div class="wheel"></div><svg class="ring" viewBox="0 0 100 100" preserveAspectRatio="none"><ellipse cx="50" cy="50" rx="49" ry="48"></ellipse></svg>
-<button class="center" id="centerBtn"><svg viewBox="0 0 64 64"><circle cx="32" cy="16" r="8"></circle><path d="M20 55c0-9 4-17 12-17s12 8 12 17"></path><path d="M24 31c2 3 5 5 8 5s6-2 8-5"></path></svg><strong>FML</strong><small>FixMyLife</small></button>
-<button class="domain housing" data-domain="Housing">Housing</button><button class="domain money" data-domain="Money">Money</button><button class="domain legal" data-domain="Legal">Legal</button><button class="domain health" data-domain="Health">Health</button><button class="domain work" data-domain="Work">Work</button><button class="domain family" data-domain="Family">Family</button><button class="domain relationships" data-domain="Relationships">Relationships</button><button class="domain creative" data-domain="Creative">Creative</button>
-<div class="layer" id="layer"></div>
-</section>
-
-<section class="footer"><p class="hope">🌱 Small steps. Big change. You’ve got this. 💛</p></section>
-
-
-<section class="panel hidden" id="calendarPanel">
-<button class="close" data-close="calendarPanel">×</button>
-<p class="kicker">Coming Up</p><h2>Calendar</h2><p class="sub">Tap a day to add things. Recurring items can link to Choices, Facets, or specific Facet Entries.</p>
-
-<nav class="tabs"><button class="tab active" data-tab="calendarMonthPane">Month</button><button class="tab" data-tab="calendarDayPane">Day</button><button class="tab" data-tab="calendarEditPane">Add/Edit</button><button class="tab" data-tab="calendarListPane">List</button></nav>
-
-<div class="pane active" id="calendarMonthPane">
-  <div class="month-nav">
-    <button id="prevMonthBtn">‹</button>
-    <h3 id="monthTitle">Month</h3>
-    <button id="nextMonthBtn">›</button>
-  </div>
-  <div class="month-grid" id="monthGrid"></div>
-</div>
-
-<div class="pane" id="calendarDayPane">
-  <div class="day-editor-header">
-    <h3 id="selectedDayTitle">Selected day</h3>
-    <button class="secondary" id="addOnSelectedDay">Add</button>
-  </div>
-  <div id="selectedDayItems" class="calendar-list"></div>
-</div>
-
-<div class="pane" id="calendarEditPane">
-<label>Title</label><input id="calTitle" type="text" placeholder="Rent, car payment, birthday, utility bill">
-<label>Life Domain</label><select id="calDomain"><option>Housing</option><option>Money</option><option>Legal</option><option>Health</option><option>Work</option><option>Family</option><option>Relationships</option><option>Creative</option></select>
-<label>Linked map item</label><select id="calLinked"></select>
-<div class="linked-entry-row">
-<label>Linked Facet Entry</label><select id="calEntryLinked"></select>
-</div>
-<label>Due date</label><input id="calDue" type="text" placeholder="YYYY-MM-DD">
-<label>Repeats</label><select id="calRepeat"><option value="none">Does not repeat</option><option value="monthly">Monthly</option><option value="weekly">Weekly</option><option value="yearly">Yearly</option><option value="daily">Daily</option></select>
-<label>Reminder window</label><select id="calWindow"><option value="7">7 days</option><option value="14">14 days</option><option value="30">30 days</option><option value="60">60 days</option></select>
-<label>Note</label><textarea id="calNote" rows="4" placeholder="Amount, reason, person, account, who it affects, what to do"></textarea>
-<button class="save" id="saveCalendarItem">Save calendar item</button>
-<button class="delete" id="deleteCalendarItem">Delete calendar item</button>
-</div>
-
-<div class="pane" id="calendarListPane">
-<div id="calendarList" class="calendar-list"></div>
-<button class="save" id="newCalendarItem">Add calendar item</button>
-<button class="secondary" id="seedCalendarDefaults">Add sample recurring items</button>
-</div>
-</section>
-
-<section class="drawer hidden" id="drawer">
-<button class="close" data-close="drawer">×</button><p class="kicker">Menu</p><h2>Add to FixMyLife</h2><p class="sub">Add your own choices and facets. You enter your own data.</p>
-<button class="action" id="addChoice"><strong>Add choice</strong><span>Add a circle: problems, decisions, appointments, plans, supports, and active life items.</span></button>
-<button class="action" id="addFacet"><strong>Add facet</strong><span>Add a thin tab on the outside oval: home, car, job, children, documents, bank, etc.</span></button>
-<button class="action settings" id="settingsBtn"><strong>Settings</strong><span>Theme color, temperature units, location visibility, timezone, and reset defaults.</span></button>
-<div class="privacy"><strong>Privacy:</strong> this prototype stores what you enter in this browser only. Location is only requested when you tap the location area.</div>
-</section>
-
-<section class="panel hidden" id="settingsPanel">
-<button class="close" data-close="settingsPanel">×</button><p class="kicker">Settings</p><h2>App Settings</h2><p class="sub">Change how FixMyLife looks and what appears across the top.</p>
-<label>Color theme</label><select id="theme"><option value="hope">Hope</option><option value="ocean">Ocean</option><option value="sunrise">Sunrise</option><option value="forest">Forest</option><option value="lavender">Lavender</option></select>
-<label>Temperature</label><select id="temp"><option value="fahrenheit">Fahrenheit °F</option><option value="celsius">Celsius °C</option></select>
-<label>Location visibility</label><select id="locVisible"><option value="visible">Show location</option><option value="hidden">Hide location</option></select>
-<label>Time zone</label><select id="tz"><option value="local">Device local time</option><option value="America/New_York">Eastern — New York</option><option value="America/Chicago">Central — Chicago</option><option value="America/Denver">Mountain — Denver</option><option value="America/Los_Angeles">Pacific — Los Angeles</option><option value="America/Anchorage">Alaska — Anchorage</option><option value="Pacific/Honolulu">Hawaii — Honolulu</option><option value="UTC">UTC</option></select>
-<button class="save" id="saveSettings">Save settings</button><button class="secondary" id="resetBtn">Reset default map</button>
-</section>
-
-<section class="panel hidden" id="addPanel">
-<button class="close" data-close="addPanel">×</button><p class="kicker" id="addKicker">Add</p><h2 id="addTitle">Add item</h2><p class="sub" id="addSub">Choose which Life Domain this belongs in.</p>
-<label>Title</label><input id="newTitle" type="text" placeholder="Example: Rent, Court date, Children, Job">
-<label>Life Domain</label><select id="newZone"><option>Housing</option><option>Money</option><option>Legal</option><option>Health</option><option>Work</option><option>Family</option><option>Relationships</option><option>Creative</option></select>
-<label>Starting note</label><textarea id="newSummary" rows="4" placeholder="Optional. What is this?"></textarea>
-<button class="save" id="createBtn">Create</button>
-</section>
-
-
-<section class="panel hidden" id="domainPanel">
-<button class="close" data-close="domainPanel">×</button>
-<p class="kicker">Life Domain</p><h2 id="domainPanelTitle">Edit Domain</h2><p class="sub">Edit how this Life Domain appears on your map. This changes the display name, not the underlying category.</p>
-<label>Display name</label><input id="domainDisplayName" type="text">
-<label>Domain note</label><textarea id="domainNote" rows="5" placeholder="What does this area of life mean to you? What belongs here?"></textarea>
-<div class="grid"><article><span>Choices</span><strong id="domainChoiceCount">0</strong></article><article><span>Facets</span><strong id="domainFacetCount">0</strong></article></div>
-<button class="save" id="saveDomain">Save domain</button>
-<button class="secondary" id="resetDomain">Reset this domain</button>
-</section>
-
-<section class="panel hidden" id="itemPanel">
-<button class="close" data-close="itemPanel">×</button><p class="kicker" id="itemZone"></p><h2 id="itemTitle"></h2><p class="sub" id="itemType"></p>
-<nav class="tabs choiceTabs" id="choiceTabs"><button class="tab active" data-tab="overview">Overview</button><button class="tab" data-tab="data">Data</button><button class="tab" data-tab="next">Next</button><button class="tab" data-tab="move">Move</button><button class="tab" data-tab="delete">Delete</button></nav>
-<nav class="tabs facetTabs hidden" id="facetTabs"><button class="tab active" data-tab="overview">Overview</button><button class="tab" data-tab="data">Data</button><button class="tab" data-tab="entries">Items</button><button class="tab" data-tab="linked">Linked</button><button class="tab" data-tab="delete">Delete</button></nav>
-
-<div class="pane active" id="overview"><p id="itemSummary"></p><div class="grid"><button data-jump="data">Enter data</button><button data-jump="entries" id="entriesJump">Manage entries</button><button data-jump="next" id="nextJump">Next action</button><button data-jump="move" id="moveJump">Importance</button><button data-jump="delete">Delete</button></div><div class="grid"><article><span>Life Domain</span><strong id="fieldZone"></strong></article><article><span>Status</span><strong id="fieldStatus"></strong></article><article><span>Type</span><strong id="fieldType"></strong></article><article><span>Position</span><strong id="fieldPosition"></strong></article><article id="entryCountCard"><span>Entries</span><strong id="fieldEntries">0</strong></article></div></div>
-<div class="pane" id="data"><label>Title</label><input id="editTitle" type="text"><label>Life Domain</label><select id="editZone"><option>Housing</option><option>Money</option><option>Legal</option><option>Health</option><option>Work</option><option>Family</option><option>Relationships</option><option>Creative</option></select><label>Data / details</label><textarea id="editSummary" rows="7"></textarea><button class="save" id="saveData">Save data</button></div>
-<div class="pane" id="next"><label>Next action</label><textarea id="editNext" rows="4"></textarea><label>Status</label><select id="editStatus"><option>Not started</option><option>Needs action</option><option>Waiting</option><option>In progress</option><option>Done</option></select><button class="save" id="saveNext">Save next action</button></div>
-<div class="pane" id="move"><p class="help">Choices move closer to the center when they matter more right now.</p><label>Importance</label><div class="range"><span>edge</span><input id="importance" type="range" min="0" max="100" step="1"><span>me</span></div><output id="importanceOut"></output><div class="quick"><button data-imp="20">Background</button><button data-imp="55">Active</button><button data-imp="88">Pressing</button></div><button class="save" id="saveMove">Save position</button></div>
-<div class="pane" id="entries">
-<p class="help">Entries are separate records inside a Facet. Use them for multiple children, cars, homes, accounts, documents, or anything else that belongs under this Facet.</p>
-<div id="entriesList"></div>
-<button class="save" id="addEntryBtn">Add entry</button>
-</div>
-<div class="pane" id="entryEditor">
-<p class="help">Edit one entry under this Facet.</p>
-<label>Entry name</label><input id="entryTitle" type="text" placeholder="Example: Maddy, Honda Civic, Apartment">
-<label>Entry note</label><textarea id="entryNote" rows="4" placeholder="Details about this specific entry"></textarea>
-<label>Custom fields</label>
-<div id="entryFields"></div>
-<button class="secondary" id="addFieldBtn">Add custom field</button>
-<button class="save" id="saveEntryBtn">Save entry</button>
-<button class="delete" id="deleteEntryBtn">Delete entry</button>
-</div>
-<div class="pane" id="linked"><p class="help">Choices in the same Life Domain appear here.</p><ul class="links" id="linkedList"></ul></div>
-<div class="pane" id="delete"><p class="help">Delete this item from the map.</p><button class="delete" id="deleteItem">Delete item</button></div>
-</section>
-
-<section class="panel hidden" id="personPanel">
-<button class="close" data-close="personPanel">×</button><p class="kicker">Center</p><h2>FixMyLife</h2><p class="sub">Your center / status / whole-life view.</p>
-<nav class="tabs"><button class="tab active" data-tab="pstatus">Status</button><button class="tab" data-tab="ptoday">Today</button><button class="tab" data-tab="pstats">Stats</button><button class="tab" data-tab="pprivacy">Privacy</button></nav>
-<div class="pane active" id="pstatus"><div class="grid"><article><span>Money</span><strong id="pMoney">Tap Stats</strong></article><article><span>Stress</span><strong id="pStress">Tap Stats</strong></article><article><span>Energy</span><strong id="pEnergy">Tap Stats</strong></article><article><span>Focus</span><strong id="pFocus">Tap Today</strong></article></div></div>
-<div class="pane" id="ptoday"><label>Today’s one next move</label><textarea id="todayInput" rows="4"></textarea><button class="save" id="saveToday">Save today</button></div>
-<div class="pane" id="pstats"><label>Money status</label><input id="moneyInput" type="text"><label>Stress status</label><input id="stressInput" type="text"><label>Energy status</label><input id="energyInput" type="text"><button class="save" id="saveStats">Save status</button></div>
-<div class="pane" id="pprivacy"><p>FixMyLife is user-entered by design. It should not secretly read bank accounts, texts, emails, contacts, or private documents.</p><p>Location only appears if the user taps the location area and allows browser location access.</p></div>
-</section>
+<main class="app" id="app">
+<header class="top"><button class="iconBtn hamb" id="menuBtn" aria-label="Open menu"><span></span><span></span><span></span></button><h1>FixMyLife</h1><button class="iconBtn calMini" id="calendarBtn" aria-label="Open calendar"><span id="calMonth">--</span><strong id="calDay">--</strong></button></header>
+<section class="statusbar"><span id="dateText">--</span><span id="timeText">--</span><button class="loc" id="locBtn">Location off</button></section>
+<section class="map" id="map"><div class="weather"></div><div class="orbit o1"></div><div class="orbit o2"></div><div class="orbit o3"></div><button class="domain d-housing" data-domain="housing">Housing</button><button class="domain d-money" data-domain="money">Money</button><button class="domain d-legal" data-domain="legal">Legal</button><button class="domain d-health" data-domain="health">Health</button><button class="domain d-relationships" data-domain="relationships">Relationships</button><button class="domain d-family" data-domain="family">Family</button><button class="domain d-work" data-domain="work">Work</button><button class="domain d-creative" data-domain="creative">Creative</button><div class="layer" id="layer"></div><button class="center" id="statsBtn"><strong>FML</strong><small>FixMyLife</small><span>Stats</span></button></section>
+<footer class="footer"><div class="modePill" id="lifeWeather">🌤️ Stability Mode</div><p class="hope">🌱 Small steps. Big change. You’ve got this. 💛</p></footer>
 </main>
+<div class="toast hidden" id="toast"></div>
+
+<section class="drawer hidden" id="menuPanel"><div class="panelHead"><button class="topSave ghost" data-close="menuPanel">Back</button><h2>Control Room</h2><button class="x" data-close="menuPanel">×</button></div><div class="panelBody"><p class="kicker">Add / Organize</p><p class="sub">This build is local-first and non-destructive. It uses new versioned storage and includes backup export/import.</p><button class="action" id="addChoiceBtn"><strong>Add Choice</strong><span>A movable action, problem, decision, appointment, or support.</span></button><button class="action" id="addFacetBtn"><strong>Add Facet</strong><span>A clean outside tab such as Rent, Bank, Job, Landlord, Car, Children, Documents.</span></button><button class="action" id="chaosBtn"><strong>Dump It</strong><span>Throw the mess in here first. Sort it after.</span></button><button class="action" id="templatesBtn"><strong>Recurring Life Templates</strong><span>Rent, phone bill, birthdays, anniversaries, trash day, therapy, court dates, and more.</span></button><button class="action" id="backupBtn"><strong>Backup / Restore</strong><span>Export your local life map to a file or import a backup.</span></button><button class="action" id="settingsBtn"><strong>Visual Settings</strong><span>Theme, mode, weather, and clean-map behavior.</span></button><div class="card tiny"><strong>Privacy:</strong> this prototype does not read bank accounts, email, texts, contacts, files, or location. Location only runs if you tap the location text and allow it.</div></div></section>
+
+<section class="panel hidden" id="statsPanel"><div class="panelHead"><button class="topSave" id="saveStatsTop">Save</button><h2>My Stats</h2><button class="x" data-close="statsPanel">×</button></div><div class="panelBody"><p class="kicker">ME / FML</p><p class="sub">Your stats are separate from Next Move. Next Move uses these signals, but lives at the bottom of this menu.</p><div class="grid"><div class="miniCard"><span>Stress</span><strong id="stressRead">--</strong></div><div class="miniCard"><span>Energy</span><strong id="energyRead">--</strong></div><div class="miniCard"><span>Money</span><strong id="moneyRead">--</strong></div><div class="miniCard"><span>Safety</span><strong id="safetyRead">--</strong></div></div><label>Life mode</label><select id="statMode"><option value="survival">Survival Mode</option><option value="stability">Stability Mode</option><option value="vision">Vision Mode</option></select><label>Stress level</label><div class="rangeLine"><input type="range" id="statStress" min="0" max="100"><strong id="stressVal"></strong></div><label>Energy level</label><div class="rangeLine"><input type="range" id="statEnergy" min="0" max="100"><strong id="energyVal"></strong></div><label>Money status</label><input id="statMoney" placeholder="Only enter what you choose"><label>Safety / housing status</label><input id="statSafety" placeholder="Only enter what you choose"><label>Today’s focus</label><textarea id="statFocus" placeholder="One thing. Not your whole life."></textarea><h3 class="sectionTitle">Give Me My Next Move</h3><p class="tiny">This is intentionally at the bottom of Stats. Pick the mode that matches your actual capacity.</p><label>Next Move mode</label><select id="nextMode"><option value="overwhelmed">I am overwhelmed</option><option value="5">I have 5 minutes</option><option value="30">I have 30 minutes</option><option value="money">I need money now</option><option value="paperwork">I need paperwork/legal</option><option value="relationship">I need relationship/family repair</option></select><button class="saveBtn" id="nextMoveBtn">Give Me My Next Move</button><div class="card" id="nextMoveResult" style="margin-top:12px"><p class="tiny">No move generated yet.</p></div></div></section>
+
+<section class="panel hidden" id="domainPanel"><div class="panelHead"><button class="topSave" id="saveDomainTop">Save</button><h2 id="domainHead">Domain</h2><button class="x" data-close="domainPanel">×</button></div><div class="panelBody"><p class="kicker">Life Domain</p><p class="sub" id="domainSub"></p><label>Display name</label><input id="domainName"><label>Domain note</label><textarea id="domainNote"></textarea><label>Pressure level</label><select id="domainPressure"></select><div id="domainPeopleWrap"><h3 class="sectionTitle">People Connected</h3><p class="tiny">For non-Family / non-Relationship domains: landlord in Home, boss in Job, clerk in Legal, doctor in Health, bank contact in Money, etc.</p><div id="domainPeopleList" class="list"></div><button class="secondary" id="addDomainPerson">Add connected person</button></div><h3 class="sectionTitle">Facets</h3><div id="domainFacets" class="list"></div><h3 class="sectionTitle">Choices</h3><div id="domainChoices" class="list"></div></div></section>
+
+<section class="panel hidden" id="itemPanel"><div class="panelHead"><button class="topSave" id="saveItemTop">Save</button><h2 id="itemHead">Item</h2><button class="x" data-close="itemPanel">×</button></div><div class="panelBody"><p class="kicker" id="itemKicker"></p><nav class="tabs five"><button class="tab active" data-tab="itemOverview">Overview</button><button class="tab" data-tab="itemData">Data</button><button class="tab" data-tab="itemEntries">Items</button><button class="tab" data-tab="itemPeople">People</button><button class="tab" data-tab="itemReceipt">Receipt</button></nav><div class="pane active" id="itemOverview"><p class="sub" id="itemSummaryRead"></p><div class="grid"><div class="miniCard"><span>Pressure</span><strong id="itemPressureRead">--</strong></div><div class="miniCard"><span>Weight</span><strong id="itemWeightRead">--</strong></div><div class="miniCard"><span>Status</span><strong id="itemStatusRead">--</strong></div><div class="miniCard"><span>Calendar</span><strong id="itemCalendarRead">--</strong></div></div><label>Next action</label><textarea id="itemNext"></textarea><label>Status zone</label><select id="itemStatus"><option>Now</option><option>Waiting</option><option>Scheduled</option><option>Blocked</option><option>Done</option><option>Someday</option></select></div><div class="pane" id="itemData"><label>Title</label><input id="itemTitle"><label>Life Domain</label><select id="itemDomain"></select><label>Pressure level</label><select id="itemPressure"></select><label>Emotional weight</label><select id="itemWeight"><option value="0">None</option><option value="20">Light</option><option value="45">Medium</option><option value="70">Heavy</option><option value="95">Crushing</option></select><label>Notes / data</label><textarea id="itemSummary"></textarea><label>Custom fields</label><div id="fieldList" class="fieldRows"></div><button class="secondary" id="addFieldBtn">Add custom field</button></div><div class="pane" id="itemEntries"><p class="tiny">Facet Entries let one Facet hold several pieces — like multiple bank accounts, documents, bills, or contacts.</p><div id="entryList" class="list"></div><button class="secondary" id="addEntryBtn">Add entry</button></div><div class="pane" id="itemPeople"><p class="tiny" id="peopleHint">People tied to this item. Family/Relationships use this as the main content. Other domains use it for connected people.</p><div id="itemPeopleList" class="list"></div><button class="secondary" id="addItemPersonBtn">Add person</button></div><div class="pane" id="itemReceipt"><p class="tiny">Life Receipts show what changed and when.</p><div id="receiptList" class="list"></div><button class="dangerBtn" id="deleteItemBtn">Delete this item</button></div></div></section>
+
+<section class="panel hidden" id="addPanel"><div class="panelHead"><button class="topSave" id="createTop">Save</button><h2 id="addHead">Add</h2><button class="x" data-close="addPanel">×</button></div><div class="panelBody"><p class="kicker" id="addTypeText">New</p><label>Title</label><input id="newTitle" placeholder="Rent, Phone Bill, Maddy, Court Date"><label>Life Domain</label><select id="newDomain"></select><label>Pressure level</label><select id="newPressure"></select><label>Starting note</label><textarea id="newSummary"></textarea></div></section>
+
+<section class="panel hidden" id="calendarPanel"><div class="panelHead"><button class="topSave hiddenSave" id="saveCalendarTop">Save</button><h2>Calendar</h2><button class="x" data-close="calendarPanel">×</button></div><div class="panelBody"><p class="kicker">Coming Up</p><p class="sub">Calendar items can link to domains, facets, choices, entries, or people. Repeating dates add pressure as they approach.</p><nav class="tabs five"><button class="tab active" data-tab="calMonthPane">Month</button><button class="tab" data-tab="calListPane">List</button><button class="tab" data-tab="calOrbitPane">Orbit</button><button class="tab" data-tab="calLifePane">Life</button><button class="tab" data-tab="calEditPane">Edit</button></nav><div class="pane active" id="calMonthPane"><div class="monthNav"><button id="prevMonth">‹</button><h3 id="monthTitle">Month</h3><button id="nextMonth">›</button></div><div class="monthGrid" id="monthGrid"></div><button class="secondary" id="newCalBtn1">Add calendar item</button></div><div class="pane" id="calListPane"><div id="calList" class="list"></div><button class="secondary" id="newCalBtn2">Add calendar item</button></div><div class="pane" id="calOrbitPane"><div class="orbitView" id="orbitView"></div><p class="tiny">Closer to center means sooner. This is the calendar as pressure, not just a list.</p></div><div class="pane" id="calLifePane"><div id="lifeCal" class="list"></div></div><div class="pane" id="calEditPane"><label>Title</label><input id="calTitle" placeholder="Rent, phone bill, birthday"><label>Life Domain</label><select id="calDomain"></select><label>Linked map item</label><select id="calLinked"></select><label>Linked entry</label><select id="calEntry"></select><label>Linked person</label><select id="calPerson"></select><label>Due date</label><input id="calDue" placeholder="YYYY-MM-DD"><label>Repeats</label><select id="calRepeat"><option value="none">Does not repeat</option><option value="daily">Daily</option><option value="weekly">Weekly</option><option value="monthly">Monthly</option><option value="yearly">Yearly</option></select><label>Reminder / pressure window</label><select id="calWindow"><option value="3">3 days</option><option value="7">7 days</option><option value="14">14 days</option><option value="30">30 days</option><option value="60">60 days</option></select><label>Note</label><textarea id="calNote"></textarea><button class="dangerBtn" id="deleteCalBtn">Delete calendar item</button></div></div></section>
+
+<section class="panel hidden" id="chaosPanel"><div class="panelHead"><button class="topSave" id="processChaosTop">Sort</button><h2>Dump It</h2><button class="x" data-close="chaosPanel">×</button></div><div class="panelBody"><p class="kicker">Chaos Capture</p><p class="sub">No organizing first. Put one thing per line or just spill it. The app will make draft Choices you can edit.</p><textarea id="chaosText" rows="12" placeholder="Rent due Friday\nCall Greenville welfare\nPhone bill\nText Maddy\nCourt paperwork\nBoss schedule"></textarea><div id="chaosResult" class="list" style="margin-top:12px"></div></div></section>
+
+<section class="panel hidden" id="templatesPanel"><div class="panelHead"><button class="topSave ghost" data-close="templatesPanel">Back</button><h2>Templates</h2><button class="x" data-close="templatesPanel">×</button></div><div class="panelBody"><p class="kicker">Recurring Life Templates</p><p class="sub">Tap one to add a starter Facet and recurring calendar item. You can edit details after.</p><div id="templateList" class="list"></div></div></section>
+
+<section class="panel hidden" id="backupPanel"><div class="panelHead"><button class="topSave ghost" data-close="backupPanel">Back</button><h2>Backup</h2><button class="x" data-close="backupPanel">×</button></div><div class="panelBody"><p class="kicker">Local-first safety</p><p class="sub">Browser storage is private and convenient, but not enough for important life data. Export backups often.</p><button class="saveBtn" id="exportBtn">Export Backup File</button><label>Import Backup File</label><input type="file" id="importFile" accept="application/json,.json"><button class="secondary" id="importBtn">Import Selected Backup</button><button class="dangerBtn" id="resetThisVersion">Reset only v10.2.0 local data</button><div class="card tiny" style="margin-top:12px">This does not erase older versions because this build uses a new storage key: <strong>fixmylife-v10.2.0-state</strong>.</div></div></section>
+
+<section class="panel hidden" id="settingsPanel"><div class="panelHead"><button class="topSave" id="saveSettingsTop">Save</button><h2>Visuals</h2><button class="x" data-close="settingsPanel">×</button></div><div class="panelBody"><p class="kicker">Stunning but clean</p><p class="sub">Facets auto-space in safe lanes. They should not intersect each other or cover domain titles.</p><label>Theme</label><select id="themeSel"><option value="dark">Neon Life Console</option><option value="light">Warm Paper</option><option value="ocean">Ocean Console</option><option value="forest">Forest Console</option><option value="lavender">Lavender Console</option></select><label>Map mode</label><select id="modeSel"><option value="survival">Survival Mode</option><option value="stability">Stability Mode</option><option value="vision">Vision Mode</option></select><label>Show only most important items on main map</label><select id="cleanSel"><option value="yes">Yes — keep it neat</option><option value="no">No — show more</option></select><p class="tiny">Even when “show more” is on, the layout still uses safe spacing and preview limits to prevent messy overlap.</p></div></section>
 
 <script>
-const NODES_KEY="fml-v10-1-15-nodes", PERSON_KEY="fml-v10-1-15-person", SETTINGS_KEY="fml-v10-1-15-settings", LOCATION_KEY="fml-v10-1-15-location", DOMAINS_KEY="fml-v10-1-15-domains", CALENDAR_KEY="fml-v10-1-15-calendar";
-const COLORS={Housing:"#2d91e8",Money:"#2ba85b",Legal:"#f35f4d",Health:"#d69500",Work:"#7b61c7",Family:"#df6591",Relationships:"#f05b4f",Creative:"#009eaa"};
-const ANGLES={Housing:0,Money:45,Legal:90,Health:135,Relationships:180,Family:225,Work:270,Creative:315};
-const DEFAULT_SETTINGS={theme:"hope",tempUnit:"fahrenheit",locationVisibility:"visible",timezone:"local"};
-const DEFAULT_DOMAINS={Housing:{name:"Housing",note:""},Money:{name:"Money",note:""},Legal:{name:"Legal",note:""},Health:{name:"Health",note:""},Relationships:{name:"Relationships",note:""},Family:{name:"Family",note:""},Work:{name:"Work",note:""},Creative:{name:"Creative",note:""}};
-
-const DEFAULT_CALENDAR=[
- {id:"cal-rent",title:"Rent",domain:"Housing",linkedTitle:"Rent",due:"2026-06-01",repeat:"monthly",window:7,note:"Monthly rent due."},
- {id:"cal-utilities",title:"Utility bill",domain:"Housing",linkedTitle:"Utilities",due:"2026-06-15",repeat:"monthly",window:7,note:"Utilities or basic services due."},
- {id:"cal-car-payment",title:"Car payment",domain:"Money",linkedTitle:"Bills",due:"2026-06-20",repeat:"monthly",window:14,note:"Vehicle-related payment."},
- {id:"cal-birthday",title:"Birthday",domain:"Family",linkedTitle:"Quality Time",due:"2026-07-01",repeat:"yearly",window:30,note:"Birthday or important family date."}
+const VERSION="v10.2.0";
+const KEY="fixmylife-v10.2.0-state";
+const OLD_KEY_NOTE="v10.1.15 remains untouched if it used its own keys";
+const pressureOptions=[['0','Stable'],['25','Low'],['50','Medium'],['75','High'],['100','Critical']];
+const domains=[
+{id:'housing',name:'Housing',color:'var(--h)',angle:-90},{id:'money',name:'Money',color:'var(--m)',angle:-45},{id:'legal',name:'Legal',color:'var(--l)',angle:0},{id:'health',name:'Health',color:'var(--he)',angle:45},{id:'relationships',name:'Relationships',color:'var(--r)',angle:90},{id:'family',name:'Family',color:'var(--fa)',angle:135},{id:'work',name:'Work',color:'var(--w)',angle:180},{id:'creative',name:'Creative',color:'var(--c)',angle:225}
 ];
-
-const STATES={"New Hampshire":"NH","New York":"NY","New Jersey":"NJ","New Mexico":"NM","Rhode Island":"RI","North Carolina":"NC","North Dakota":"ND","South Carolina":"SC","South Dakota":"SD","West Virginia":"WV","District of Columbia":"DC",Alabama:"AL",Alaska:"AK",Arizona:"AZ",Arkansas:"AR",California:"CA",Colorado:"CO",Connecticut:"CT",Delaware:"DE",Florida:"FL",Georgia:"GA",Hawaii:"HI",Idaho:"ID",Illinois:"IL",Indiana:"IN",Iowa:"IA",Kansas:"KS",Kentucky:"KY",Louisiana:"LA",Maine:"ME",Maryland:"MD",Massachusetts:"MA",Michigan:"MI",Minnesota:"MN",Mississippi:"MS",Missouri:"MO",Montana:"MT",Nebraska:"NE",Nevada:"NV",Ohio:"OH",Oklahoma:"OK",Oregon:"OR",Pennsylvania:"PA",Tennessee:"TN",Texas:"TX",Utah:"UT",Vermont:"VT",Virginia:"VA",Washington:"WA",Wisconsin:"WI",Wyoming:"WY"};
-function make(type,title,zone,angle,imp,summary){return{id:"d-"+type+"-"+title.toLowerCase().replace(/[^a-z0-9]+/g,"-")+"-"+zone.toLowerCase(),type,title,zone,angle,importance:imp,status:type==="choice"?"Not started":"Active",summary,next:"",entries:[]}}
-const DEFAULT_NODES=[
-make("facet","Home","Housing",0,0,"Home base, address, rent, lease, or housing foundation."),
-make("facet","Bank","Money",45,0,"Bank, account, paycheck source, or money hub."),
-make("facet","Documents","Legal",90,0,"Legal papers, forms, IDs, PDFs, records, and evidence."),
-make("facet","Insurance","Health",135,0,"Health insurance, medical info, card, or coverage."),
-make("facet","Partner","Relationships",180,0,"Partner, relationship, marriage, dating, or primary emotional bond."),
-make("facet","Children","Family",225,0,"Children, parenting, connection, responsibility, and steady contact."),
-make("facet","Job","Work",270,0,"Job, employer, work role, or main income anchor."),
-make("facet","Ideas","Creative",315,0,"Creative hub: songs, writing, invention, spiritual work, app ideas."),
-
-make("choice","Rent","Housing",350,45,"Rent, first month, housing payment, or urgent place-to-live issue."),
-make("choice","Utilities","Housing",10,35,"Power, water, heat, internet, phone, or basic services."),
-make("choice","Bills","Money",35,50,"Bills, overdraft, debt, urgent payment, or money pressure."),
-make("choice","Budget","Money",55,32,"Spending choices, what gets paid, what waits, and what is protected."),
-make("choice","Contract","Legal",80,40,"Contracts, agreements, rental terms, signatures, or written promises."),
-make("choice","Taxes","Legal",100,28,"Taxes, filing, forms, documents, or financial records."),
-make("choice","Fitness","Health",125,24,"Movement, exercise, body care, or physical strength."),
-make("choice","Sleep","Health",145,45,"Sleep, rest, recovery, exhaustion, or calming your system."),
-make("choice","Date Night","Relationships",170,25,"Connection, romance, time together, or intentional care."),
-make("choice","Check In","Relationships",190,38,"A call, text, honest conversation, or relationship check-in."),
-make("choice","School","Family",215,34,"School, child-related responsibility, schedule, or family education issue."),
-make("choice","Quality Time","Family",235,44,"Family time, contact, call, visit, or being emotionally present."),
-make("choice","Deadline","Work",260,54,"Deadline, deliverable, court date, work date, or time-sensitive pressure."),
-make("choice","Project","Work",280,32,"Work project, app build, application, job task, or long-form effort."),
-make("choice","Ideas","Creative",305,35,"Creative spark, lyric, app idea, book idea, or new concept."),
-make("choice","Journal","Creative",325,25,"Writing, reflection, lyrics, book notes, or private processing.")
-];
-let nodes=load(NODES_KEY,DEFAULT_NODES,true), person=load(PERSON_KEY,{money:"",stress:"",energy:"",today:""}), settings=load(SETTINGS_KEY,DEFAULT_SETTINGS), domains=load(DOMAINS_KEY,DEFAULT_DOMAINS), calendar=load(CALENDAR_KEY,[]), current=null, currentDomain=null, currentEntry=null, currentCalendar=null, mode="choice";
-if(!Array.isArray(calendar))calendar=[];
-function load(k,d,init){try{let v=localStorage.getItem(k);if(!v&&init){localStorage.setItem(k,JSON.stringify(d));return structuredClone(d)}let parsed=v?JSON.parse(v):structuredClone(d);return parsed}catch{return structuredClone(d)}}
-function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
-function syncDomainLabels(){document.querySelectorAll(".domain[data-domain]").forEach(el=>{let key=el.dataset.domain;el.textContent=(domains[key]&&domains[key].name)||key})}
-
+const domainMap=Object.fromEntries(domains.map(d=>[d.id,d]));
+const uid=()=>Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const todayISO=()=>{let d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
+function defaultState(){return {version:VERSION,created:new Date().toISOString(),settings:{theme:'dark',mode:'stability',clean:'yes'},stats:{mode:'stability',stress:55,energy:45,money:'Unknown',safety:'Unknown',focus:''},domainNotes:Object.fromEntries(domains.map(d=>[d.id,{name:d.name,note:'',pressure:0,people:[]}])) ,items:[
+{id:uid(),type:'facet',domain:'housing',title:'Rent',summary:'Monthly housing obligation.',pressure:50,weight:45,status:'Now',next:'Confirm due date and amount.',entries:[],people:[],fields:[],receipts:[]},
+{id:uid(),type:'facet',domain:'money',title:'Bank',summary:'Accounts, balances, overdraft, deposits.',pressure:50,weight:45,status:'Now',next:'Enter only the account info you choose.',entries:[],people:[],fields:[],receipts:[]},
+{id:uid(),type:'facet',domain:'legal',title:'Paperwork',summary:'Forms, filings, deadlines, receipts.',pressure:75,weight:70,status:'Now',next:'Find the next filing deadline.',entries:[],people:[],fields:[],receipts:[]},
+{id:uid(),type:'choice',domain:'health',title:'Breathe',summary:'A tiny reset when overwhelmed.',pressure:25,weight:20,status:'Now',next:'Take 3 slow breaths and choose one small move.',entries:[],people:[],fields:[],receipts:[]},
+{id:uid(),type:'facet',domain:'family',title:'Children',summary:'People, birthdays, check-ins, worries, repair.',pressure:25,weight:70,status:'Waiting',next:'Add each child as a person.',entries:[],people:[],fields:[],receipts:[]}
+],calendar:[],people:[],receipts:[]}}
+let state=load();let currentDomain=null,currentItem=null,currentAddType='choice',currentCal=null,calendarDate=new Date();
+function load(){try{let raw=localStorage.getItem(KEY);return raw?migrate(JSON.parse(raw)):defaultState()}catch(e){return defaultState()}}
+function migrate(s){s.settings??={theme:'dark',mode:'stability',clean:'yes'};s.stats??={mode:'stability',stress:55,energy:45,money:'Unknown',safety:'Unknown',focus:''};s.domainNotes??=Object.fromEntries(domains.map(d=>[d.id,{name:d.name,note:'',pressure:0,people:[]}]));for(const d of domains){s.domainNotes[d.id]??={name:d.name,note:'',pressure:0,people:[]};s.domainNotes[d.id].people??=[]}s.items??=[];s.calendar??=[];s.people??=[];s.receipts??=[];s.items.forEach(n=>{n.entries??=[];n.people??=[];n.fields??=[];n.receipts??=[];n.pressure=Number(n.pressure??0);n.weight=Number(n.weight??0);n.status??='Now'});return s}
+function save(){state.version=VERSION;state.updated=new Date().toISOString();localStorage.setItem(KEY,JSON.stringify(state));}
+function log(msg,item){let r={id:uid(),date:new Date().toLocaleString(),msg}; if(item){item.receipts??=[];item.receipts.unshift(r)} state.receipts.unshift(r); state.receipts=state.receipts.slice(0,250);}
 function $(id){return document.getElementById(id)}
-function show(id){$(id).classList.remove("hidden")}function hide(id){$(id).classList.add("hidden")}
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
-function rad(d){return d*Math.PI/180}function item(id){return nodes.find(n=>n.id===id)}
-function impLabel(v){return v>=80?"pressing":v>=55?"important":v>=30?"active":"background"}
-function uid(){return"i-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,8)}
-function zoneAngle(z){let p=[-14,0,14,-26,26,-36,36,-46,46],c=nodes.filter(n=>n.zone===z).length;return (ANGLES[z]||0)+(p[c%p.length]||0)}
-function pos(n){let r=$("map").getBoundingClientRect(),w=r.width,h=r.height,cx=w/2,cy=h*.51,t=rad(n.angle);
-if(n.type==="facet"){
-  return{x:cx+Math.sin(t)*(w/2-42),y:cy-Math.cos(t)*(h/2-23)}
-}
-/*
-  Choices live in an outer-mid band of their Life Domain.
-  High importance still moves inward, but never enough to crowd the FML center.
-*/
-let ox=w/2-112, oy=h/2-110;
-let ix=122, iy=110;
-let k=Math.min(100,Math.max(0,n.importance||50))/100;
-let inward=k*.42; 
-return{x:cx+Math.sin(t)*(ox-inward*(ox-ix)),y:cy-Math.cos(t)*(oy-inward*(oy-iy))}
-}
-function render(){let layer=$("layer");layer.innerHTML="";nodes.forEach(n=>{let b=document.createElement("button");b.className=`node ${n.type} ${(n.importance||0)>=80?"press":""}`;b.style.setProperty("--domain-color",COLORS[n.zone]||"#999");let p=pos(n);b.style.left=p.x+"px";b.style.top=p.y+"px";b.innerHTML=`<span class="shape"><span class="label">${esc(n.title)}</span></span>`;b.onclick=()=>openItem(n.id);layer.appendChild(b)});
-renderCalendarMarkers(layer);
-}
-function openAdd(t){mode=t;hide("drawer");$("newTitle").value="";$("newSummary").value="";$("newZone").value="Money";$("addKicker").textContent=t==="choice"?"Add choice":"Add facet";$("addTitle").textContent=t==="choice"?"Add choice":"Add facet";$("addSub").textContent=t==="choice"?"This creates a circle inside the map.":"This creates a thin tappable tab on the outside oval.";show("addPanel")}
-function create(){let title=$("newTitle").value.trim()||(mode==="choice"?"New choice":"New facet"),zone=$("newZone").value;let n={id:uid(),type:mode,title,zone,angle:zoneAngle(zone),importance:mode==="choice"?55:0,status:mode==="choice"?"Not started":"Active",summary:$("newSummary").value.trim(),next:"",entries:[]};nodes.push(n);save(NODES_KEY,nodes);hide("addPanel");render();openItem(n.id)}
-function activateTab(panel,tab){panel.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));panel.querySelectorAll(".pane").forEach(p=>p.classList.toggle("active",p.id===tab))}
-function openItem(id){current=id;let n=item(id);if(!n)return;if(!Array.isArray(n.entries))n.entries=[];$("itemZone").textContent=n.zone;$("itemTitle").textContent=n.title;$("itemType").textContent=n.type==="choice"?"Choice / circle / active life item":"Facet / outside edge item";$("itemSummary").textContent=n.summary||"No data entered yet.";$("fieldZone").textContent=n.zone;$("fieldStatus").textContent=n.status||"Active";$("fieldType").textContent=n.type==="choice"?"Choice":"Facet";$("fieldPosition").textContent=n.type==="choice"?(n.importance||0)+" / 100":"Edge";$("editTitle").value=n.title;$("editZone").value=n.zone;$("editSummary").value=n.summary||"";$("editNext").value=n.next||"";$("editStatus").value=n.status||"Not started";$("importance").value=n.importance||55;$("importanceOut").value=`${n.importance||55} / 100 — ${impLabel(n.importance||55)}`;$("choiceTabs").classList.toggle("hidden",n.type!=="choice");$("facetTabs").classList.toggle("hidden",n.type!=="facet");$("entriesJump").style.display=n.type==="facet"?"block":"none";$("nextJump").style.display=n.type==="choice"?"block":"none";$("moveJump").style.display=n.type==="choice"?"block":"none";$("linkedList").innerHTML=nodes.filter(x=>x.type==="choice"&&x.zone===n.zone).map(x=>`<li>${esc(x.title)} — ${impLabel(x.importance||0)}</li>`).join("")||"<li>No choices in this Life Domain yet.</li>";renderEntries();activateTab($("itemPanel"),"overview");show("itemPanel")}
-
-function renderEntries(){
- let n=item(current),list=$("entriesList"); if(!list||!n||n.type!=="facet")return;
- if(!Array.isArray(n.entries))n.entries=[];
- list.innerHTML=n.entries.length?n.entries.map(e=>`<div class="entry-card"><h3>${esc(e.title||"Untitled entry")}</h3><p>${esc(e.note||"No note yet.")}</p><div class="entry-actions"><button data-edit-entry="${e.id}">Edit</button><button data-open-entry="${e.id}">View</button></div></div>`).join(""):`<div class="entry-empty">No entries yet. Add one for each child, car, home, account, document, or item inside this Facet.</div>`;
- list.querySelectorAll("[data-edit-entry],[data-open-entry]").forEach(b=>b.onclick=()=>openEntry(b.dataset.editEntry||b.dataset.openEntry));
-}
-function addEntry(){
- let n=item(current); if(!n||n.type!=="facet")return;
- if(!Array.isArray(n.entries))n.entries=[];
- let e={id:uid(),title:"New entry",note:"",fields:[]};
- n.entries.push(e); save(NODES_KEY,nodes); openEntry(e.id);
-}
-function openEntry(id){
- let n=item(current); if(!n||!Array.isArray(n.entries))return;
- currentEntry=id; let e=n.entries.find(x=>x.id===id); if(!e)return;
- $("entryTitle").value=e.title||""; $("entryNote").value=e.note||""; renderEntryFields(e);
- activateTab($("itemPanel"),"entryEditor");
-}
-function renderEntryFields(e){
- let box=$("entryFields"); if(!box)return;
- if(!Array.isArray(e.fields))e.fields=[];
- box.innerHTML=e.fields.map((f,i)=>`<div class="field-row" data-field-index="${i}"><input type="text" placeholder="Label" value="${esc(f.label||"")}"><input type="text" placeholder="Value" value="${esc(f.value||"")}"><button data-remove-field="${i}">×</button></div>`).join("") || `<p class="help">No custom fields yet. Add fields like age, phone, school, VIN, address, account, due date, etc.</p>`;
- box.querySelectorAll("[data-remove-field]").forEach(b=>b.onclick=()=>{let n=item(current),e=n.entries.find(x=>x.id===currentEntry);if(!e)return;collectEntryFields(e);e.fields.splice(Number(b.dataset.removeField),1);renderEntryFields(e)});
-}
-function collectEntryFields(e){
- e.fields=[];
- document.querySelectorAll("#entryFields .field-row").forEach(row=>{
-   let inputs=row.querySelectorAll("input"); let label=inputs[0].value.trim(), value=inputs[1].value.trim();
-   if(label||value)e.fields.push({label,value});
- });
-}
-function addField(){
- let n=item(current); if(!n)return; let e=n.entries.find(x=>x.id===currentEntry); if(!e)return;
- collectEntryFields(e); e.fields.push({label:"",value:""}); renderEntryFields(e);
-}
-function saveEntry(){
- let n=item(current); if(!n||!Array.isArray(n.entries))return; let e=n.entries.find(x=>x.id===currentEntry); if(!e)return;
- e.title=$("entryTitle").value.trim()||"Untitled entry"; e.note=$("entryNote").value.trim(); collectEntryFields(e);
- save(NODES_KEY,nodes); renderEntries(); activateTab($("itemPanel"),"entries");
-}
-function deleteEntry(){
- let n=item(current); if(!n||!Array.isArray(n.entries))return; let e=n.entries.find(x=>x.id===currentEntry); if(!e)return;
- if(!confirm(`Delete "${e.title||"this entry"}"?`))return;
- n.entries=n.entries.filter(x=>x.id!==currentEntry); currentEntry=null; save(NODES_KEY,nodes); renderEntries(); activateTab($("itemPanel"),"entries");
-}
-
-function saveData(){let n=item(current),old=n.zone;n.title=$("editTitle").value.trim()||"Untitled";n.zone=$("editZone").value;n.summary=$("editSummary").value.trim();if(n.zone!==old)n.angle=zoneAngle(n.zone);save(NODES_KEY,nodes);render();openItem(n.id)}
-function saveNext(){let n=item(current);n.next=$("editNext").value.trim();n.status=$("editStatus").value;save(NODES_KEY,nodes);openItem(n.id)}
-function saveMove(){let n=item(current);n.importance=Number($("importance").value);save(NODES_KEY,nodes);render();openItem(n.id)}
-function deleteItem(){let n=item(current);if(!confirm(`Delete "${n.title}"?`))return;nodes=nodes.filter(x=>x.id!==current);save(NODES_KEY,nodes);render();hide("itemPanel")}
-function fillPerson(){pMoney.textContent=person.money||"Tap Stats";pStress.textContent=person.stress||"Tap Stats";pEnergy.textContent=person.energy||"Tap Stats";pFocus.textContent=person.today||"Tap Today";moneyInput.value=person.money;stressInput.value=person.stress;energyInput.value=person.energy;todayInput.value=person.today}
-function saveTodayFn(){person.today=todayInput.value.trim();save(PERSON_KEY,person);fillPerson();activateTab($("personPanel"),"pstatus")}
-function saveStatsFn(){person.money=moneyInput.value.trim();person.stress=stressInput.value.trim();person.energy=energyInput.value.trim();save(PERSON_KEY,person);fillPerson();activateTab($("personPanel"),"pstatus")}
-
-function openDomain(key){
-  currentDomain=key;
-  let d=domains[key]||{name:key,note:""};
-  domainPanelTitle.textContent=d.name||key;
-  domainDisplayName.value=d.name||key;
-  domainNote.value=d.note||"";
-  domainChoiceCount.textContent=nodes.filter(n=>n.type==="choice"&&n.zone===key).length;
-  domainFacetCount.textContent=nodes.filter(n=>n.type==="facet"&&n.zone===key).length;
-  show("domainPanel");
-}
-function saveDomainFn(){
-  if(!currentDomain)return;
-  let clean=domainDisplayName.value.trim()||currentDomain;
-  domains[currentDomain]={name:clean,note:domainNote.value.trim()};
-  save(DOMAINS_KEY,domains);
-  syncDomainLabels();
-  hide("domainPanel");
-}
-function resetDomainFn(){
-  if(!currentDomain)return;
-  domains[currentDomain]=structuredClone(DEFAULT_DOMAINS[currentDomain]||{name:currentDomain,note:""});
-  save(DOMAINS_KEY,domains);
-  syncDomainLabels();
-  openDomain(currentDomain);
-}
-
-function applySettings(){document.body.classList.remove("theme-hope","theme-ocean","theme-sunrise","theme-forest","theme-lavender");document.body.classList.add("theme-"+settings.theme);theme.value=settings.theme;temp.value=settings.tempUnit;locVisible.value=settings.locationVisibility;tz.value=settings.timezone;info.classList.toggle("hidden-location",settings.locationVisibility==="hidden");updateClock();updateLocationDisplay()}
-function saveSettingsFn(){settings={theme:theme.value,tempUnit:temp.value,locationVisibility:locVisible.value,timezone:tz.value};save(SETTINGS_KEY,settings);applySettings();hide("settingsPanel")}
-function resetDefaults(){if(!confirm("Reset to the default FixMyLife starter map?"))return;nodes=structuredClone(DEFAULT_NODES);save(NODES_KEY,nodes);render();hide("settingsPanel")}
-
-function parseDateLocal(s){let m=String(s||"").match(/^(\d{4})-(\d{2})-(\d{2})$/);if(!m)return null;return new Date(Number(m[1]),Number(m[2])-1,Number(m[3]));}
-function dateOnly(d){return new Date(d.getFullYear(),d.getMonth(),d.getDate());}
-function formatDateInput(d){let y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),day=String(d.getDate()).padStart(2,"0");return `${y}-${m}-${day}`}
-function addRepeat(d,repeat){let x=new Date(d);if(repeat==="daily")x.setDate(x.getDate()+1);else if(repeat==="weekly")x.setDate(x.getDate()+7);else if(repeat==="monthly")x.setMonth(x.getMonth()+1);else if(repeat==="yearly")x.setFullYear(x.getFullYear()+1);else return x;return x}
-function nextDueDate(cal){let d=parseDateLocal(cal.due);if(!d)return null;let today=dateOnly(new Date());if(cal.repeat&&cal.repeat!=="none"){let guard=0;while(d<today&&guard<500){d=addRepeat(d,cal.repeat);guard++}}return d}
-function daysUntil(cal){let d=nextDueDate(cal);if(!d)return 99999;let today=dateOnly(new Date());return Math.round((d-today)/86400000)}
-function calendarPressure(cal){let days=daysUntil(cal),win=Number(cal.window||7);if(days<0)return 0;if(days>win)return 0;return Math.round(100-(days/win)*75)}
-function linkedNode(cal){if(cal.linkedId)return nodes.find(n=>n.id===cal.linkedId);if(cal.linkedTitle)return nodes.find(n=>n.title===cal.linkedTitle&&n.zone===cal.domain)||nodes.find(n=>n.title===cal.linkedTitle);return null}
-function getNodeCalendarPressure(n){let vals=calendar.map(c=>linkedNode(c)?.id===n.id?calendarPressure(c):0);return vals.length?Math.max(...vals,0):0}
-function renderCalendarMarkers(layer){
- calendar.forEach(c=>{let n=linkedNode(c);let pval=calendarPressure(c);if(!n||pval<=0)return;let p=pos(n),m=document.createElement("span");m.className="calendar-marker";m.style.setProperty("--domain-color",COLORS[n.zone]||"#f4c24d");m.style.left=(p.x+18)+"px";m.style.top=(p.y-18)+"px";m.title=c.title;layer.appendChild(m)});
-}
-function openCalendar(){
- renderCalendarList();
- populateCalendarLinked();
- activateTab($("calendarPanel"),"calendarListPane");
- show("calendarPanel");
-}
-function renderCalendarList(){
- let box=$("calendarList");if(!box)return;
- let sorted=[...calendar].sort((a,b)=>daysUntil(a)-daysUntil(b));
- box.innerHTML=sorted.length?sorted.map(c=>{let d=nextDueDate(c),days=daysUntil(c),pressure=calendarPressure(c),linked=linkedNode(c);return `<div class="calendar-card"><h3>${esc(c.title||"Untitled")}</h3><p>${d?esc(d.toLocaleDateString()):"No valid date"} ${days>=0?`— in ${days} day${days===1?"":"s"}`:""}</p><div class="calendar-meta"><span class="calendar-pill">${esc(c.domain||"")}</span><span class="calendar-pill">${esc(c.repeat||"none")}</span><span class="calendar-pill">pressure ${pressure}</span>${linked?`<span class="calendar-pill">linked: ${esc(linked.title)}</span>`:""}</div><div class="calendar-actions"><button data-edit-cal="${c.id}">Edit</button><button data-view-cal="${c.id}">Open linked</button></div></div>`}).join(""):`<div class="entry-empty">No calendar items yet. Add rent, utility bills, car payments, birthdays, deadlines, and repeating life obligations.</div>`;
- box.querySelectorAll("[data-edit-cal]").forEach(b=>b.onclick=()=>editCalendarItem(b.dataset.editCal));
- box.querySelectorAll("[data-view-cal]").forEach(b=>b.onclick=()=>{let c=calendar.find(x=>x.id===b.dataset.viewCal),n=c&&linkedNode(c);if(n){hide("calendarPanel");openItem(n.id)}});
-}
-function populateCalendarLinked(){
- let sel=$("calLinked");if(!sel)return;sel.innerHTML=`<option value="">No linked item</option>`+nodes.map(n=>`<option value="${n.id}">${esc(n.zone)} — ${esc(n.title)} (${n.type})</option>`).join("");
-}
-function newCalItem(){
- currentCalendar=null;populateCalendarLinked();calTitle.value="";calDomain.value="Money";calLinked.value="";calDue.value=formatDateInput(new Date());calRepeat.value="monthly";calWindow.value="7";calNote.value="";deleteCalendarItem.style.display="none";activateTab($("calendarPanel"),"calendarEditPane");
-}
-function editCalendarItem(id){
- currentCalendar=id;populateCalendarLinked();let c=calendar.find(x=>x.id===id);if(!c)return;calTitle.value=c.title||"";calDomain.value=c.domain||"Money";calLinked.value=c.linkedId||"";calDue.value=c.due||"";calRepeat.value=c.repeat||"none";calWindow.value=String(c.window||7);calNote.value=c.note||"";deleteCalendarItem.style.display="block";activateTab($("calendarPanel"),"calendarEditPane");
-}
-function saveCalItem(){
- let c=currentCalendar?calendar.find(x=>x.id===currentCalendar):null;if(!c){c={id:uid()};calendar.push(c)}
- c.title=calTitle.value.trim()||"Untitled";c.domain=calDomain.value;c.linkedId=calLinked.value;c.due=calDue.value.trim();c.repeat=calRepeat.value;c.window=Number(calWindow.value||7);c.note=calNote.value.trim();
- let linked=nodes.find(n=>n.id===c.linkedId);if(linked)c.linkedTitle=linked.title;
- save(CALENDAR_KEY,calendar);render();renderCalendarList();activateTab($("calendarPanel"),"calendarListPane");
-}
-function deleteCalItem(){
- if(!currentCalendar)return;if(!confirm("Delete this calendar item?"))return;calendar=calendar.filter(c=>c.id!==currentCalendar);save(CALENDAR_KEY,calendar);currentCalendar=null;render();renderCalendarList();activateTab($("calendarPanel"),"calendarListPane");
-}
-function seedCalDefaults(){
- let existing=new Set(calendar.map(c=>c.id));DEFAULT_CALENDAR.forEach(c=>{if(!existing.has(c.id))calendar.push(structuredClone(c))});save(CALENDAR_KEY,calendar);render();renderCalendarList();
-}
-
-function updateClock(){let now=new Date(),zone=settings.timezone==="local"?undefined:settings.timezone;date.textContent=new Intl.DateTimeFormat(undefined,{month:"short",day:"numeric",year:"numeric",timeZone:zone}).format(now);time.textContent=new Intl.DateTimeFormat(undefined,{hour:"numeric",minute:"2-digit",hour12:true,timeZone:zone}).format(now)}
-function updateLocationDisplay(){if(settings.locationVisibility==="hidden"){locBtn.textContent="Location hidden";return}let saved=load(LOCATION_KEY,null);locBtn.textContent=saved?.label||"Location off"}
-async function requestLocation(){if(settings.locationVisibility==="hidden"){locBtn.textContent="Location hidden";return}if(!navigator.geolocation){locBtn.textContent="No location";return}locBtn.textContent="Locating...";navigator.geolocation.getCurrentPosition(async p=>{let lat=p.coords.latitude,lon=p.coords.longitude,place=`${lat.toFixed(2)}, ${lon.toFixed(2)}`,tempText="";try{let g=await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`);let j=await g.json(),a=j.address||{},town=a.city||a.town||a.village||a.hamlet||a.county||"Location",state=a.state?STATES[a.state]||a.state:"",country=a.country_code?String(a.country_code).toUpperCase():a.country||"";place=[town,state,country].filter(Boolean).join(", ")}catch{}try{let unit=settings.tempUnit==="fahrenheit"?"fahrenheit":"celsius";let w=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m&temperature_unit=${unit}`);let j=await w.json();tempText=` ${Math.round(j.current.temperature_2m)}°${unit==="fahrenheit"?"F":"C"}`}catch{}let label=place+tempText;save(LOCATION_KEY,{label,lat,lon});locBtn.textContent=label},()=>locBtn.textContent="Location off",{enableHighAccuracy:false,timeout:9000,maximumAge:600000})}
-document.querySelectorAll(".domain[data-domain]").forEach(b=>b.onclick=()=>openDomain(b.dataset.domain));
-saveDomain.onclick=saveDomainFn;resetDomain.onclick=resetDomainFn;
-calendarBtn.onclick=openCalendar;
-menuBtn.onclick=()=>show("drawer");addChoice.onclick=()=>openAdd("choice");addFacet.onclick=()=>openAdd("facet");settingsBtn.onclick=()=>{hide("drawer");applySettings();show("settingsPanel")};createBtn.onclick=create;newCalendarItem.onclick=newCalItem;saveCalendarItem.onclick=saveCalItem;deleteCalendarItem.onclick=deleteCalItem;seedCalendarDefaults.onclick=seedCalDefaults;addEntryBtn.onclick=addEntry;addFieldBtn.onclick=addField;saveEntryBtn.onclick=saveEntry;deleteEntryBtn.onclick=deleteEntry;saveSettings.onclick=saveSettingsFn;resetBtn.onclick=resetDefaults;
-document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>hide(b.dataset.close));document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>activateTab(b.closest(".panel"),b.dataset.tab));document.querySelectorAll("[data-jump]").forEach(b=>b.onclick=()=>activateTab(b.closest(".panel"),b.dataset.jump));
-centerBtn.onclick=()=>{fillPerson();activateTab(personPanel,"pstatus");show("personPanel")};saveData.onclick=saveData;saveNext.onclick=saveNext;saveMove.onclick=saveMove;deleteItem.onclick=deleteItem;saveToday.onclick=saveTodayFn;saveStats.onclick=saveStatsFn;locBtn.onclick=requestLocation;
-importance.oninput=e=>{let n=item(current);if(!n)return;n.importance=Number(e.target.value);importanceOut.value=`${n.importance} / 100 — ${impLabel(n.importance)}`;render()};document.querySelectorAll("[data-imp]").forEach(b=>b.onclick=()=>{importance.value=b.dataset.imp;importance.dispatchEvent(new Event("input"))});
-window.addEventListener("resize",render);document.addEventListener("keydown",e=>{if(e.key==="Escape")["drawer","settingsPanel","calendarPanel","addPanel","domainPanel","itemPanel","personPanel"].forEach(hide)});
-syncDomainLabels();
-
-
-/* v10.1.14 month calendar + linked entries */
-let calendarViewDate=new Date();
-let selectedCalendarDate=new Date();
-
-function updateCalendarTop(){
- let now=new Date();
- if($("calTopMonth"))$("calTopMonth").textContent=new Intl.DateTimeFormat(undefined,{month:"short"}).format(now);
- if($("calTopDay"))$("calTopDay").textContent=String(now.getDate());
-}
-function ensureFacetEntries(n){if(!Array.isArray(n.entries))n.entries=[];return n.entries}
-
-function parseDateLocal(s){let m=String(s||"").match(/^(\d{4})-(\d{2})-(\d{2})$/);if(!m)return null;return new Date(Number(m[1]),Number(m[2])-1,Number(m[3]))}
-function dateOnly(d){return new Date(d.getFullYear(),d.getMonth(),d.getDate())}
-function sameDay(a,b){return a&&b&&a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate()}
-function formatDateInput(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
-function addRepeat(d,repeat){let x=new Date(d);if(repeat==="daily")x.setDate(x.getDate()+1);else if(repeat==="weekly")x.setDate(x.getDate()+7);else if(repeat==="monthly")x.setMonth(x.getMonth()+1);else if(repeat==="yearly")x.setFullYear(x.getFullYear()+1);return x}
-function nextDueDate(cal){let d=parseDateLocal(cal.due);if(!d)return null;let today=dateOnly(new Date());if(cal.repeat&&cal.repeat!=="none"){let g=0;while(d<today&&g<500){d=addRepeat(d,cal.repeat);g++}}return d}
-function occursOn(cal,date){
- let base=parseDateLocal(cal.due); if(!base)return false; let target=dateOnly(date);
- if(cal.repeat==="none"||!cal.repeat)return sameDay(base,target);
- if(target<dateOnly(base))return false;
- if(cal.repeat==="daily")return true;
- if(cal.repeat==="weekly")return base.getDay()===target.getDay();
- if(cal.repeat==="monthly")return base.getDate()===target.getDate();
- if(cal.repeat==="yearly")return base.getMonth()===target.getMonth()&&base.getDate()===target.getDate();
- return false;
-}
-function daysUntil(cal){let d=nextDueDate(cal);if(!d)return 99999;return Math.round((d-dateOnly(new Date()))/86400000)}
-function calendarPressure(cal){let days=daysUntil(cal),win=Number(cal.window||7);if(days<0||days>win)return 0;return Math.round(100-(days/win)*75)}
-function linkedNode(cal){if(cal.linkedId)return nodes.find(n=>n.id===cal.linkedId);if(cal.linkedTitle)return nodes.find(n=>n.title===cal.linkedTitle&&n.zone===cal.domain)||nodes.find(n=>n.title===cal.linkedTitle);return null}
-function getNodeCalendarPressure(n){return Math.max(0,...calendar.map(c=>linkedNode(c)?.id===n.id?calendarPressure(c):0))}
-function renderCalendarMarkers(layer){calendar.forEach(c=>{let n=linkedNode(c),pval=calendarPressure(c);if(!n||pval<=0)return;let p=pos(n),m=document.createElement("span");m.className="calendar-marker";m.style.setProperty("--domain-color",COLORS[n.zone]||"#f4c24d");m.style.left=(p.x+18)+"px";m.style.top=(p.y-18)+"px";layer.appendChild(m)})}
-
-function openCalendar(){
- calendarViewDate=new Date();
- selectedCalendarDate=new Date();
- renderMonth();
- renderCalendarList();
- populateCalendarLinked();
- activateTab($("calendarPanel"),"calendarMonthPane");
- show("calendarPanel");
-}
-function renderMonth(){
- let grid=$("monthGrid"); if(!grid)return;
- let y=calendarViewDate.getFullYear(),m=calendarViewDate.getMonth();
- $("monthTitle").textContent=new Intl.DateTimeFormat(undefined,{month:"long",year:"numeric"}).format(new Date(y,m,1));
- let first=new Date(y,m,1),start=new Date(y,m,1-first.getDay());
- let htmlDays=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map(d=>`<div class="dow">${d}</div>`).join("");
- for(let i=0;i<42;i++){
-   let d=new Date(start); d.setDate(start.getDate()+i);
-   let inMonth=d.getMonth()===m, today=sameDay(d,new Date()), items=calendar.filter(c=>occursOn(c,d));
-   let dots=items.slice(0,5).map(c=>`<i class="day-dot" style="--dot-color:${COLORS[c.domain]||"#112044"}"></i>`).join("");
-   htmlDays+=`<button class="day-cell ${inMonth?"":"out"} ${today?"today":""}" data-date="${formatDateInput(d)}"><span class="day-num">${d.getDate()}</span>${items.length?`<span class="day-count">${items.length}</span>`:""}<span class="day-dots">${dots}</span></button>`;
- }
- grid.innerHTML=htmlDays;
- grid.querySelectorAll("[data-date]").forEach(b=>b.onclick=()=>openDay(parseDateLocal(b.dataset.date)));
-}
-function openDay(d){
- selectedCalendarDate=d||new Date();
- $("selectedDayTitle").textContent=new Intl.DateTimeFormat(undefined,{weekday:"long",month:"long",day:"numeric",year:"numeric"}).format(selectedCalendarDate);
- renderSelectedDayItems();
- activateTab($("calendarPanel"),"calendarDayPane");
-}
-function renderSelectedDayItems(){
- let box=$("selectedDayItems"); if(!box)return;
- let items=calendar.filter(c=>occursOn(c,selectedCalendarDate));
- box.innerHTML=items.length?items.map(c=>calendarCard(c)).join(""):`<div class="entry-empty">Nothing on this day yet. Tap Add to create something for this date.</div>`;
- wireCalendarCards(box);
-}
-function calendarCard(c){
- let next=nextDueDate(c),days=daysUntil(c),pressure=calendarPressure(c),linked=linkedNode(c),entryLabel=linkedEntryLabel(c);
- return `<div class="calendar-card"><h3>${esc(c.title||"Untitled")}</h3><p>${next?esc(next.toLocaleDateString()):"No valid date"} ${days>=0?`— in ${days} day${days===1?"":"s"}`:""}</p><div class="calendar-meta"><span class="calendar-pill">${esc(c.domain||"")}</span><span class="calendar-pill">${esc(c.repeat||"none")}</span><span class="calendar-pill">pressure ${pressure}</span>${linked?`<span class="calendar-pill">linked: ${esc(linked.title)}</span>`:""}${entryLabel?`<span class="calendar-pill">entry: ${esc(entryLabel)}</span>`:""}</div><div class="calendar-actions"><button data-edit-cal="${c.id}">Edit</button><button data-view-cal="${c.id}">Open linked</button></div></div>`;
-}
-function linkedEntryLabel(c){
- if(!c.linkedId||!c.entryId)return "";
- let n=nodes.find(x=>x.id===c.linkedId); if(!n||n.type!=="facet")return "";
- let e=ensureFacetEntries(n).find(x=>x.id===c.entryId); return e?e.title:"";
-}
-function renderCalendarList(){
- let box=$("calendarList");if(!box)return;
- let sorted=[...calendar].sort((a,b)=>daysUntil(a)-daysUntil(b));
- box.innerHTML=sorted.length?sorted.map(c=>calendarCard(c)).join(""):`<div class="entry-empty">No calendar items yet. Add rent, utility bills, car payments, birthdays, deadlines, and repeating life obligations.</div>`;
- wireCalendarCards(box);
-}
-function wireCalendarCards(box){
- box.querySelectorAll("[data-edit-cal]").forEach(b=>b.onclick=()=>editCalendarItem(b.dataset.editCal));
- box.querySelectorAll("[data-view-cal]").forEach(b=>b.onclick=()=>{let c=calendar.find(x=>x.id===b.dataset.viewCal),n=c&&linkedNode(c);if(n){hide("calendarPanel");openItem(n.id)}});
-}
-function populateCalendarLinked(){
- let sel=$("calLinked");if(!sel)return;
- sel.innerHTML=`<option value="">No linked item</option>`+nodes.map(n=>`<option value="${n.id}">${esc(n.zone)} — ${esc(n.title)} (${n.type})</option>`).join("");
- populateEntryLinked();
-}
-function populateEntryLinked(){
- let sel=$("calEntryLinked"); if(!sel)return;
- let linked=nodes.find(n=>n.id===$("calLinked").value);
- if(!linked||linked.type!=="facet"){sel.innerHTML=`<option value="">No Facet Entry</option>`; sel.disabled=true; return}
- let entries=ensureFacetEntries(linked);
- sel.disabled=false;
- sel.innerHTML=`<option value="">No specific entry</option>`+entries.map(e=>`<option value="${e.id}">${esc(e.title||"Untitled entry")}</option>`).join("");
-}
-function newCalItem(){
- currentCalendar=null;populateCalendarLinked();
- calTitle.value="";calDomain.value="Money";calLinked.value="";populateEntryLinked();
- calDue.value=formatDateInput(selectedCalendarDate||new Date());
- calRepeat.value="none";calWindow.value="7";calNote.value="";deleteCalendarItem.style.display="none";
- activateTab($("calendarPanel"),"calendarEditPane");
-}
-function editCalendarItem(id){
- currentCalendar=id;populateCalendarLinked();let c=calendar.find(x=>x.id===id);if(!c)return;
- calTitle.value=c.title||"";calDomain.value=c.domain||"Money";calLinked.value=c.linkedId||"";populateEntryLinked();calEntryLinked.value=c.entryId||"";
- calDue.value=c.due||"";calRepeat.value=c.repeat||"none";calWindow.value=String(c.window||7);calNote.value=c.note||"";
- deleteCalendarItem.style.display="block";activateTab($("calendarPanel"),"calendarEditPane");
-}
-function saveCalItem(){
- let c=currentCalendar?calendar.find(x=>x.id===currentCalendar):null;if(!c){c={id:uid()};calendar.push(c)}
- c.title=calTitle.value.trim()||"Untitled";c.domain=calDomain.value;c.linkedId=calLinked.value;c.entryId=calEntryLinked.value;c.due=calDue.value.trim();c.repeat=calRepeat.value;c.window=Number(calWindow.value||7);c.note=calNote.value.trim();
- let linked=nodes.find(n=>n.id===c.linkedId);if(linked)c.linkedTitle=linked.title;
- save(CALENDAR_KEY,calendar);render();renderMonth();renderCalendarList();openDay(parseDateLocal(c.due)||selectedCalendarDate);
-}
-function deleteCalItem(){
- if(!currentCalendar)return;if(!confirm("Delete this calendar item?"))return;
- calendar=calendar.filter(c=>c.id!==currentCalendar);save(CALENDAR_KEY,calendar);currentCalendar=null;render();renderMonth();renderCalendarList();renderSelectedDayItems();activateTab($("calendarPanel"),"calendarListPane");
-}
-function seedCalDefaults(){
- let existing=new Set(calendar.map(c=>c.id));DEFAULT_CALENDAR.forEach(c=>{if(!existing.has(c.id))calendar.push(structuredClone(c))});
- save(CALENDAR_KEY,calendar);render();renderMonth();renderCalendarList();
-}
-
-if($("calendarBtn"))$("calendarBtn").onclick=openCalendar;
-if($("prevMonthBtn"))$("prevMonthBtn").onclick=()=>{calendarViewDate.setMonth(calendarViewDate.getMonth()-1);renderMonth()};
-if($("nextMonthBtn"))$("nextMonthBtn").onclick=()=>{calendarViewDate.setMonth(calendarViewDate.getMonth()+1);renderMonth()};
-if($("addOnSelectedDay"))$("addOnSelectedDay").onclick=newCalItem;
-if($("newCalendarItem"))$("newCalendarItem").onclick=newCalItem;
-if($("saveCalendarItem"))$("saveCalendarItem").onclick=saveCalItem;
-if($("deleteCalendarItem"))$("deleteCalendarItem").onclick=deleteCalItem;
-if($("seedCalendarDefaults"))$("seedCalendarDefaults").onclick=seedCalDefaults;
-if($("calLinked"))$("calLinked").onchange=populateEntryLinked;
-
-if($("addEntryBtn"))$("addEntryBtn").onclick=addEntry;
-if($("addFieldBtn"))$("addFieldBtn").onclick=addField;
-if($("saveEntryBtn"))$("saveEntryBtn").onclick=saveEntry;
-if($("deleteEntryBtn"))$("deleteEntryBtn").onclick=deleteEntry;
-
-updateCalendarTop();
-if(typeof syncDomainLabels==="function")syncDomainLabels();
-applySettings();
-setInterval(()=>{updateClock();updateCalendarTop()},1000);
+function toast(msg){const t=$('toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.add('hidden'),2200)}
+function show(id){$(id).classList.remove('hidden')} function hide(id){$(id).classList.add('hidden')} document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>hide(b.dataset.close));
+function pressureSelectHTML(val=0){return pressureOptions.map(([v,l])=>`<option value="${v}" ${Number(val)==Number(v)?'selected':''}>${l}</option>`).join('')}
+function domainSelectHTML(val='housing'){return domains.map(d=>`<option value="${d.id}" ${val===d.id?'selected':''}>${esc(state.domainNotes[d.id]?.name||d.name)}</option>`).join('')}
+function domainColor(id){return domainMap[id]?.color||'var(--accent)'}
+function pLabel(v){v=Number(v||0);if(v>=100)return'Critical';if(v>=75)return'High';if(v>=50)return'Medium';if(v>=25)return'Low';return'Stable'}
+function wLabel(v){v=Number(v||0);if(v>=90)return'Crushing';if(v>=70)return'Heavy';if(v>=45)return'Medium';if(v>=20)return'Light';return'None'}
+function activeCalendarPressure(item){let max=0; for(const c of state.calendar){if(c.linkedItemId===item.id){max=Math.max(max,calendarPressure(c))}} return max}
+function totalPressure(item){return Math.max(Number(item.pressure||0),activeCalendarPressure(item))}
+function classPressure(v){v=Number(v||0);return v>=100?'critical':v>=75?'high':v<=0?'stable':''}
+function updateClock(){let n=new Date();$('dateText').textContent=new Intl.DateTimeFormat(undefined,{month:'short',day:'numeric',year:'numeric'}).format(n);$('timeText').textContent=new Intl.DateTimeFormat(undefined,{hour:'numeric',minute:'2-digit'}).format(n);$('calMonth').textContent=new Intl.DateTimeFormat(undefined,{month:'short'}).format(n);$('calDay').textContent=String(n.getDate())}
+setInterval(updateClock,1000); updateClock();
+$('locBtn').onclick=()=>{if(!navigator.geolocation){toast('Location not available');return} $('locBtn').textContent='Locating…'; navigator.geolocation.getCurrentPosition(p=>{$('locBtn').textContent=`${p.coords.latitude.toFixed(2)}, ${p.coords.longitude.toFixed(2)}`},()=>{$('locBtn').textContent='Location off'})};
+function applySettings(){document.body.className=''; if(state.settings.theme&&state.settings.theme!=='dark')document.body.classList.add('theme-'+state.settings.theme); $('app').classList.toggle('modeSurvival',state.settings.mode==='survival');$('app').classList.toggle('modeVision',state.settings.mode==='vision');let txt=state.settings.mode==='survival'?'🛟 Survival Mode':state.settings.mode==='vision'?'✨ Vision Mode':'🌤️ Stability Mode';$('lifeWeather').textContent=txt;}
+function render(){applySettings();renderMap();renderReads();save();}
+function renderReads(){let s=state.stats;$('stressRead').textContent=s.stress+'/100';$('energyRead').textContent=s.energy+'/100';$('moneyRead').textContent=s.money||'Unknown';$('safetyRead').textContent=s.safety||'Unknown'}
+function mapDims(){let m=$('map').getBoundingClientRect();return {w:m.width,h:m.height,cx:m.width/2,cy:m.height/2,rx:m.width*.43,ry:m.height*.38}}
+function posItem(item,indexInDomain,totalInDomain){let d=domainMap[item.domain]||domains[0],dim=mapDims();let base=d.angle;let spread=Math.min(30,8*(totalInDomain-1));let offset= totalInDomain>1 ? -spread/2 + (spread/(totalInDomain-1))*indexInDomain : 0;let angle=(base+offset)*Math.PI/180;let p=totalPressure(item);let r=item.type==='facet' ? (0.82 - p/100*.23) : (0.64 - p/100*.28); if(p<=0)r=item.type==='facet'?.89:.68; let x=dim.cx+Math.cos(angle)*dim.rx*r; let y=dim.cy+Math.sin(angle)*dim.ry*r; let pad=item.type==='facet'?62:34; x=Math.max(pad,Math.min(dim.w-pad,x)); y=Math.max(48,Math.min(dim.h-48,y)); return {x,y}}
+function renderMap(){const layer=$('layer');layer.innerHTML='';let items=[...state.items]; if(state.settings.clean==='yes'){items=items.sort((a,b)=>totalPressure(b)+Number(b.weight||0)-totalPressure(a)-Number(a.weight||0)).slice(0,20)} let byD={};items.forEach(i=>(byD[i.domain]??=[]).push(i)); for(const [dom,arr] of Object.entries(byD)){arr.sort((a,b)=>(a.type==='facet'?0:1)-(b.type==='facet'?0:1)||totalPressure(b)-totalPressure(a)); arr.forEach((it,i)=>{let p=posItem(it,i,arr.length);let b=document.createElement('button');let tp=totalPressure(it);b.className=`node ${it.type} ${classPressure(tp)}`;b.style.left=p.x+'px';b.style.top=p.y+'px';b.style.setProperty('--dc',domainColor(it.domain));b.style.setProperty('--pressure',tp);b.innerHTML=`<span class="shape"><span class="label">${esc(it.title)}</span></span>${activeCalendarPressure(it)>0?'<span class="badge">!</span>':''}`;b.onclick=()=>openItem(it.id);layer.appendChild(b)})}}
+function activateTab(scope,id){scope.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===id));scope.querySelectorAll('.pane').forEach(p=>p.classList.toggle('active',p.id===id)); if(scope.id==='calendarPanel')$('saveCalendarTop').classList.toggle('hiddenSave',id!=='calEditPane')}
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>activateTab(t.closest('.panel'),t.dataset.tab));
+$('menuBtn').onclick=()=>show('menuPanel');$('statsBtn').onclick=openStats;$('calendarBtn').onclick=openCalendar;$('backupBtn').onclick=()=>{hide('menuPanel');show('backupPanel')};$('settingsBtn').onclick=()=>{hide('menuPanel');openSettings()};$('chaosBtn').onclick=()=>{hide('menuPanel');show('chaosPanel')};$('templatesBtn').onclick=()=>{hide('menuPanel');renderTemplates();show('templatesPanel')};
+document.querySelectorAll('.domain').forEach(b=>b.onclick=()=>openDomain(b.dataset.domain));
+function openStats(){let s=state.stats;$('statMode').value=s.mode||state.settings.mode;$('statStress').value=s.stress??55;$('statEnergy').value=s.energy??45;$('statMoney').value=s.money||'';$('statSafety').value=s.safety||'';$('statFocus').value=s.focus||'';syncRanges();show('statsPanel')}
+function syncRanges(){$('stressVal').textContent=$('statStress').value;$('energyVal').textContent=$('statEnergy').value}$('statStress').oninput=syncRanges;$('statEnergy').oninput=syncRanges;
+$('saveStatsTop').onclick=()=>{state.stats={mode:$('statMode').value,stress:Number($('statStress').value),energy:Number($('statEnergy').value),money:$('statMoney').value.trim(),safety:$('statSafety').value.trim(),focus:$('statFocus').value.trim()};state.settings.mode=state.stats.mode;log('Saved user stats');render();toast('Stats saved')};
+function openSettings(){$('themeSel').value=state.settings.theme;$('modeSel').value=state.settings.mode;$('cleanSel').value=state.settings.clean;show('settingsPanel')}$('saveSettingsTop').onclick=()=>{state.settings={theme:$('themeSel').value,mode:$('modeSel').value,clean:$('cleanSel').value};state.stats.mode=state.settings.mode;log('Saved visual settings');render();toast('Visual settings saved')};
+function openDomain(id){currentDomain=id;let dn=state.domainNotes[id];$('domainHead').textContent=dn.name||domainMap[id].name;$('domainSub').textContent=id==='family'||id==='relationships'?'This is a people-first domain. People are the main content here.':'This domain can include connected people, such as a landlord, boss, doctor, clerk, or contact.';$('domainName').value=dn.name;$('domainNote').value=dn.note||'';$('domainPressure').innerHTML=pressureSelectHTML(dn.pressure||0);$('domainPeopleWrap').style.display=(id==='family'||id==='relationships')?'none':'block';renderDomainLists();show('domainPanel')}
+function renderDomainLists(){let id=currentDomain,dn=state.domainNotes[id];$('domainPeopleList').innerHTML=(dn.people||[]).map((p,i)=>personEditorHTML(p,`domain-${i}`)).join('')||'<div class="empty">No connected people yet.</div>';$('domainFacets').innerHTML=state.items.filter(n=>n.domain===id&&n.type==='facet').map(n=>itemCard(n)).join('')||'<div class="empty">No facets yet.</div>';$('domainChoices').innerHTML=state.items.filter(n=>n.domain===id&&n.type==='choice').map(n=>itemCard(n)).join('')||'<div class="empty">No choices yet.</div>';wireCards($('domainPanel'))}
+function itemCard(n){return `<div class="card itemCard"><h3>${esc(n.title)}</h3><p>${esc(n.summary||'')}</p><div class="pills"><span class="pill">${esc(n.type)}</span><span class="pill">${pLabel(totalPressure(n))}</span><span class="pill">${esc(n.status||'Now')}</span></div><div class="splitBtns"><button data-open-item="${n.id}">Open</button><button data-cal-for="${n.id}">Calendar</button></div></div>`}
+function wireCards(root){root.querySelectorAll('[data-open-item]').forEach(b=>b.onclick=()=>openItem(b.dataset.openItem));root.querySelectorAll('[data-cal-for]').forEach(b=>newCalendar(b.dataset.calFor));}
+$('saveDomainTop').onclick=()=>{let dn=state.domainNotes[currentDomain];dn.name=$('domainName').value.trim()||domainMap[currentDomain].name;dn.note=$('domainNote').value.trim();dn.pressure=Number($('domainPressure').value);readPeopleEditors($('domainPeopleList'),dn.people);log(`Saved domain: ${dn.name}`);render();openDomain(currentDomain);toast('Domain saved')};
+$('addDomainPerson').onclick=()=>{state.domainNotes[currentDomain].people.push(blankPerson('Connected person'));renderDomainLists()};
+function personEditorHTML(p,key){return `<div class="card personCard" data-person-editor="${key}"><label>Name</label><input data-p="name" value="${esc(p.name||'')}"><label>Role</label><input data-p="role" value="${esc(p.role||'')}"><label>Wellbeing / stress</label><select data-p="stress">${['Unknown','Okay','Stressed','Struggling','Crisis'].map(x=>`<option ${p.stress===x?'selected':''}>${x}</option>`).join('')}</select><label>Last contacted</label><input data-p="last" value="${esc(p.last||'')}"><label>Follow-up date</label><input data-p="follow" value="${esc(p.follow||'')}"><label>Notes</label><textarea data-p="notes">${esc(p.notes||'')}</textarea><button class="dangerBtn" data-remove-person>Remove person</button></div>`}
+function blankPerson(role=''){return {id:uid(),name:'',role,stress:'Unknown',last:'',follow:'',notes:''}}
+function readPeopleEditors(root,arr){arr.length=0;root.querySelectorAll('[data-person-editor]').forEach(card=>{let p=blankPerson();card.querySelectorAll('[data-p]').forEach(inp=>p[inp.dataset.p]=inp.value);arr.push(p)})}
+document.addEventListener('click',e=>{if(e.target.matches('[data-remove-person]')){e.target.closest('[data-person-editor]').remove()}});
+function openItem(id){currentItem=state.items.find(n=>n.id===id);if(!currentItem)return;fillItem();activateTab($('itemPanel'),'itemOverview');show('itemPanel')}
+function fillItem(){let n=currentItem;$('itemHead').textContent=n.title;$('itemKicker').textContent=`${state.domainNotes[n.domain]?.name||n.domain} / ${n.type}`;$('itemSummaryRead').textContent=n.summary||'No notes yet.';$('itemPressureRead').textContent=pLabel(totalPressure(n));$('itemWeightRead').textContent=wLabel(n.weight);$('itemStatusRead').textContent=n.status||'Now';$('itemCalendarRead').textContent=state.calendar.filter(c=>c.linkedItemId===n.id).length+' linked';$('itemNext').value=n.next||'';$('itemStatus').value=n.status||'Now';$('itemTitle').value=n.title;$('itemDomain').innerHTML=domainSelectHTML(n.domain);$('itemPressure').innerHTML=pressureSelectHTML(n.pressure);$('itemWeight').value=String(n.weight??0);$('itemSummary').value=n.summary||'';renderFields();renderEntries();renderItemPeople();renderReceipts()}
+function renderFields(){let n=currentItem;$('fieldList').innerHTML=(n.fields||[]).map((f,i)=>`<div class="fieldRow"><input data-fk="${i}" value="${esc(f.k||'')}" placeholder="Field"><input data-fv="${i}" value="${esc(f.v||'')}" placeholder="Value"><button data-rf="${i}">×</button></div>`).join('')||'<div class="empty">No custom fields yet.</div>';document.querySelectorAll('[data-rf]').forEach(b=>b.onclick=()=>{currentItem.fields.splice(Number(b.dataset.rf),1);renderFields()})}
+$('addFieldBtn').onclick=()=>{currentItem.fields??=[];currentItem.fields.push({k:'',v:''});renderFields()};
+function renderEntries(){let n=currentItem;$('entryList').innerHTML=(n.entries||[]).map((e,i)=>`<div class="card"><label>Entry title</label><input data-ek="${i}" value="${esc(e.title||'')}"><label>Entry note</label><textarea data-en="${i}">${esc(e.note||'')}</textarea><label>Status</label><select data-es="${i}">${['Now','Waiting','Scheduled','Blocked','Done','Someday'].map(x=>`<option ${e.status===x?'selected':''}>${x}</option>`).join('')}</select><button class="dangerBtn" data-re="${i}">Remove entry</button></div>`).join('')||'<div class="empty">No entries yet. Use this for multiple bank accounts, documents, rent details, etc.</div>';document.querySelectorAll('[data-re]').forEach(b=>b.onclick=()=>{currentItem.entries.splice(Number(b.dataset.re),1);renderEntries()})}
+$('addEntryBtn').onclick=()=>{currentItem.entries??=[];currentItem.entries.push({id:uid(),title:'New entry',note:'',status:'Now'});renderEntries()};
+function renderItemPeople(){$('peopleHint').textContent=(currentItem.domain==='family'||currentItem.domain==='relationships')?'People are the core content in this domain. Add children, parents, spouse, friends, anniversaries, and wellbeing levels.':'Connected people for this item: landlord, boss, clerk, doctor, contact, witness, etc.';$('itemPeopleList').innerHTML=(currentItem.people||[]).map((p,i)=>personEditorHTML(p,`item-${i}`)).join('')||'<div class="empty">No people connected yet.</div>'}
+$('addItemPersonBtn').onclick=()=>{currentItem.people??=[];currentItem.people.push(blankPerson(currentItem.domain==='work'?'Boss/contact':currentItem.domain==='housing'?'Landlord/contact':'Connected person'));renderItemPeople()};
+function renderReceipts(){$('receiptList').innerHTML=(currentItem.receipts||[]).map(r=>`<div class="receipt"><strong>${esc(r.date)}</strong><br>${esc(r.msg)}</div>`).join('')||'<div class="empty">No receipts yet.</div>'}
+function saveCurrentItem(){let n=currentItem;if(!n)return;n.next=$('itemNext').value.trim();n.status=$('itemStatus').value;n.title=$('itemTitle').value.trim()||n.title;n.domain=$('itemDomain').value;n.pressure=Number($('itemPressure').value);n.weight=Number($('itemWeight').value);n.summary=$('itemSummary').value.trim();n.fields=[];$('fieldList').querySelectorAll('.fieldRow').forEach(row=>{n.fields.push({k:row.querySelector('[data-fk]').value,v:row.querySelector('[data-fv]').value})});n.entries=[];$('entryList').querySelectorAll('.card').forEach(card=>{let title=card.querySelector('[data-ek]')?.value||'';let note=card.querySelector('[data-en]')?.value||'';let status=card.querySelector('[data-es]')?.value||'Now';n.entries.push({id:uid(),title,note,status})});n.people=[];readPeopleEditors($('itemPeopleList'),n.people);log(`Saved item: ${n.title}`,n);render();fillItem();toast('Saved')}
+$('saveItemTop').onclick=saveCurrentItem;$('deleteItemBtn').onclick=()=>{if(!currentItem)return;if(confirm('Delete this item?')){state.items=state.items.filter(x=>x.id!==currentItem.id);state.calendar.forEach(c=>{if(c.linkedItemId===currentItem.id)c.linkedItemId='' });log(`Deleted item: ${currentItem.title}`);currentItem=null;hide('itemPanel');render();toast('Deleted')}};
+$('addChoiceBtn').onclick=()=>{hide('menuPanel');openAdd('choice')};$('addFacetBtn').onclick=()=>{hide('menuPanel');openAdd('facet')};
+function openAdd(type){currentAddType=type;$('addHead').textContent=type==='facet'?'Add Facet':'Add Choice';$('addTypeText').textContent=type;$('newTitle').value='';$('newSummary').value='';$('newDomain').innerHTML=domainSelectHTML('housing');$('newPressure').innerHTML=pressureSelectHTML(25);show('addPanel')}
+$('createTop').onclick=()=>{let n={id:uid(),type:currentAddType,domain:$('newDomain').value,title:$('newTitle').value.trim()||'Untitled',summary:$('newSummary').value.trim(),pressure:Number($('newPressure').value),weight:0,status:'Now',next:'',entries:[],people:[],fields:[],receipts:[]};state.items.push(n);log(`Created ${n.type}: ${n.title}`,n);hide('addPanel');render();openItem(n.id);toast('Created')};
+function parseDate(s){let m=String(s||'').match(/^(\d{4})-(\d{2})-(\d{2})$/);return m?new Date(+m[1],+m[2]-1,+m[3]):null}function dateOnly(d){return new Date(d.getFullYear(),d.getMonth(),d.getDate())}function sameDay(a,b){return a&&b&&a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate()}function addRepeat(d,r){let x=new Date(d);if(r==='daily')x.setDate(x.getDate()+1);else if(r==='weekly')x.setDate(x.getDate()+7);else if(r==='monthly')x.setMonth(x.getMonth()+1);else if(r==='yearly')x.setFullYear(x.getFullYear()+1);return x}function nextDue(c){let d=parseDate(c.due);if(!d)return null;let t=dateOnly(new Date()),g=0;if(c.repeat&&c.repeat!=='none')while(d<t&&g++<600)d=addRepeat(d,c.repeat);return d}function daysUntil(c){let d=nextDue(c);return d?Math.round((dateOnly(d)-dateOnly(new Date()))/86400000):99999}function calendarPressure(c){let days=daysUntil(c),win=Number(c.window||7);if(days<0||days>win)return 0;return Math.max(25,Math.round(100-(days/win)*75))}function occursOn(c,date){let base=parseDate(c.due),t=dateOnly(date);if(!base)return false;if(!c.repeat||c.repeat==='none')return sameDay(base,t);if(t<dateOnly(base))return false;if(c.repeat==='daily')return true;if(c.repeat==='weekly')return base.getDay()===t.getDay();if(c.repeat==='monthly')return base.getDate()===t.getDate();if(c.repeat==='yearly')return base.getMonth()===t.getMonth()&&base.getDate()===t.getDate();return false}
+function openCalendar(){calendarDate=new Date();renderCalendar();activateTab($('calendarPanel'),'calMonthPane');show('calendarPanel')}function renderCalendar(){renderMonth();renderCalList();renderOrbit();renderLifeCal();populateCalForm()}
+$('prevMonth').onclick=()=>{calendarDate.setMonth(calendarDate.getMonth()-1);renderMonth()};$('nextMonth').onclick=()=>{calendarDate.setMonth(calendarDate.getMonth()+1);renderMonth()};$('newCalBtn1').onclick=()=>newCalendar();$('newCalBtn2').onclick=()=>newCalendar();
+function renderMonth(){let y=calendarDate.getFullYear(),m=calendarDate.getMonth(),first=new Date(y,m,1),start=new Date(y,m,1-first.getDay());$('monthTitle').textContent=new Intl.DateTimeFormat(undefined,{month:'long',year:'numeric'}).format(first);let html=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d=>`<div class="dow">${d}</div>`).join('');for(let i=0;i<42;i++){let d=new Date(start);d.setDate(start.getDate()+i);let ev=state.calendar.filter(c=>occursOn(c,d));html+=`<button class="day ${d.getMonth()!==m?'out':''} ${sameDay(d,new Date())?'today':''}" data-day="${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}"><strong>${d.getDate()}</strong><div class="dots">${ev.slice(0,5).map(c=>`<span class="dot" style="--dc:${domainColor(c.domain)}"></span>`).join('')}</div></button>`}$('monthGrid').innerHTML=html;$('monthGrid').querySelectorAll('[data-day]').forEach(b=>b.onclick=()=>newCalendar(null,b.dataset.day))}
+function renderCalList(){let arr=[...state.calendar].sort((a,b)=>daysUntil(a)-daysUntil(b));$('calList').innerHTML=arr.map(c=>calCard(c)).join('')||'<div class="empty">No calendar items yet.</div>';wireCalCards($('calList'))}
+function calCard(c){let due=nextDue(c),duet=due?new Intl.DateTimeFormat(undefined,{month:'short',day:'numeric',year:'numeric'}).format(due):'No date';let item=state.items.find(n=>n.id===c.linkedItemId);return `<div class="card calCard"><h3>${esc(c.title)}</h3><p>${esc(c.note||'')}</p><div class="pills"><span class="pill">${duet}</span><span class="pill">${esc(c.repeat||'none')}</span><span class="pill">${pLabel(calendarPressure(c))}</span>${item?`<span class="pill">${esc(item.title)}</span>`:''}</div><div class="splitBtns"><button data-edit-cal="${c.id}">Edit</button><button data-open-linked="${c.linkedItemId||''}">Open link</button></div></div>`}
+function wireCalCards(root){root.querySelectorAll('[data-edit-cal]').forEach(b=>b.onclick=()=>editCalendar(b.dataset.editCal));root.querySelectorAll('[data-open-linked]').forEach(b=>{if(b.dataset.openLinked)b.onclick=()=>openItem(b.dataset.openLinked);else b.disabled=true})}
+function renderOrbit(){let box=$('orbitView'),cx=box.clientWidth/2||190,cy=170;let ev=[...state.calendar].sort((a,b)=>daysUntil(a)-daysUntil(b)).slice(0,16);box.innerHTML=ev.map((c,i)=>{let days=Math.max(0,Math.min(60,daysUntil(c)));let r=42+days/60*115,ang=(-90+i*(360/Math.max(1,ev.length)))*Math.PI/180;return `<button class="orbEvent" data-edit-cal="${c.id}" style="--dc:${domainColor(c.domain)};left:${cx+Math.cos(ang)*r}px;top:${cy+Math.sin(ang)*r}px">${esc(c.title)}</button>`}).join('');box.querySelectorAll('[data-edit-cal]').forEach(b=>b.onclick=()=>editCalendar(b.dataset.editCal))}
+function renderLifeCal(){let html='';for(const d of domains){let arr=state.calendar.filter(c=>c.domain===d.id);if(arr.length)html+=`<h3 class="sectionTitle">${esc(state.domainNotes[d.id]?.name||d.name)}</h3>`+arr.map(c=>calCard(c)).join('')} $('lifeCal').innerHTML=html||'<div class="empty">No life calendar items yet.</div>';wireCalCards($('lifeCal'))}
+function populateCalForm(){ $('calDomain').innerHTML=domainSelectHTML(currentCal?.domain||'money');$('calLinked').innerHTML='<option value="">No linked item</option>'+state.items.map(n=>`<option value="${n.id}">${esc(n.title)} — ${esc(state.domainNotes[n.domain]?.name||n.domain)}</option>`).join('');$('calPerson').innerHTML='<option value="">No linked person</option>'+allPeople().map(p=>`<option value="${p.id}">${esc(p.name||p.role||'Unnamed')} — ${esc(p.role||'person')}</option>`).join('');populateEntryOptions()}
+$('calLinked').onchange=populateEntryOptions;function populateEntryOptions(){let n=state.items.find(x=>x.id===$('calLinked').value);$('calEntry').innerHTML='<option value="">No linked entry</option>'+((n?.entries||[]).map(e=>`<option value="${e.id}">${esc(e.title||'Untitled entry')}</option>`).join(''))}
+function newCalendar(linkedId='',date=''){currentCal=null;populateCalForm();$('calTitle').value='';$('calDomain').value= linkedId?(state.items.find(n=>n.id===linkedId)?.domain||'money'):'money';$('calLinked').value=linkedId||'';populateEntryOptions();$('calDue').value=date||todayISO();$('calRepeat').value='none';$('calWindow').value='7';$('calNote').value='';$('deleteCalBtn').style.display='none';activateTab($('calendarPanel'),'calEditPane');show('calendarPanel')}
+function editCalendar(id){currentCal=state.calendar.find(c=>c.id===id);if(!currentCal)return;populateCalForm();$('calTitle').value=currentCal.title||'';$('calDomain').value=currentCal.domain||'money';$('calLinked').value=currentCal.linkedItemId||'';populateEntryOptions();$('calEntry').value=currentCal.entryId||'';$('calPerson').value=currentCal.personId||'';$('calDue').value=currentCal.due||'';$('calRepeat').value=currentCal.repeat||'none';$('calWindow').value=currentCal.window||'7';$('calNote').value=currentCal.note||'';$('deleteCalBtn').style.display='block';activateTab($('calendarPanel'),'calEditPane')}
+$('saveCalendarTop').onclick=()=>{let c=currentCal;if(!c){c={id:uid()};state.calendar.push(c)}c.title=$('calTitle').value.trim()||'Untitled';c.domain=$('calDomain').value;c.linkedItemId=$('calLinked').value;c.entryId=$('calEntry').value;c.personId=$('calPerson').value;c.due=$('calDue').value.trim();c.repeat=$('calRepeat').value;c.window=Number($('calWindow').value);c.note=$('calNote').value.trim();log(`Saved calendar item: ${c.title}`);currentCal=c;render();renderCalendar();activateTab($('calendarPanel'),'calListPane');toast('Calendar item saved')};
+$('deleteCalBtn').onclick=()=>{if(currentCal&&confirm('Delete this calendar item?')){state.calendar=state.calendar.filter(c=>c.id!==currentCal.id);currentCal=null;render();renderCalendar();activateTab($('calendarPanel'),'calListPane');toast('Calendar item deleted')}};
+function allPeople(){let arr=[];for(const [dom,dn] of Object.entries(state.domainNotes)){(dn.people||[]).forEach(p=>arr.push({...p,id:p.id||uid(),domain:dom}))}state.items.forEach(n=>(n.people||[]).forEach(p=>arr.push({...p,id:p.id||uid(),itemId:n.id,domain:n.domain})));return arr}
+function guessDomain(text){let t=text.toLowerCase();if(/rent|landlord|house|home|room|apartment|utility|electric|trash|laundry/.test(t))return'housing';if(/money|bank|bill|phone|cash|debt|pay|overdraft|food|gas/.test(t))return'money';if(/court|legal|paper|form|file|case|judge|child support|affidavit/.test(t))return'legal';if(/doctor|therapy|med|health|sleep|stress|mental/.test(t))return'health';if(/job|work|boss|client|shift|income/.test(t))return'work';if(/maddy|child|son|daughter|mom|dad|parent|family|birthday/.test(t))return'family';if(/misty|spouse|wife|friend|anniversary|relationship|text|call/.test(t))return'relationships';if(/song|music|write|creative|guitar/.test(t))return'creative';return'housing'}
+$('processChaosTop').onclick=()=>{let lines=$('chaosText').value.split(/\n|;|,/).map(x=>x.trim()).filter(Boolean);if(!lines.length){toast('Nothing to sort yet');return}let made=[];for(const line of lines){let n={id:uid(),type:'choice',domain:guessDomain(line),title:line.slice(0,42),summary:line,pressure:/urgent|today|due|court|rent|jail|critical|now/i.test(line)?75:25,weight:45,status:'Now',next:'Take the smallest visible step.',entries:[],people:[],fields:[],receipts:[]};state.items.push(n);made.push(n);log(`Chaos capture created: ${n.title}`,n)}$('chaosResult').innerHTML=made.map(n=>itemCard(n)).join('');wireCards($('chaosResult'));render();toast(`${made.length} draft Choices created`)};
+const templates=[['Rent','housing','monthly','Monthly rent, due date, amount, landlord/contact.'],['Phone Bill','money','monthly','Keep phone service active.'],['Electric / Utility','housing','monthly','Utility bill reminder.'],['Birthday','family','yearly','Annual birthday with person notes and gift ideas.'],['Anniversary','relationships','yearly','Annual relationship date.'],['Trash Day','housing','weekly','Weekly household reminder.'],['Therapy / Appointment','health','weekly','Recurring health support.'],['Court Deadline','legal','none','One-time legal filing or court date.'],['Payday','work','weekly','Income coming in.']];
+function renderTemplates(){$('templateList').innerHTML=templates.map((t,i)=>`<button class="action" data-template="${i}"><strong>${t[0]}</strong><span>${t[3]}</span></button>`).join('');$('templateList').querySelectorAll('[data-template]').forEach(b=>b.onclick=()=>addTemplate(Number(b.dataset.template)))}
+function addTemplate(i){let [title,domain,repeat,note]=templates[i];let n={id:uid(),type:'facet',domain,title,summary:note,pressure:25,weight:20,status:'Scheduled',next:'Customize the date and details.',entries:[],people:[],fields:[],receipts:[]};state.items.push(n);let c={id:uid(),title,domain,linkedItemId:n.id,due:todayISO(),repeat,window:repeat==='yearly'?30:7,note};state.calendar.push(c);log(`Added template: ${title}`,n);render();hide('templatesPanel');openItem(n.id);toast('Template added')}
+function scoreItem(n,mode){let score=totalPressure(n)+Number(n.weight||0)*.45; if(n.status==='Now')score+=20;if(n.status==='Waiting')score+=8;if(n.status==='Blocked')score-=8;if(n.status==='Done')score-=100;if(mode==='money'&&n.domain==='money')score+=35;if(mode==='paperwork'&&n.domain==='legal')score+=35;if(mode==='relationship'&&(n.domain==='family'||n.domain==='relationships'))score+=35;if(mode==='overwhelmed')score+= n.pressure>=75?15:0;return score}
+$('nextMoveBtn').onclick=()=>{let mode=$('nextMode').value;let candidates=state.items.filter(n=>n.status!=='Done').sort((a,b)=>scoreItem(b,mode)-scoreItem(a,mode));let n=candidates[0];if(!n){$('nextMoveResult').innerHTML='<p>No open items. That is rare. Breathe.</p>';return}let action=n.next||defaultAction(n,mode);$('nextMoveResult').innerHTML=`<h3 style="margin:0 0 8px">${esc(n.title)}</h3><p>${esc(action)}</p><div class="pills"><span class="pill">${esc(state.domainNotes[n.domain]?.name||n.domain)}</span><span class="pill">${pLabel(totalPressure(n))}</span><span class="pill">${wLabel(n.weight)}</span></div><button class="secondary" data-open-item="${n.id}">Open this item</button>`;wireCards($('nextMoveResult'));};
+function defaultAction(n,mode){if(mode==='5'||mode==='overwhelmed')return 'Open it, write one sentence, or make one call/text. Do not solve the whole thing.';if(mode==='30')return 'Spend 30 minutes moving this one item forward, then stop.';if(mode==='money')return 'Find the next money step: amount, due date, who to contact, or what payment is possible.';if(mode==='paperwork')return 'Find the next form, deadline, document, or question. Capture it here.';if(mode==='relationship')return 'Send one honest check-in or record the next caring action.';return 'Take the next visible step.'}
+$('exportBtn').onclick=()=>{let blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`FixMyLife_${VERSION}_backup_${todayISO()}.json`;a.click();URL.revokeObjectURL(a.href);toast('Backup exported')};
+$('importBtn').onclick=()=>{let f=$('importFile').files[0];if(!f){toast('Choose a backup file first');return}let r=new FileReader();r.onload=()=>{try{let imported=migrate(JSON.parse(r.result));if(!confirm('Import this backup into v10.2.0? Current v10.2.0 data will be replaced, but older versions stay untouched.'))return;state=imported;state.version=VERSION;save();render();toast('Backup imported')}catch(e){toast('Could not import backup')}};r.readAsText(f)};
+$('resetThisVersion').onclick=()=>{if(confirm('Reset only this v10.2.0 prototype data?')){state=defaultState();save();render();toast('v10.2.0 reset')}};
+window.addEventListener('resize',renderMap);
 render();
-
 </script>
 </body>
 </html>
