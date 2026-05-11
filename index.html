@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>FixMyLife v10.1.13</title>
+<title>FixMyLife v10.1.14</title>
 <meta name="theme-color" content="#fbfaf7">
 <style>
 *{box-sizing:border-box}
@@ -97,6 +97,23 @@ textarea{resize:vertical}.save,.secondary,.delete{width:100%;min-height:52px;mar
 .calendar-marker{position:absolute;z-index:17;transform:translate(-50%,-50%);width:18px;height:18px;border-radius:999px;border:2px solid #fff;background:var(--domain-color,#f4c24d);box-shadow:0 5px 12px rgba(36,38,54,.18);pointer-events:none}
 .calendar-marker::after{content:"";position:absolute;inset:-5px;border-radius:999px;border:1px solid var(--domain-color,#f4c24d);opacity:.5}
 
+
+.month-nav{display:grid;grid-template-columns:44px 1fr 44px;align-items:center;gap:8px;margin:8px 0 12px}
+.month-nav button{min-height:40px;border-radius:999px;border:1px solid rgba(22,32,58,.14);background:rgba(255,255,255,.78);color:var(--ink);font-weight:900}
+.month-nav h3{margin:0;text-align:center;font-family:Georgia,serif;font-size:24px;color:#112044;font-weight:500}
+.month-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.dow{font-size:10px;font-weight:900;text-transform:uppercase;color:var(--muted);text-align:center;padding:4px 0}
+.day-cell{position:relative;min-height:54px;border:1px solid rgba(22,32,58,.11);border-radius:12px;background:rgba(255,255,255,.62);box-shadow:0 3px 8px rgba(36,38,54,.05);padding:6px 4px;text-align:left;color:var(--ink)}
+.day-cell.out{opacity:.32}
+.day-cell.today{outline:2px solid var(--accent);outline-offset:1px;background:rgba(255,255,255,.86)}
+.day-num{font-size:12px;font-weight:900}
+.day-dots{position:absolute;left:5px;right:5px;bottom:5px;display:flex;gap:3px;flex-wrap:wrap}
+.day-dot{width:6px;height:6px;border-radius:999px;background:var(--dot-color,#112044)}
+.day-count{position:absolute;right:5px;top:5px;font-size:10px;font-weight:900;color:#fff;background:#112044;border-radius:999px;min-width:16px;text-align:center;padding:1px 4px}
+.day-editor-header{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;margin-bottom:10px}
+.day-editor-header h3{margin:0;font-family:Georgia,serif;font-size:24px;color:#112044;font-weight:500}
+.linked-entry-row{display:grid;grid-template-columns:1fr;gap:8px}
+
 @media(max-width:390px){.app{border-left:0;border-right:0;border-radius:0}.top h1{font-size:30px}.info{font-size:10.5px;padding:0 9px}.center{width:118px;height:118px}.center strong{font-size:34px}.center small{font-size:12px}.center svg{width:30px;height:30px}.domain{font-size:12px}.choice .shape{width:42px;height:42px}.facet{width:72px;height:24px}.facet .shape{width:70px;height:22px}.label{font-size:9px;max-width:40px}.facet .label{font-size:8.5px;max-width:66px}.legend{font-size:12px;padding:9px 16px}.hope{font-size:13px;min-height:44px}}
 </style>
 </head>
@@ -117,34 +134,45 @@ textarea{resize:vertical}.save,.secondary,.delete{width:100%;min-height:52px;mar
 
 <section class="panel hidden" id="calendarPanel">
 <button class="close" data-close="calendarPanel">×</button>
-<p class="kicker">Coming Up</p><h2>Calendar</h2><p class="sub">Track recurring obligations and upcoming dates. As dates get closer, linked items become more visually important.</p>
-<nav class="tabs"><button class="tab active" data-tab="calendarListPane">List</button><button class="tab" data-tab="calendarEditPane">Add/Edit</button><button class="tab" data-tab="calendarHelpPane">How it works</button><button class="tab" data-tab="calendarSettingsPane">Settings</button></nav>
+<p class="kicker">Coming Up</p><h2>Calendar</h2><p class="sub">Tap a day to add things. Recurring items can link to Choices, Facets, or specific Facet Entries.</p>
 
-<div class="pane active" id="calendarListPane">
-<div id="calendarList" class="calendar-list"></div>
-<button class="save" id="newCalendarItem">Add calendar item</button>
+<nav class="tabs"><button class="tab active" data-tab="calendarMonthPane">Month</button><button class="tab" data-tab="calendarDayPane">Day</button><button class="tab" data-tab="calendarEditPane">Add/Edit</button><button class="tab" data-tab="calendarListPane">List</button></nav>
+
+<div class="pane active" id="calendarMonthPane">
+  <div class="month-nav">
+    <button id="prevMonthBtn">‹</button>
+    <h3 id="monthTitle">Month</h3>
+    <button id="nextMonthBtn">›</button>
+  </div>
+  <div class="month-grid" id="monthGrid"></div>
+</div>
+
+<div class="pane" id="calendarDayPane">
+  <div class="day-editor-header">
+    <h3 id="selectedDayTitle">Selected day</h3>
+    <button class="secondary" id="addOnSelectedDay">Add</button>
+  </div>
+  <div id="selectedDayItems" class="calendar-list"></div>
 </div>
 
 <div class="pane" id="calendarEditPane">
 <label>Title</label><input id="calTitle" type="text" placeholder="Rent, car payment, birthday, utility bill">
 <label>Life Domain</label><select id="calDomain"><option>Housing</option><option>Money</option><option>Legal</option><option>Health</option><option>Work</option><option>Family</option><option>Relationships</option><option>Creative</option></select>
 <label>Linked map item</label><select id="calLinked"></select>
+<div class="linked-entry-row">
+<label>Linked Facet Entry</label><select id="calEntryLinked"></select>
+</div>
 <label>Due date</label><input id="calDue" type="text" placeholder="YYYY-MM-DD">
 <label>Repeats</label><select id="calRepeat"><option value="none">Does not repeat</option><option value="monthly">Monthly</option><option value="weekly">Weekly</option><option value="yearly">Yearly</option><option value="daily">Daily</option></select>
 <label>Reminder window</label><select id="calWindow"><option value="7">7 days</option><option value="14">14 days</option><option value="30">30 days</option><option value="60">60 days</option></select>
-<label>Note</label><textarea id="calNote" rows="4" placeholder="Amount, reason, account, who it affects, what to do"></textarea>
+<label>Note</label><textarea id="calNote" rows="4" placeholder="Amount, reason, person, account, who it affects, what to do"></textarea>
 <button class="save" id="saveCalendarItem">Save calendar item</button>
 <button class="delete" id="deleteCalendarItem">Delete calendar item</button>
 </div>
 
-<div class="pane" id="calendarHelpPane">
-<p><strong>Calendar Pressure</strong> means a date gets visually louder as it gets closer.</p>
-<p>Example: rent due on the 1st can make the linked Rent choice move closer to the center during the final week of the month.</p>
-<p>This gives you a visual handle on what is coming at you soon, without needing to read a long list every day.</p>
-</div>
-
-<div class="pane" id="calendarSettingsPane">
-<p class="help">Calendar items are stored locally in this browser. They do not sync anywhere yet.</p>
+<div class="pane" id="calendarListPane">
+<div id="calendarList" class="calendar-list"></div>
+<button class="save" id="newCalendarItem">Add calendar item</button>
 <button class="secondary" id="seedCalendarDefaults">Add sample recurring items</button>
 </div>
 </section>
@@ -224,7 +252,7 @@ textarea{resize:vertical}.save,.secondary,.delete{width:100%;min-height:52px;mar
 </main>
 
 <script>
-const NODES_KEY="fml-v10-1-13-nodes", PERSON_KEY="fml-v10-1-13-person", SETTINGS_KEY="fml-v10-1-13-settings", LOCATION_KEY="fml-v10-1-13-location", DOMAINS_KEY="fml-v10-1-13-domains", CALENDAR_KEY="fml-v10-1-13-calendar";
+const NODES_KEY="fml-v10-1-14-nodes", PERSON_KEY="fml-v10-1-14-person", SETTINGS_KEY="fml-v10-1-14-settings", LOCATION_KEY="fml-v10-1-14-location", DOMAINS_KEY="fml-v10-1-14-domains", CALENDAR_KEY="fml-v10-1-14-calendar";
 const COLORS={Housing:"#2d91e8",Money:"#2ba85b",Legal:"#f35f4d",Health:"#d69500",Work:"#7b61c7",Family:"#df6591",Relationships:"#f05b4f",Creative:"#009eaa"};
 const ANGLES={Housing:0,Money:45,Legal:90,Health:135,Relationships:180,Family:225,Work:270,Creative:315};
 const DEFAULT_SETTINGS={theme:"hope",tempUnit:"fahrenheit",locationVisibility:"visible",timezone:"local"};
@@ -444,82 +472,156 @@ importance.oninput=e=>{let n=item(current);if(!n)return;n.importance=Number(e.ta
 window.addEventListener("resize",render);document.addEventListener("keydown",e=>{if(e.key==="Escape")["drawer","settingsPanel","calendarPanel","addPanel","domainPanel","itemPanel","personPanel"].forEach(hide)});
 syncDomainLabels();
 
-/* v10.1.13 reliability overrides */
+
+/* v10.1.14 month calendar + linked entries */
+let calendarViewDate=new Date();
+let selectedCalendarDate=new Date();
+
 function updateCalendarTop(){
  let now=new Date();
  if($("calTopMonth"))$("calTopMonth").textContent=new Intl.DateTimeFormat(undefined,{month:"short"}).format(now);
  if($("calTopDay"))$("calTopDay").textContent=String(now.getDate());
 }
 function ensureFacetEntries(n){if(!Array.isArray(n.entries))n.entries=[];return n.entries}
-function renderEntries(){
- let n=item(current),list=$("entriesList"); if(!list||!n||n.type!=="facet")return;
- let entries=ensureFacetEntries(n);
- list.innerHTML=entries.length?entries.map(e=>`<div class="entry-card"><h3>${esc(e.title||"Untitled entry")}</h3><p>${esc(e.note||"No note yet.")}</p><div class="entry-actions"><button data-edit-entry="${e.id}">Edit</button><button data-edit-entry="${e.id}">Open</button></div></div>`).join(""):`<div class="entry-empty">No entries yet. Add one for each child, car, home, account, document, or item inside this Facet.</div>`;
- list.querySelectorAll("[data-edit-entry]").forEach(b=>b.onclick=()=>openEntry(b.dataset.editEntry));
-}
-function addEntry(){
- let n=item(current); if(!n||n.type!=="facet")return;
- let entries=ensureFacetEntries(n),e={id:uid(),title:"New entry",note:"",fields:[]};
- entries.push(e); save(NODES_KEY,nodes); openEntry(e.id);
-}
-function openEntry(id){
- let n=item(current); if(!n)return; let entries=ensureFacetEntries(n),e=entries.find(x=>x.id===id); if(!e)return;
- currentEntry=id; $("entryTitle").value=e.title||""; $("entryNote").value=e.note||""; renderEntryFields(e); activateTab($("itemPanel"),"entryEditor");
-}
-function renderEntryFields(e){
- let box=$("entryFields"); if(!box)return; if(!Array.isArray(e.fields))e.fields=[];
- box.innerHTML=e.fields.length?e.fields.map((f,i)=>`<div class="field-row" data-field-index="${i}"><input type="text" placeholder="Label" value="${esc(f.label||"")}"><input type="text" placeholder="Value" value="${esc(f.value||"")}"><button data-remove-field="${i}">×</button></div>`).join(""):`<p class="help">No custom fields yet. Add fields like age, phone, school, VIN, address, account, due date, etc.</p>`;
- box.querySelectorAll("[data-remove-field]").forEach(b=>b.onclick=()=>{let n=item(current),e=n&&ensureFacetEntries(n).find(x=>x.id===currentEntry);if(!e)return;collectEntryFields(e);e.fields.splice(Number(b.dataset.removeField),1);renderEntryFields(e)});
-}
-function collectEntryFields(e){
- e.fields=[]; document.querySelectorAll("#entryFields .field-row").forEach(row=>{let inputs=row.querySelectorAll("input");let label=inputs[0].value.trim(),value=inputs[1].value.trim();if(label||value)e.fields.push({label,value})});
-}
-function addField(){let n=item(current),e=n&&ensureFacetEntries(n).find(x=>x.id===currentEntry);if(!e)return;collectEntryFields(e);e.fields.push({label:"",value:""});renderEntryFields(e)}
-function saveEntry(){let n=item(current),e=n&&ensureFacetEntries(n).find(x=>x.id===currentEntry);if(!e)return;e.title=$("entryTitle").value.trim()||"Untitled entry";e.note=$("entryNote").value.trim();collectEntryFields(e);save(NODES_KEY,nodes);renderEntries();activateTab($("itemPanel"),"entries")}
-function deleteEntry(){let n=item(current),e=n&&ensureFacetEntries(n).find(x=>x.id===currentEntry);if(!e)return;if(!confirm(`Delete "${e.title||"this entry"}"?`))return;n.entries=n.entries.filter(x=>x.id!==currentEntry);currentEntry=null;save(NODES_KEY,nodes);renderEntries();activateTab($("itemPanel"),"entries")}
-
-function openItem(id){
- current=id;let n=item(id);if(!n)return;if(n.type==="facet")ensureFacetEntries(n);
- $("itemZone").textContent=n.zone;$("itemTitle").textContent=n.title;$("itemType").textContent=n.type==="choice"?"Choice / circle / active life item":"Facet / edge item";
- $("itemSummary").textContent=n.summary||"No data entered yet.";$("fieldZone").textContent=n.zone;$("fieldStatus").textContent=n.status||"Active";$("fieldType").textContent=n.type==="choice"?"Choice":"Facet";$("fieldPosition").textContent=n.type==="choice"?(n.importance||0)+" / 100":"Edge";
- if($("fieldEntries"))$("fieldEntries").textContent=n.type==="facet"?ensureFacetEntries(n).length:"—";
- if($("entryCountCard"))$("entryCountCard").style.display=n.type==="facet"?"block":"none";
- $("editTitle").value=n.title;$("editZone").value=n.zone;$("editSummary").value=n.summary||"";$("editNext").value=n.next||"";$("editStatus").value=n.status||"Not started";$("importance").value=n.importance||55;$("importanceOut").value=`${n.importance||55} / 100 — ${impLabel(n.importance||55)}`;
- $("choiceTabs").classList.toggle("hidden",n.type!=="choice");$("facetTabs").classList.toggle("hidden",n.type!=="facet");
- if($("entriesJump"))$("entriesJump").style.display=n.type==="facet"?"block":"none";$("nextJump").style.display=n.type==="choice"?"block":"none";$("moveJump").style.display=n.type==="choice"?"block":"none";
- $("linkedList").innerHTML=nodes.filter(x=>x.type==="choice"&&x.zone===n.zone).map(x=>`<li>${esc(x.title)} — ${impLabel(x.importance||0)}</li>`).join("")||"<li>No choices in this Life Domain yet.</li>";
- renderEntries();activateTab($("itemPanel"),"overview");show("itemPanel");
-}
 
 function parseDateLocal(s){let m=String(s||"").match(/^(\d{4})-(\d{2})-(\d{2})$/);if(!m)return null;return new Date(Number(m[1]),Number(m[2])-1,Number(m[3]))}
 function dateOnly(d){return new Date(d.getFullYear(),d.getMonth(),d.getDate())}
+function sameDay(a,b){return a&&b&&a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate()}
 function formatDateInput(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
 function addRepeat(d,repeat){let x=new Date(d);if(repeat==="daily")x.setDate(x.getDate()+1);else if(repeat==="weekly")x.setDate(x.getDate()+7);else if(repeat==="monthly")x.setMonth(x.getMonth()+1);else if(repeat==="yearly")x.setFullYear(x.getFullYear()+1);return x}
 function nextDueDate(cal){let d=parseDateLocal(cal.due);if(!d)return null;let today=dateOnly(new Date());if(cal.repeat&&cal.repeat!=="none"){let g=0;while(d<today&&g<500){d=addRepeat(d,cal.repeat);g++}}return d}
+function occursOn(cal,date){
+ let base=parseDateLocal(cal.due); if(!base)return false; let target=dateOnly(date);
+ if(cal.repeat==="none"||!cal.repeat)return sameDay(base,target);
+ if(target<dateOnly(base))return false;
+ if(cal.repeat==="daily")return true;
+ if(cal.repeat==="weekly")return base.getDay()===target.getDay();
+ if(cal.repeat==="monthly")return base.getDate()===target.getDate();
+ if(cal.repeat==="yearly")return base.getMonth()===target.getMonth()&&base.getDate()===target.getDate();
+ return false;
+}
 function daysUntil(cal){let d=nextDueDate(cal);if(!d)return 99999;return Math.round((d-dateOnly(new Date()))/86400000)}
 function calendarPressure(cal){let days=daysUntil(cal),win=Number(cal.window||7);if(days<0||days>win)return 0;return Math.round(100-(days/win)*75)}
 function linkedNode(cal){if(cal.linkedId)return nodes.find(n=>n.id===cal.linkedId);if(cal.linkedTitle)return nodes.find(n=>n.title===cal.linkedTitle&&n.zone===cal.domain)||nodes.find(n=>n.title===cal.linkedTitle);return null}
 function getNodeCalendarPressure(n){return Math.max(0,...calendar.map(c=>linkedNode(c)?.id===n.id?calendarPressure(c):0))}
 function renderCalendarMarkers(layer){calendar.forEach(c=>{let n=linkedNode(c),pval=calendarPressure(c);if(!n||pval<=0)return;let p=pos(n),m=document.createElement("span");m.className="calendar-marker";m.style.setProperty("--domain-color",COLORS[n.zone]||"#f4c24d");m.style.left=(p.x+18)+"px";m.style.top=(p.y-18)+"px";layer.appendChild(m)})}
-function openCalendar(){renderCalendarList();populateCalendarLinked();activateTab($("calendarPanel"),"calendarListPane");show("calendarPanel")}
-function renderCalendarList(){let box=$("calendarList");if(!box)return;let sorted=[...calendar].sort((a,b)=>daysUntil(a)-daysUntil(b));box.innerHTML=sorted.length?sorted.map(c=>{let d=nextDueDate(c),days=daysUntil(c),pressure=calendarPressure(c),linked=linkedNode(c);return `<div class="calendar-card"><h3>${esc(c.title||"Untitled")}</h3><p>${d?esc(d.toLocaleDateString()):"No valid date"} ${days>=0?`— in ${days} day${days===1?"":"s"}`:""}</p><div class="calendar-meta"><span class="calendar-pill">${esc(c.domain||"")}</span><span class="calendar-pill">${esc(c.repeat||"none")}</span><span class="calendar-pill">pressure ${pressure}</span>${linked?`<span class="calendar-pill">linked: ${esc(linked.title)}</span>`:""}</div><div class="calendar-actions"><button data-edit-cal="${c.id}">Edit</button><button data-view-cal="${c.id}">Open linked</button></div></div>`}).join(""):`<div class="entry-empty">No calendar items yet. Add rent, utility bills, car payments, birthdays, deadlines, and repeating life obligations.</div>`;box.querySelectorAll("[data-edit-cal]").forEach(b=>b.onclick=()=>editCalendarItem(b.dataset.editCal));box.querySelectorAll("[data-view-cal]").forEach(b=>b.onclick=()=>{let c=calendar.find(x=>x.id===b.dataset.viewCal),n=c&&linkedNode(c);if(n){hide("calendarPanel");openItem(n.id)}})}
-function populateCalendarLinked(){let sel=$("calLinked");if(!sel)return;sel.innerHTML=`<option value="">No linked item</option>`+nodes.map(n=>`<option value="${n.id}">${esc(n.zone)} — ${esc(n.title)} (${n.type})</option>`).join("")}
-function newCalItem(){currentCalendar=null;populateCalendarLinked();calTitle.value="";calDomain.value="Money";calLinked.value="";calDue.value=formatDateInput(new Date());calRepeat.value="monthly";calWindow.value="7";calNote.value="";deleteCalendarItem.style.display="none";activateTab($("calendarPanel"),"calendarEditPane")}
-function editCalendarItem(id){currentCalendar=id;populateCalendarLinked();let c=calendar.find(x=>x.id===id);if(!c)return;calTitle.value=c.title||"";calDomain.value=c.domain||"Money";calLinked.value=c.linkedId||"";calDue.value=c.due||"";calRepeat.value=c.repeat||"none";calWindow.value=String(c.window||7);calNote.value=c.note||"";deleteCalendarItem.style.display="block";activateTab($("calendarPanel"),"calendarEditPane")}
-function saveCalItem(){let c=currentCalendar?calendar.find(x=>x.id===currentCalendar):null;if(!c){c={id:uid()};calendar.push(c)}c.title=calTitle.value.trim()||"Untitled";c.domain=calDomain.value;c.linkedId=calLinked.value;c.due=calDue.value.trim();c.repeat=calRepeat.value;c.window=Number(calWindow.value||7);c.note=calNote.value.trim();let linked=nodes.find(n=>n.id===c.linkedId);if(linked)c.linkedTitle=linked.title;save(CALENDAR_KEY,calendar);render();renderCalendarList();activateTab($("calendarPanel"),"calendarListPane")}
-function deleteCalItem(){if(!currentCalendar)return;if(!confirm("Delete this calendar item?"))return;calendar=calendar.filter(c=>c.id!==currentCalendar);save(CALENDAR_KEY,calendar);currentCalendar=null;render();renderCalendarList();activateTab($("calendarPanel"),"calendarListPane")}
-function seedCalDefaults(){let existing=new Set(calendar.map(c=>c.id));DEFAULT_CALENDAR.forEach(c=>{if(!existing.has(c.id))calendar.push(structuredClone(c))});save(CALENDAR_KEY,calendar);render();renderCalendarList()}
+
+function openCalendar(){
+ calendarViewDate=new Date();
+ selectedCalendarDate=new Date();
+ renderMonth();
+ renderCalendarList();
+ populateCalendarLinked();
+ activateTab($("calendarPanel"),"calendarMonthPane");
+ show("calendarPanel");
+}
+function renderMonth(){
+ let grid=$("monthGrid"); if(!grid)return;
+ let y=calendarViewDate.getFullYear(),m=calendarViewDate.getMonth();
+ $("monthTitle").textContent=new Intl.DateTimeFormat(undefined,{month:"long",year:"numeric"}).format(new Date(y,m,1));
+ let first=new Date(y,m,1),start=new Date(y,m,1-first.getDay());
+ let htmlDays=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map(d=>`<div class="dow">${d}</div>`).join("");
+ for(let i=0;i<42;i++){
+   let d=new Date(start); d.setDate(start.getDate()+i);
+   let inMonth=d.getMonth()===m, today=sameDay(d,new Date()), items=calendar.filter(c=>occursOn(c,d));
+   let dots=items.slice(0,5).map(c=>`<i class="day-dot" style="--dot-color:${COLORS[c.domain]||"#112044"}"></i>`).join("");
+   htmlDays+=`<button class="day-cell ${inMonth?"":"out"} ${today?"today":""}" data-date="${formatDateInput(d)}"><span class="day-num">${d.getDate()}</span>${items.length?`<span class="day-count">${items.length}</span>`:""}<span class="day-dots">${dots}</span></button>`;
+ }
+ grid.innerHTML=htmlDays;
+ grid.querySelectorAll("[data-date]").forEach(b=>b.onclick=()=>openDay(parseDateLocal(b.dataset.date)));
+}
+function openDay(d){
+ selectedCalendarDate=d||new Date();
+ $("selectedDayTitle").textContent=new Intl.DateTimeFormat(undefined,{weekday:"long",month:"long",day:"numeric",year:"numeric"}).format(selectedCalendarDate);
+ renderSelectedDayItems();
+ activateTab($("calendarPanel"),"calendarDayPane");
+}
+function renderSelectedDayItems(){
+ let box=$("selectedDayItems"); if(!box)return;
+ let items=calendar.filter(c=>occursOn(c,selectedCalendarDate));
+ box.innerHTML=items.length?items.map(c=>calendarCard(c)).join(""):`<div class="entry-empty">Nothing on this day yet. Tap Add to create something for this date.</div>`;
+ wireCalendarCards(box);
+}
+function calendarCard(c){
+ let next=nextDueDate(c),days=daysUntil(c),pressure=calendarPressure(c),linked=linkedNode(c),entryLabel=linkedEntryLabel(c);
+ return `<div class="calendar-card"><h3>${esc(c.title||"Untitled")}</h3><p>${next?esc(next.toLocaleDateString()):"No valid date"} ${days>=0?`— in ${days} day${days===1?"":"s"}`:""}</p><div class="calendar-meta"><span class="calendar-pill">${esc(c.domain||"")}</span><span class="calendar-pill">${esc(c.repeat||"none")}</span><span class="calendar-pill">pressure ${pressure}</span>${linked?`<span class="calendar-pill">linked: ${esc(linked.title)}</span>`:""}${entryLabel?`<span class="calendar-pill">entry: ${esc(entryLabel)}</span>`:""}</div><div class="calendar-actions"><button data-edit-cal="${c.id}">Edit</button><button data-view-cal="${c.id}">Open linked</button></div></div>`;
+}
+function linkedEntryLabel(c){
+ if(!c.linkedId||!c.entryId)return "";
+ let n=nodes.find(x=>x.id===c.linkedId); if(!n||n.type!=="facet")return "";
+ let e=ensureFacetEntries(n).find(x=>x.id===c.entryId); return e?e.title:"";
+}
+function renderCalendarList(){
+ let box=$("calendarList");if(!box)return;
+ let sorted=[...calendar].sort((a,b)=>daysUntil(a)-daysUntil(b));
+ box.innerHTML=sorted.length?sorted.map(c=>calendarCard(c)).join(""):`<div class="entry-empty">No calendar items yet. Add rent, utility bills, car payments, birthdays, deadlines, and repeating life obligations.</div>`;
+ wireCalendarCards(box);
+}
+function wireCalendarCards(box){
+ box.querySelectorAll("[data-edit-cal]").forEach(b=>b.onclick=()=>editCalendarItem(b.dataset.editCal));
+ box.querySelectorAll("[data-view-cal]").forEach(b=>b.onclick=()=>{let c=calendar.find(x=>x.id===b.dataset.viewCal),n=c&&linkedNode(c);if(n){hide("calendarPanel");openItem(n.id)}});
+}
+function populateCalendarLinked(){
+ let sel=$("calLinked");if(!sel)return;
+ sel.innerHTML=`<option value="">No linked item</option>`+nodes.map(n=>`<option value="${n.id}">${esc(n.zone)} — ${esc(n.title)} (${n.type})</option>`).join("");
+ populateEntryLinked();
+}
+function populateEntryLinked(){
+ let sel=$("calEntryLinked"); if(!sel)return;
+ let linked=nodes.find(n=>n.id===$("calLinked").value);
+ if(!linked||linked.type!=="facet"){sel.innerHTML=`<option value="">No Facet Entry</option>`; sel.disabled=true; return}
+ let entries=ensureFacetEntries(linked);
+ sel.disabled=false;
+ sel.innerHTML=`<option value="">No specific entry</option>`+entries.map(e=>`<option value="${e.id}">${esc(e.title||"Untitled entry")}</option>`).join("");
+}
+function newCalItem(){
+ currentCalendar=null;populateCalendarLinked();
+ calTitle.value="";calDomain.value="Money";calLinked.value="";populateEntryLinked();
+ calDue.value=formatDateInput(selectedCalendarDate||new Date());
+ calRepeat.value="none";calWindow.value="7";calNote.value="";deleteCalendarItem.style.display="none";
+ activateTab($("calendarPanel"),"calendarEditPane");
+}
+function editCalendarItem(id){
+ currentCalendar=id;populateCalendarLinked();let c=calendar.find(x=>x.id===id);if(!c)return;
+ calTitle.value=c.title||"";calDomain.value=c.domain||"Money";calLinked.value=c.linkedId||"";populateEntryLinked();calEntryLinked.value=c.entryId||"";
+ calDue.value=c.due||"";calRepeat.value=c.repeat||"none";calWindow.value=String(c.window||7);calNote.value=c.note||"";
+ deleteCalendarItem.style.display="block";activateTab($("calendarPanel"),"calendarEditPane");
+}
+function saveCalItem(){
+ let c=currentCalendar?calendar.find(x=>x.id===currentCalendar):null;if(!c){c={id:uid()};calendar.push(c)}
+ c.title=calTitle.value.trim()||"Untitled";c.domain=calDomain.value;c.linkedId=calLinked.value;c.entryId=calEntryLinked.value;c.due=calDue.value.trim();c.repeat=calRepeat.value;c.window=Number(calWindow.value||7);c.note=calNote.value.trim();
+ let linked=nodes.find(n=>n.id===c.linkedId);if(linked)c.linkedTitle=linked.title;
+ save(CALENDAR_KEY,calendar);render();renderMonth();renderCalendarList();openDay(parseDateLocal(c.due)||selectedCalendarDate);
+}
+function deleteCalItem(){
+ if(!currentCalendar)return;if(!confirm("Delete this calendar item?"))return;
+ calendar=calendar.filter(c=>c.id!==currentCalendar);save(CALENDAR_KEY,calendar);currentCalendar=null;render();renderMonth();renderCalendarList();renderSelectedDayItems();activateTab($("calendarPanel"),"calendarListPane");
+}
+function seedCalDefaults(){
+ let existing=new Set(calendar.map(c=>c.id));DEFAULT_CALENDAR.forEach(c=>{if(!existing.has(c.id))calendar.push(structuredClone(c))});
+ save(CALENDAR_KEY,calendar);render();renderMonth();renderCalendarList();
+}
 
 if($("calendarBtn"))$("calendarBtn").onclick=openCalendar;
+if($("prevMonthBtn"))$("prevMonthBtn").onclick=()=>{calendarViewDate.setMonth(calendarViewDate.getMonth()-1);renderMonth()};
+if($("nextMonthBtn"))$("nextMonthBtn").onclick=()=>{calendarViewDate.setMonth(calendarViewDate.getMonth()+1);renderMonth()};
+if($("addOnSelectedDay"))$("addOnSelectedDay").onclick=newCalItem;
 if($("newCalendarItem"))$("newCalendarItem").onclick=newCalItem;
 if($("saveCalendarItem"))$("saveCalendarItem").onclick=saveCalItem;
 if($("deleteCalendarItem"))$("deleteCalendarItem").onclick=deleteCalItem;
 if($("seedCalendarDefaults"))$("seedCalendarDefaults").onclick=seedCalDefaults;
+if($("calLinked"))$("calLinked").onchange=populateEntryLinked;
+
 if($("addEntryBtn"))$("addEntryBtn").onclick=addEntry;
 if($("addFieldBtn"))$("addFieldBtn").onclick=addField;
 if($("saveEntryBtn"))$("saveEntryBtn").onclick=saveEntry;
 if($("deleteEntryBtn"))$("deleteEntryBtn").onclick=deleteEntry;
-updateCalendarTop();syncDomainLabels();applySettings();setInterval(()=>{updateClock();updateCalendarTop()},1000);render();
+
+updateCalendarTop();
+if(typeof syncDomainLabels==="function")syncDomainLabels();
+applySettings();
+setInterval(()=>{updateClock();updateCalendarTop()},1000);
+render();
 
 </script>
 </body>
