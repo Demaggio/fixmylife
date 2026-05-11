@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>FixMyLife v10.1.14</title>
+<title>FixMyLife v10.1.15</title>
 <meta name="theme-color" content="#fbfaf7">
 <style>
 *{box-sizing:border-box}
@@ -252,7 +252,7 @@ textarea{resize:vertical}.save,.secondary,.delete{width:100%;min-height:52px;mar
 </main>
 
 <script>
-const NODES_KEY="fml-v10-1-14-nodes", PERSON_KEY="fml-v10-1-14-person", SETTINGS_KEY="fml-v10-1-14-settings", LOCATION_KEY="fml-v10-1-14-location", DOMAINS_KEY="fml-v10-1-14-domains", CALENDAR_KEY="fml-v10-1-14-calendar";
+const NODES_KEY="fml-v10-1-15-nodes", PERSON_KEY="fml-v10-1-15-person", SETTINGS_KEY="fml-v10-1-15-settings", LOCATION_KEY="fml-v10-1-15-location", DOMAINS_KEY="fml-v10-1-15-domains", CALENDAR_KEY="fml-v10-1-15-calendar";
 const COLORS={Housing:"#2d91e8",Money:"#2ba85b",Legal:"#f35f4d",Health:"#d69500",Work:"#7b61c7",Family:"#df6591",Relationships:"#f05b4f",Creative:"#009eaa"};
 const ANGLES={Housing:0,Money:45,Legal:90,Health:135,Relationships:180,Family:225,Work:270,Creative:315};
 const DEFAULT_SETTINGS={theme:"hope",tempUnit:"fahrenheit",locationVisibility:"visible",timezone:"local"};
@@ -294,8 +294,9 @@ make("choice","Project","Work",280,32,"Work project, app build, application, job
 make("choice","Ideas","Creative",305,35,"Creative spark, lyric, app idea, book idea, or new concept."),
 make("choice","Journal","Creative",325,25,"Writing, reflection, lyrics, book notes, or private processing.")
 ];
-let nodes=load(NODES_KEY,DEFAULT_NODES,true), person=load(PERSON_KEY,{money:"",stress:"",energy:"",today:""}), settings=load(SETTINGS_KEY,DEFAULT_SETTINGS), domains=load(DOMAINS_KEY,DEFAULT_DOMAINS), current=null, currentDomain=null, mode="choice";
-function load(k,d,init){try{let v=localStorage.getItem(k);if(!v&&init){localStorage.setItem(k,JSON.stringify(d));return structuredClone(d)}return v?JSON.parse(v):structuredClone(d)}catch{return structuredClone(d)}}
+let nodes=load(NODES_KEY,DEFAULT_NODES,true), person=load(PERSON_KEY,{money:"",stress:"",energy:"",today:""}), settings=load(SETTINGS_KEY,DEFAULT_SETTINGS), domains=load(DOMAINS_KEY,DEFAULT_DOMAINS), calendar=load(CALENDAR_KEY,[]), current=null, currentDomain=null, currentEntry=null, currentCalendar=null, mode="choice";
+if(!Array.isArray(calendar))calendar=[];
+function load(k,d,init){try{let v=localStorage.getItem(k);if(!v&&init){localStorage.setItem(k,JSON.stringify(d));return structuredClone(d)}let parsed=v?JSON.parse(v):structuredClone(d);return parsed}catch{return structuredClone(d)}}
 function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
 function syncDomainLabels(){document.querySelectorAll(".domain[data-domain]").forEach(el=>{let key=el.dataset.domain;el.textContent=(domains[key]&&domains[key].name)||key})}
 
