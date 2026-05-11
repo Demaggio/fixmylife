@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>FixMyLife v10.1.10</title>
+<title>FixMyLife v10.1.12</title>
 <meta name="theme-color" content="#fbfaf7">
 <style>
 *{box-sizing:border-box}
@@ -62,7 +62,7 @@ body{display:grid;place-items:center}
 .kicker{margin:0 0 8px;color:var(--muted);text-transform:uppercase;letter-spacing:.15em;font-size:12px;font-weight:750}.panel h2,.drawer h2{margin:0 0 6px;font-family:Georgia,serif;font-size:36px;line-height:1.05;font-weight:500;color:#112044}.sub{margin:0 0 16px;color:var(--muted);font-size:15px;line-height:1.35}
 .action{width:100%;min-height:92px;margin:12px 0 0;border:1px solid rgba(22,32,58,.12);border-radius:22px;background:rgba(255,255,255,.76);color:var(--ink);box-shadow:var(--soft);padding:18px;text-align:left}.action.settings{min-height:82px;background:color-mix(in srgb,var(--accent),white 82%)}.action strong{display:block;font-size:21px;font-weight:800;margin-bottom:8px}.action span{display:block;color:var(--muted);font-size:14px;line-height:1.35}
 .privacy{margin:18px 0 28px;color:var(--muted);background:rgba(255,255,255,.62);border:1px solid rgba(22,32,58,.10);border-radius:18px;padding:16px;line-height:1.45;font-size:14px}
-.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin:8px 0 16px}.tabs.choiceTabs{grid-template-columns:repeat(5,1fr)}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin:8px 0 16px}.tabs.choiceTabs{grid-template-columns:repeat(5,1fr)}.tabs.facetTabs{grid-template-columns:repeat(5,1fr)}
 .tab{min-height:38px;border:1px solid rgba(22,32,58,.12);border-radius:999px;background:rgba(255,255,255,.62);color:var(--muted);font-size:11px;font-weight:750}.tab.active{color:#112044;border-color:rgba(17,32,68,.35);background:#fff;box-shadow:var(--soft)}
 .pane{display:none}.pane.active{display:block}.pane p,.panel p{font-size:16px;line-height:1.5;color:#4e5567}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.grid button,.grid article{min-height:76px;border-radius:18px;border:1px solid rgba(22,32,58,.12);background:rgba(255,255,255,.68);color:var(--ink);box-shadow:var(--soft);padding:12px}.grid button{text-align:left;font-size:14px;font-weight:750}.grid button:disabled{color:var(--muted);background:rgba(255,255,255,.42)}.grid span{display:block;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-size:11px;font-weight:750;margin-bottom:12px}.grid strong{font-size:17px;font-weight:700}
@@ -70,12 +70,34 @@ label{display:block;margin:13px 0 7px;color:var(--muted);text-transform:uppercas
 textarea,select,input[type=text]{width:100%;background:rgba(255,255,255,.82);color:var(--ink);border:1px solid rgba(22,32,58,.14);border-radius:15px;padding:13px;font:inherit;font-size:16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.70)}
 textarea{resize:vertical}.save,.secondary,.delete{width:100%;min-height:52px;margin-top:16px;border-radius:999px;border:1px solid rgba(22,32,58,.18);background:#112044;color:#fff;box-shadow:var(--soft);font-size:16px;font-weight:750}.secondary{background:rgba(255,255,255,.85);color:#112044}.delete{background:#f35f4d}.help{color:var(--muted)!important;font-size:15px!important}
 .range{display:grid;grid-template-columns:42px 1fr 42px;gap:10px;align-items:center;color:var(--muted);text-transform:uppercase;font-size:12px;font-weight:750}input[type=range]{width:100%}output{display:block;margin:10px 0 0;font-size:18px;color:var(--ink);font-weight:750}.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}.quick button{min-height:42px;border-radius:999px;border:1px solid rgba(22,32,58,.14);background:rgba(255,255,255,.72);color:var(--ink);font-weight:750}.links{padding-left:18px;color:var(--muted);font-size:16px;line-height:1.6}
+
+.entry-card{border:1px solid rgba(22,32,58,.12);background:rgba(255,255,255,.72);box-shadow:var(--soft);border-radius:18px;padding:14px;margin:10px 0}
+.entry-card h3{margin:0 0 6px;font-size:18px;color:#112044}
+.entry-card p{margin:0;color:var(--muted);font-size:14px;line-height:1.35}
+.entry-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.entry-actions button,.field-row button{min-height:38px;border-radius:999px;border:1px solid rgba(22,32,58,.14);background:rgba(255,255,255,.78);color:var(--ink);font-weight:750}
+.entry-empty{padding:18px;border-radius:18px;background:rgba(255,255,255,.58);border:1px dashed rgba(22,32,58,.20);color:var(--muted);line-height:1.4}
+.field-row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end;margin:8px 0}
+.field-row input{min-width:0}
+
+
+.calendar-list{display:grid;gap:10px;margin-top:14px;max-height:330px;overflow:auto;padding-right:2px}
+.calendar-card{border:1px solid rgba(22,32,58,.12);background:rgba(255,255,255,.74);box-shadow:var(--soft);border-radius:18px;padding:14px}
+.calendar-card h3{margin:0 0 6px;font-size:18px;color:#112044}
+.calendar-card p{margin:0;color:var(--muted);font-size:14px;line-height:1.35}
+.calendar-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.calendar-pill{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:5px 8px;border-radius:999px;background:rgba(255,255,255,.72);border:1px solid rgba(22,32,58,.10)}
+.calendar-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.calendar-actions button{min-height:38px;border-radius:999px;border:1px solid rgba(22,32,58,.14);background:rgba(255,255,255,.78);color:var(--ink);font-weight:750}
+.calendar-marker{position:absolute;z-index:17;transform:translate(-50%,-50%);width:18px;height:18px;border-radius:999px;border:2px solid #fff;background:var(--domain-color,#f4c24d);box-shadow:0 5px 12px rgba(36,38,54,.18);pointer-events:none}
+.calendar-marker::after{content:"";position:absolute;inset:-5px;border-radius:999px;border:1px solid var(--domain-color,#f4c24d);opacity:.5}
+
 @media(max-width:390px){.app{border-left:0;border-right:0;border-radius:0}.top h1{font-size:30px}.info{font-size:10.5px;padding:0 9px}.center{width:118px;height:118px}.center strong{font-size:34px}.center small{font-size:12px}.center svg{width:30px;height:30px}.domain{font-size:12px}.choice .shape{width:42px;height:42px}.facet{width:72px;height:24px}.facet .shape{width:70px;height:22px}.label{font-size:9px;max-width:40px}.facet .label{font-size:8.5px;max-width:66px}.legend{font-size:12px;padding:9px 16px}.hope{font-size:13px;min-height:44px}}
 </style>
 </head>
 <body>
 <main class="app">
-<header class="top"><button class="menu" id="menuBtn"><span></span><span></span><span></span></button><h1>FixMyLife</h1><button class="more">•••</button></header>
+<header class="top"><button class="menu" id="menuBtn"><span></span><span></span><span></span></button><h1>FixMyLife</h1><button class="more" id="calendarBtn" aria-label="Open calendar">•••</button></header>
 <section class="info" id="info"><span id="date">--</span><span id="time">--:--</span><button id="locBtn" class="loc">Location off</button></section>
 
 <section class="map" id="map">
@@ -86,6 +108,41 @@ textarea{resize:vertical}.save,.secondary,.delete{width:100%;min-height:52px;mar
 </section>
 
 <section class="footer"><p class="hope">🌱 Small steps. Big change. You’ve got this. 💛</p></section>
+
+
+<section class="panel hidden" id="calendarPanel">
+<button class="close" data-close="calendarPanel">×</button>
+<p class="kicker">Coming Up</p><h2>Calendar</h2><p class="sub">Track recurring obligations and upcoming dates. As dates get closer, linked items become more visually important.</p>
+<nav class="tabs"><button class="tab active" data-tab="calendarListPane">List</button><button class="tab" data-tab="calendarEditPane">Add/Edit</button><button class="tab" data-tab="calendarHelpPane">How it works</button><button class="tab" data-tab="calendarSettingsPane">Settings</button></nav>
+
+<div class="pane active" id="calendarListPane">
+<div id="calendarList" class="calendar-list"></div>
+<button class="save" id="newCalendarItem">Add calendar item</button>
+</div>
+
+<div class="pane" id="calendarEditPane">
+<label>Title</label><input id="calTitle" type="text" placeholder="Rent, car payment, birthday, utility bill">
+<label>Life Domain</label><select id="calDomain"><option>Housing</option><option>Money</option><option>Legal</option><option>Health</option><option>Work</option><option>Family</option><option>Relationships</option><option>Creative</option></select>
+<label>Linked map item</label><select id="calLinked"></select>
+<label>Due date</label><input id="calDue" type="text" placeholder="YYYY-MM-DD">
+<label>Repeats</label><select id="calRepeat"><option value="none">Does not repeat</option><option value="monthly">Monthly</option><option value="weekly">Weekly</option><option value="yearly">Yearly</option><option value="daily">Daily</option></select>
+<label>Reminder window</label><select id="calWindow"><option value="7">7 days</option><option value="14">14 days</option><option value="30">30 days</option><option value="60">60 days</option></select>
+<label>Note</label><textarea id="calNote" rows="4" placeholder="Amount, reason, account, who it affects, what to do"></textarea>
+<button class="save" id="saveCalendarItem">Save calendar item</button>
+<button class="delete" id="deleteCalendarItem">Delete calendar item</button>
+</div>
+
+<div class="pane" id="calendarHelpPane">
+<p><strong>Calendar Pressure</strong> means a date gets visually louder as it gets closer.</p>
+<p>Example: rent due on the 1st can make the linked Rent choice move closer to the center during the final week of the month.</p>
+<p>This gives you a visual handle on what is coming at you soon, without needing to read a long list every day.</p>
+</div>
+
+<div class="pane" id="calendarSettingsPane">
+<p class="help">Calendar items are stored locally in this browser. They do not sync anywhere yet.</p>
+<button class="secondary" id="seedCalendarDefaults">Add sample recurring items</button>
+</div>
+</section>
 
 <section class="drawer hidden" id="drawer">
 <button class="close" data-close="drawer">×</button><p class="kicker">Menu</p><h2>Add to FixMyLife</h2><p class="sub">Add your own choices and facets. You enter your own data.</p>
@@ -126,12 +183,27 @@ textarea{resize:vertical}.save,.secondary,.delete{width:100%;min-height:52px;mar
 <section class="panel hidden" id="itemPanel">
 <button class="close" data-close="itemPanel">×</button><p class="kicker" id="itemZone"></p><h2 id="itemTitle"></h2><p class="sub" id="itemType"></p>
 <nav class="tabs choiceTabs" id="choiceTabs"><button class="tab active" data-tab="overview">Overview</button><button class="tab" data-tab="data">Data</button><button class="tab" data-tab="next">Next</button><button class="tab" data-tab="move">Move</button><button class="tab" data-tab="delete">Delete</button></nav>
-<nav class="tabs hidden" id="facetTabs"><button class="tab active" data-tab="overview">Overview</button><button class="tab" data-tab="data">Data</button><button class="tab" data-tab="linked">Linked</button><button class="tab" data-tab="delete">Delete</button></nav>
+<nav class="tabs facetTabs hidden" id="facetTabs"><button class="tab active" data-tab="overview">Overview</button><button class="tab" data-tab="data">Data</button><button class="tab" data-tab="entries">Entries</button><button class="tab" data-tab="linked">Linked</button><button class="tab" data-tab="delete">Delete</button></nav>
 
-<div class="pane active" id="overview"><p id="itemSummary"></p><div class="grid"><button data-jump="data">Enter data</button><button data-jump="next" id="nextJump">Next action</button><button data-jump="move" id="moveJump">Importance</button><button data-jump="delete">Delete</button></div><div class="grid"><article><span>Life Domain</span><strong id="fieldZone"></strong></article><article><span>Status</span><strong id="fieldStatus"></strong></article><article><span>Type</span><strong id="fieldType"></strong></article><article><span>Position</span><strong id="fieldPosition"></strong></article></div></div>
+<div class="pane active" id="overview"><p id="itemSummary"></p><div class="grid"><button data-jump="data">Enter data</button><button data-jump="entries" id="entriesJump">Facet entries</button><button data-jump="next" id="nextJump">Next action</button><button data-jump="move" id="moveJump">Importance</button><button data-jump="delete">Delete</button></div><div class="grid"><article><span>Life Domain</span><strong id="fieldZone"></strong></article><article><span>Status</span><strong id="fieldStatus"></strong></article><article><span>Type</span><strong id="fieldType"></strong></article><article><span>Position</span><strong id="fieldPosition"></strong></article></div></div>
 <div class="pane" id="data"><label>Title</label><input id="editTitle" type="text"><label>Life Domain</label><select id="editZone"><option>Housing</option><option>Money</option><option>Legal</option><option>Health</option><option>Work</option><option>Family</option><option>Relationships</option><option>Creative</option></select><label>Data / details</label><textarea id="editSummary" rows="7"></textarea><button class="save" id="saveData">Save data</button></div>
 <div class="pane" id="next"><label>Next action</label><textarea id="editNext" rows="4"></textarea><label>Status</label><select id="editStatus"><option>Not started</option><option>Needs action</option><option>Waiting</option><option>In progress</option><option>Done</option></select><button class="save" id="saveNext">Save next action</button></div>
 <div class="pane" id="move"><p class="help">Choices move closer to the center when they matter more right now.</p><label>Importance</label><div class="range"><span>edge</span><input id="importance" type="range" min="0" max="100" step="1"><span>me</span></div><output id="importanceOut"></output><div class="quick"><button data-imp="20">Background</button><button data-imp="55">Active</button><button data-imp="88">Pressing</button></div><button class="save" id="saveMove">Save position</button></div>
+<div class="pane" id="entries">
+<p class="help">Entries are separate records inside a Facet. Use them for multiple children, cars, homes, accounts, documents, or anything else that belongs under this Facet.</p>
+<div id="entriesList"></div>
+<button class="save" id="addEntryBtn">Add entry</button>
+</div>
+<div class="pane" id="entryEditor">
+<p class="help">Edit one entry under this Facet.</p>
+<label>Entry name</label><input id="entryTitle" type="text" placeholder="Example: Maddy, Honda Civic, Apartment">
+<label>Entry note</label><textarea id="entryNote" rows="4" placeholder="Details about this specific entry"></textarea>
+<label>Custom fields</label>
+<div id="entryFields"></div>
+<button class="secondary" id="addFieldBtn">Add custom field</button>
+<button class="save" id="saveEntryBtn">Save entry</button>
+<button class="delete" id="deleteEntryBtn">Delete entry</button>
+</div>
 <div class="pane" id="linked"><p class="help">Choices in the same Life Domain appear here.</p><ul class="links" id="linkedList"></ul></div>
 <div class="pane" id="delete"><p class="help">Delete this item from the map.</p><button class="delete" id="deleteItem">Delete item</button></div>
 </section>
@@ -147,13 +219,21 @@ textarea{resize:vertical}.save,.secondary,.delete{width:100%;min-height:52px;mar
 </main>
 
 <script>
-const NODES_KEY="fml-v10-1-10-nodes", PERSON_KEY="fml-v10-1-10-person", SETTINGS_KEY="fml-v10-1-10-settings", LOCATION_KEY="fml-v10-1-10-location", DOMAINS_KEY="fml-v10-1-10-domains";
+const NODES_KEY="fml-v10-1-12-nodes", PERSON_KEY="fml-v10-1-12-person", SETTINGS_KEY="fml-v10-1-12-settings", LOCATION_KEY="fml-v10-1-12-location", DOMAINS_KEY="fml-v10-1-12-domains", CALENDAR_KEY="fml-v10-1-12-calendar";
 const COLORS={Housing:"#2d91e8",Money:"#2ba85b",Legal:"#f35f4d",Health:"#d69500",Work:"#7b61c7",Family:"#df6591",Relationships:"#f05b4f",Creative:"#009eaa"};
 const ANGLES={Housing:0,Money:45,Legal:90,Health:135,Relationships:180,Family:225,Work:270,Creative:315};
 const DEFAULT_SETTINGS={theme:"hope",tempUnit:"fahrenheit",locationVisibility:"visible",timezone:"local"};
 const DEFAULT_DOMAINS={Housing:{name:"Housing",note:""},Money:{name:"Money",note:""},Legal:{name:"Legal",note:""},Health:{name:"Health",note:""},Relationships:{name:"Relationships",note:""},Family:{name:"Family",note:""},Work:{name:"Work",note:""},Creative:{name:"Creative",note:""}};
+
+const DEFAULT_CALENDAR=[
+ {id:"cal-rent",title:"Rent",domain:"Housing",linkedTitle:"Rent",due:"2026-06-01",repeat:"monthly",window:7,note:"Monthly rent due."},
+ {id:"cal-utilities",title:"Utility bill",domain:"Housing",linkedTitle:"Utilities",due:"2026-06-15",repeat:"monthly",window:7,note:"Utilities or basic services due."},
+ {id:"cal-car-payment",title:"Car payment",domain:"Money",linkedTitle:"Bills",due:"2026-06-20",repeat:"monthly",window:14,note:"Vehicle-related payment."},
+ {id:"cal-birthday",title:"Birthday",domain:"Family",linkedTitle:"Quality Time",due:"2026-07-01",repeat:"yearly",window:30,note:"Birthday or important family date."}
+];
+
 const STATES={"New Hampshire":"NH","New York":"NY","New Jersey":"NJ","New Mexico":"NM","Rhode Island":"RI","North Carolina":"NC","North Dakota":"ND","South Carolina":"SC","South Dakota":"SD","West Virginia":"WV","District of Columbia":"DC",Alabama:"AL",Alaska:"AK",Arizona:"AZ",Arkansas:"AR",California:"CA",Colorado:"CO",Connecticut:"CT",Delaware:"DE",Florida:"FL",Georgia:"GA",Hawaii:"HI",Idaho:"ID",Illinois:"IL",Indiana:"IN",Iowa:"IA",Kansas:"KS",Kentucky:"KY",Louisiana:"LA",Maine:"ME",Maryland:"MD",Massachusetts:"MA",Michigan:"MI",Minnesota:"MN",Mississippi:"MS",Missouri:"MO",Montana:"MT",Nebraska:"NE",Nevada:"NV",Ohio:"OH",Oklahoma:"OK",Oregon:"OR",Pennsylvania:"PA",Tennessee:"TN",Texas:"TX",Utah:"UT",Vermont:"VT",Virginia:"VA",Washington:"WA",Wisconsin:"WI",Wyoming:"WY"};
-function make(type,title,zone,angle,imp,summary){return{id:"d-"+type+"-"+title.toLowerCase().replace(/[^a-z0-9]+/g,"-")+"-"+zone.toLowerCase(),type,title,zone,angle,importance:imp,status:type==="choice"?"Not started":"Active",summary,next:""}}
+function make(type,title,zone,angle,imp,summary){return{id:"d-"+type+"-"+title.toLowerCase().replace(/[^a-z0-9]+/g,"-")+"-"+zone.toLowerCase(),type,title,zone,angle,importance:imp,status:type==="choice"?"Not started":"Active",summary,next:"",entries:[]}}
 const DEFAULT_NODES=[
 make("facet","Home","Housing",0,0,"Home base, address, rent, lease, or housing foundation."),
 make("facet","Bank","Money",45,0,"Bank, account, paycheck source, or money hub."),
@@ -207,11 +287,60 @@ let k=Math.min(100,Math.max(0,n.importance||50))/100;
 let inward=k*.42; 
 return{x:cx+Math.sin(t)*(ox-inward*(ox-ix)),y:cy-Math.cos(t)*(oy-inward*(oy-iy))}
 }
-function render(){let layer=$("layer");layer.innerHTML="";nodes.forEach(n=>{let b=document.createElement("button");b.className=`node ${n.type} ${(n.importance||0)>=80?"press":""}`;b.style.setProperty("--domain-color",COLORS[n.zone]||"#999");let p=pos(n);b.style.left=p.x+"px";b.style.top=p.y+"px";b.innerHTML=`<span class="shape"><span class="label">${esc(n.title)}</span></span>`;b.onclick=()=>openItem(n.id);layer.appendChild(b)})}
+function render(){let layer=$("layer");layer.innerHTML="";nodes.forEach(n=>{let b=document.createElement("button");b.className=`node ${n.type} ${(n.importance||0)>=80?"press":""}`;b.style.setProperty("--domain-color",COLORS[n.zone]||"#999");let p=pos(n);b.style.left=p.x+"px";b.style.top=p.y+"px";b.innerHTML=`<span class="shape"><span class="label">${esc(n.title)}</span></span>`;b.onclick=()=>openItem(n.id);layer.appendChild(b)});
+renderCalendarMarkers(layer);
+}
 function openAdd(t){mode=t;hide("drawer");$("newTitle").value="";$("newSummary").value="";$("newZone").value="Money";$("addKicker").textContent=t==="choice"?"Add choice":"Add facet";$("addTitle").textContent=t==="choice"?"Add choice":"Add facet";$("addSub").textContent=t==="choice"?"This creates a circle inside the map.":"This creates a thin tappable tab on the outside oval.";show("addPanel")}
-function create(){let title=$("newTitle").value.trim()||(mode==="choice"?"New choice":"New facet"),zone=$("newZone").value;let n={id:uid(),type:mode,title,zone,angle:zoneAngle(zone),importance:mode==="choice"?55:0,status:mode==="choice"?"Not started":"Active",summary:$("newSummary").value.trim(),next:""};nodes.push(n);save(NODES_KEY,nodes);hide("addPanel");render();openItem(n.id)}
+function create(){let title=$("newTitle").value.trim()||(mode==="choice"?"New choice":"New facet"),zone=$("newZone").value;let n={id:uid(),type:mode,title,zone,angle:zoneAngle(zone),importance:mode==="choice"?55:0,status:mode==="choice"?"Not started":"Active",summary:$("newSummary").value.trim(),next:"",entries:[]};nodes.push(n);save(NODES_KEY,nodes);hide("addPanel");render();openItem(n.id)}
 function activateTab(panel,tab){panel.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));panel.querySelectorAll(".pane").forEach(p=>p.classList.toggle("active",p.id===tab))}
-function openItem(id){current=id;let n=item(id);if(!n)return;$("itemZone").textContent=n.zone;$("itemTitle").textContent=n.title;$("itemType").textContent=n.type==="choice"?"Choice / circle / active life item":"Facet / outside oval ring item";$("itemSummary").textContent=n.summary||"No data entered yet.";$("fieldZone").textContent=n.zone;$("fieldStatus").textContent=n.status||"Active";$("fieldType").textContent=n.type==="choice"?"Choice":"Facet";$("fieldPosition").textContent=n.type==="choice"?(n.importance||0)+" / 100":"Outer oval";$("editTitle").value=n.title;$("editZone").value=n.zone;$("editSummary").value=n.summary||"";$("editNext").value=n.next||"";$("editStatus").value=n.status||"Not started";$("importance").value=n.importance||55;$("importanceOut").value=`${n.importance||55} / 100 — ${impLabel(n.importance||55)}`;$("choiceTabs").classList.toggle("hidden",n.type!=="choice");$("facetTabs").classList.toggle("hidden",n.type!=="facet");$("nextJump").style.display=n.type==="choice"?"block":"none";$("moveJump").style.display=n.type==="choice"?"block":"none";$("linkedList").innerHTML=nodes.filter(x=>x.type==="choice"&&x.zone===n.zone).map(x=>`<li>${esc(x.title)} — ${impLabel(x.importance||0)}</li>`).join("")||"<li>No choices in this Life Domain yet.</li>";activateTab($("itemPanel"),"overview");show("itemPanel")}
+function openItem(id){current=id;let n=item(id);if(!n)return;if(!Array.isArray(n.entries))n.entries=[];$("itemZone").textContent=n.zone;$("itemTitle").textContent=n.title;$("itemType").textContent=n.type==="choice"?"Choice / circle / active life item":"Facet / outside edge item";$("itemSummary").textContent=n.summary||"No data entered yet.";$("fieldZone").textContent=n.zone;$("fieldStatus").textContent=n.status||"Active";$("fieldType").textContent=n.type==="choice"?"Choice":"Facet";$("fieldPosition").textContent=n.type==="choice"?(n.importance||0)+" / 100":"Edge";$("editTitle").value=n.title;$("editZone").value=n.zone;$("editSummary").value=n.summary||"";$("editNext").value=n.next||"";$("editStatus").value=n.status||"Not started";$("importance").value=n.importance||55;$("importanceOut").value=`${n.importance||55} / 100 — ${impLabel(n.importance||55)}`;$("choiceTabs").classList.toggle("hidden",n.type!=="choice");$("facetTabs").classList.toggle("hidden",n.type!=="facet");$("entriesJump").style.display=n.type==="facet"?"block":"none";$("nextJump").style.display=n.type==="choice"?"block":"none";$("moveJump").style.display=n.type==="choice"?"block":"none";$("linkedList").innerHTML=nodes.filter(x=>x.type==="choice"&&x.zone===n.zone).map(x=>`<li>${esc(x.title)} — ${impLabel(x.importance||0)}</li>`).join("")||"<li>No choices in this Life Domain yet.</li>";renderEntries();activateTab($("itemPanel"),"overview");show("itemPanel")}
+
+function renderEntries(){
+ let n=item(current),list=$("entriesList"); if(!list||!n||n.type!=="facet")return;
+ if(!Array.isArray(n.entries))n.entries=[];
+ list.innerHTML=n.entries.length?n.entries.map(e=>`<div class="entry-card"><h3>${esc(e.title||"Untitled entry")}</h3><p>${esc(e.note||"No note yet.")}</p><div class="entry-actions"><button data-edit-entry="${e.id}">Edit</button><button data-open-entry="${e.id}">View</button></div></div>`).join(""):`<div class="entry-empty">No entries yet. Add one for each child, car, home, account, document, or item inside this Facet.</div>`;
+ list.querySelectorAll("[data-edit-entry],[data-open-entry]").forEach(b=>b.onclick=()=>openEntry(b.dataset.editEntry||b.dataset.openEntry));
+}
+function addEntry(){
+ let n=item(current); if(!n||n.type!=="facet")return;
+ if(!Array.isArray(n.entries))n.entries=[];
+ let e={id:uid(),title:"New entry",note:"",fields:[]};
+ n.entries.push(e); save(NODES_KEY,nodes); openEntry(e.id);
+}
+function openEntry(id){
+ let n=item(current); if(!n||!Array.isArray(n.entries))return;
+ currentEntry=id; let e=n.entries.find(x=>x.id===id); if(!e)return;
+ $("entryTitle").value=e.title||""; $("entryNote").value=e.note||""; renderEntryFields(e);
+ activateTab($("itemPanel"),"entryEditor");
+}
+function renderEntryFields(e){
+ let box=$("entryFields"); if(!box)return;
+ if(!Array.isArray(e.fields))e.fields=[];
+ box.innerHTML=e.fields.map((f,i)=>`<div class="field-row" data-field-index="${i}"><input type="text" placeholder="Label" value="${esc(f.label||"")}"><input type="text" placeholder="Value" value="${esc(f.value||"")}"><button data-remove-field="${i}">×</button></div>`).join("") || `<p class="help">No custom fields yet. Add fields like age, phone, school, VIN, address, account, due date, etc.</p>`;
+ box.querySelectorAll("[data-remove-field]").forEach(b=>b.onclick=()=>{let n=item(current),e=n.entries.find(x=>x.id===currentEntry);if(!e)return;collectEntryFields(e);e.fields.splice(Number(b.dataset.removeField),1);renderEntryFields(e)});
+}
+function collectEntryFields(e){
+ e.fields=[];
+ document.querySelectorAll("#entryFields .field-row").forEach(row=>{
+   let inputs=row.querySelectorAll("input"); let label=inputs[0].value.trim(), value=inputs[1].value.trim();
+   if(label||value)e.fields.push({label,value});
+ });
+}
+function addField(){
+ let n=item(current); if(!n)return; let e=n.entries.find(x=>x.id===currentEntry); if(!e)return;
+ collectEntryFields(e); e.fields.push({label:"",value:""}); renderEntryFields(e);
+}
+function saveEntry(){
+ let n=item(current); if(!n||!Array.isArray(n.entries))return; let e=n.entries.find(x=>x.id===currentEntry); if(!e)return;
+ e.title=$("entryTitle").value.trim()||"Untitled entry"; e.note=$("entryNote").value.trim(); collectEntryFields(e);
+ save(NODES_KEY,nodes); renderEntries(); activateTab($("itemPanel"),"entries");
+}
+function deleteEntry(){
+ let n=item(current); if(!n||!Array.isArray(n.entries))return; let e=n.entries.find(x=>x.id===currentEntry); if(!e)return;
+ if(!confirm(`Delete "${e.title||"this entry"}"?`))return;
+ n.entries=n.entries.filter(x=>x.id!==currentEntry); currentEntry=null; save(NODES_KEY,nodes); renderEntries(); activateTab($("itemPanel"),"entries");
+}
+
 function saveData(){let n=item(current),old=n.zone;n.title=$("editTitle").value.trim()||"Untitled";n.zone=$("editZone").value;n.summary=$("editSummary").value.trim();if(n.zone!==old)n.angle=zoneAngle(n.zone);save(NODES_KEY,nodes);render();openItem(n.id)}
 function saveNext(){let n=item(current);n.next=$("editNext").value.trim();n.status=$("editStatus").value;save(NODES_KEY,nodes);openItem(n.id)}
 function saveMove(){let n=item(current);n.importance=Number($("importance").value);save(NODES_KEY,nodes);render();openItem(n.id)}
@@ -249,16 +378,65 @@ function resetDomainFn(){
 function applySettings(){document.body.classList.remove("theme-hope","theme-ocean","theme-sunrise","theme-forest","theme-lavender");document.body.classList.add("theme-"+settings.theme);theme.value=settings.theme;temp.value=settings.tempUnit;locVisible.value=settings.locationVisibility;tz.value=settings.timezone;info.classList.toggle("hidden-location",settings.locationVisibility==="hidden");updateClock();updateLocationDisplay()}
 function saveSettingsFn(){settings={theme:theme.value,tempUnit:temp.value,locationVisibility:locVisible.value,timezone:tz.value};save(SETTINGS_KEY,settings);applySettings();hide("settingsPanel")}
 function resetDefaults(){if(!confirm("Reset to the default FixMyLife starter map?"))return;nodes=structuredClone(DEFAULT_NODES);save(NODES_KEY,nodes);render();hide("settingsPanel")}
+
+function parseDateLocal(s){let m=String(s||"").match(/^(\d{4})-(\d{2})-(\d{2})$/);if(!m)return null;return new Date(Number(m[1]),Number(m[2])-1,Number(m[3]));}
+function dateOnly(d){return new Date(d.getFullYear(),d.getMonth(),d.getDate());}
+function formatDateInput(d){let y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),day=String(d.getDate()).padStart(2,"0");return `${y}-${m}-${day}`}
+function addRepeat(d,repeat){let x=new Date(d);if(repeat==="daily")x.setDate(x.getDate()+1);else if(repeat==="weekly")x.setDate(x.getDate()+7);else if(repeat==="monthly")x.setMonth(x.getMonth()+1);else if(repeat==="yearly")x.setFullYear(x.getFullYear()+1);else return x;return x}
+function nextDueDate(cal){let d=parseDateLocal(cal.due);if(!d)return null;let today=dateOnly(new Date());if(cal.repeat&&cal.repeat!=="none"){let guard=0;while(d<today&&guard<500){d=addRepeat(d,cal.repeat);guard++}}return d}
+function daysUntil(cal){let d=nextDueDate(cal);if(!d)return 99999;let today=dateOnly(new Date());return Math.round((d-today)/86400000)}
+function calendarPressure(cal){let days=daysUntil(cal),win=Number(cal.window||7);if(days<0)return 0;if(days>win)return 0;return Math.round(100-(days/win)*75)}
+function linkedNode(cal){if(cal.linkedId)return nodes.find(n=>n.id===cal.linkedId);if(cal.linkedTitle)return nodes.find(n=>n.title===cal.linkedTitle&&n.zone===cal.domain)||nodes.find(n=>n.title===cal.linkedTitle);return null}
+function getNodeCalendarPressure(n){let vals=calendar.map(c=>linkedNode(c)?.id===n.id?calendarPressure(c):0);return vals.length?Math.max(...vals,0):0}
+function renderCalendarMarkers(layer){
+ calendar.forEach(c=>{let n=linkedNode(c);let pval=calendarPressure(c);if(!n||pval<=0)return;let p=pos(n),m=document.createElement("span");m.className="calendar-marker";m.style.setProperty("--domain-color",COLORS[n.zone]||"#f4c24d");m.style.left=(p.x+18)+"px";m.style.top=(p.y-18)+"px";m.title=c.title;layer.appendChild(m)});
+}
+function openCalendar(){
+ renderCalendarList();
+ populateCalendarLinked();
+ activateTab($("calendarPanel"),"calendarListPane");
+ show("calendarPanel");
+}
+function renderCalendarList(){
+ let box=$("calendarList");if(!box)return;
+ let sorted=[...calendar].sort((a,b)=>daysUntil(a)-daysUntil(b));
+ box.innerHTML=sorted.length?sorted.map(c=>{let d=nextDueDate(c),days=daysUntil(c),pressure=calendarPressure(c),linked=linkedNode(c);return `<div class="calendar-card"><h3>${esc(c.title||"Untitled")}</h3><p>${d?esc(d.toLocaleDateString()):"No valid date"} ${days>=0?`— in ${days} day${days===1?"":"s"}`:""}</p><div class="calendar-meta"><span class="calendar-pill">${esc(c.domain||"")}</span><span class="calendar-pill">${esc(c.repeat||"none")}</span><span class="calendar-pill">pressure ${pressure}</span>${linked?`<span class="calendar-pill">linked: ${esc(linked.title)}</span>`:""}</div><div class="calendar-actions"><button data-edit-cal="${c.id}">Edit</button><button data-view-cal="${c.id}">Open linked</button></div></div>`}).join(""):`<div class="entry-empty">No calendar items yet. Add rent, utility bills, car payments, birthdays, deadlines, and repeating life obligations.</div>`;
+ box.querySelectorAll("[data-edit-cal]").forEach(b=>b.onclick=()=>editCalendarItem(b.dataset.editCal));
+ box.querySelectorAll("[data-view-cal]").forEach(b=>b.onclick=()=>{let c=calendar.find(x=>x.id===b.dataset.viewCal),n=c&&linkedNode(c);if(n){hide("calendarPanel");openItem(n.id)}});
+}
+function populateCalendarLinked(){
+ let sel=$("calLinked");if(!sel)return;sel.innerHTML=`<option value="">No linked item</option>`+nodes.map(n=>`<option value="${n.id}">${esc(n.zone)} — ${esc(n.title)} (${n.type})</option>`).join("");
+}
+function newCalItem(){
+ currentCalendar=null;populateCalendarLinked();calTitle.value="";calDomain.value="Money";calLinked.value="";calDue.value=formatDateInput(new Date());calRepeat.value="monthly";calWindow.value="7";calNote.value="";deleteCalendarItem.style.display="none";activateTab($("calendarPanel"),"calendarEditPane");
+}
+function editCalendarItem(id){
+ currentCalendar=id;populateCalendarLinked();let c=calendar.find(x=>x.id===id);if(!c)return;calTitle.value=c.title||"";calDomain.value=c.domain||"Money";calLinked.value=c.linkedId||"";calDue.value=c.due||"";calRepeat.value=c.repeat||"none";calWindow.value=String(c.window||7);calNote.value=c.note||"";deleteCalendarItem.style.display="block";activateTab($("calendarPanel"),"calendarEditPane");
+}
+function saveCalItem(){
+ let c=currentCalendar?calendar.find(x=>x.id===currentCalendar):null;if(!c){c={id:uid()};calendar.push(c)}
+ c.title=calTitle.value.trim()||"Untitled";c.domain=calDomain.value;c.linkedId=calLinked.value;c.due=calDue.value.trim();c.repeat=calRepeat.value;c.window=Number(calWindow.value||7);c.note=calNote.value.trim();
+ let linked=nodes.find(n=>n.id===c.linkedId);if(linked)c.linkedTitle=linked.title;
+ save(CALENDAR_KEY,calendar);render();renderCalendarList();activateTab($("calendarPanel"),"calendarListPane");
+}
+function deleteCalItem(){
+ if(!currentCalendar)return;if(!confirm("Delete this calendar item?"))return;calendar=calendar.filter(c=>c.id!==currentCalendar);save(CALENDAR_KEY,calendar);currentCalendar=null;render();renderCalendarList();activateTab($("calendarPanel"),"calendarListPane");
+}
+function seedCalDefaults(){
+ let existing=new Set(calendar.map(c=>c.id));DEFAULT_CALENDAR.forEach(c=>{if(!existing.has(c.id))calendar.push(structuredClone(c))});save(CALENDAR_KEY,calendar);render();renderCalendarList();
+}
+
 function updateClock(){let now=new Date(),zone=settings.timezone==="local"?undefined:settings.timezone;date.textContent=new Intl.DateTimeFormat(undefined,{month:"short",day:"numeric",year:"numeric",timeZone:zone}).format(now);time.textContent=new Intl.DateTimeFormat(undefined,{hour:"numeric",minute:"2-digit",hour12:true,timeZone:zone}).format(now)}
 function updateLocationDisplay(){if(settings.locationVisibility==="hidden"){locBtn.textContent="Location hidden";return}let saved=load(LOCATION_KEY,null);locBtn.textContent=saved?.label||"Location off"}
 async function requestLocation(){if(settings.locationVisibility==="hidden"){locBtn.textContent="Location hidden";return}if(!navigator.geolocation){locBtn.textContent="No location";return}locBtn.textContent="Locating...";navigator.geolocation.getCurrentPosition(async p=>{let lat=p.coords.latitude,lon=p.coords.longitude,place=`${lat.toFixed(2)}, ${lon.toFixed(2)}`,tempText="";try{let g=await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`);let j=await g.json(),a=j.address||{},town=a.city||a.town||a.village||a.hamlet||a.county||"Location",state=a.state?STATES[a.state]||a.state:"",country=a.country_code?String(a.country_code).toUpperCase():a.country||"";place=[town,state,country].filter(Boolean).join(", ")}catch{}try{let unit=settings.tempUnit==="fahrenheit"?"fahrenheit":"celsius";let w=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m&temperature_unit=${unit}`);let j=await w.json();tempText=` ${Math.round(j.current.temperature_2m)}°${unit==="fahrenheit"?"F":"C"}`}catch{}let label=place+tempText;save(LOCATION_KEY,{label,lat,lon});locBtn.textContent=label},()=>locBtn.textContent="Location off",{enableHighAccuracy:false,timeout:9000,maximumAge:600000})}
 document.querySelectorAll(".domain[data-domain]").forEach(b=>b.onclick=()=>openDomain(b.dataset.domain));
 saveDomain.onclick=saveDomainFn;resetDomain.onclick=resetDomainFn;
-menuBtn.onclick=()=>show("drawer");addChoice.onclick=()=>openAdd("choice");addFacet.onclick=()=>openAdd("facet");settingsBtn.onclick=()=>{hide("drawer");applySettings();show("settingsPanel")};createBtn.onclick=create;saveSettings.onclick=saveSettingsFn;resetBtn.onclick=resetDefaults;
+calendarBtn.onclick=openCalendar;
+menuBtn.onclick=()=>show("drawer");addChoice.onclick=()=>openAdd("choice");addFacet.onclick=()=>openAdd("facet");settingsBtn.onclick=()=>{hide("drawer");applySettings();show("settingsPanel")};createBtn.onclick=create;newCalendarItem.onclick=newCalItem;saveCalendarItem.onclick=saveCalItem;deleteCalendarItem.onclick=deleteCalItem;seedCalendarDefaults.onclick=seedCalDefaults;addEntryBtn.onclick=addEntry;addFieldBtn.onclick=addField;saveEntryBtn.onclick=saveEntry;deleteEntryBtn.onclick=deleteEntry;saveSettings.onclick=saveSettingsFn;resetBtn.onclick=resetDefaults;
 document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>hide(b.dataset.close));document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>activateTab(b.closest(".panel"),b.dataset.tab));document.querySelectorAll("[data-jump]").forEach(b=>b.onclick=()=>activateTab(b.closest(".panel"),b.dataset.jump));
 centerBtn.onclick=()=>{fillPerson();activateTab(personPanel,"pstatus");show("personPanel")};saveData.onclick=saveData;saveNext.onclick=saveNext;saveMove.onclick=saveMove;deleteItem.onclick=deleteItem;saveToday.onclick=saveTodayFn;saveStats.onclick=saveStatsFn;locBtn.onclick=requestLocation;
 importance.oninput=e=>{let n=item(current);if(!n)return;n.importance=Number(e.target.value);importanceOut.value=`${n.importance} / 100 — ${impLabel(n.importance)}`;render()};document.querySelectorAll("[data-imp]").forEach(b=>b.onclick=()=>{importance.value=b.dataset.imp;importance.dispatchEvent(new Event("input"))});
-window.addEventListener("resize",render);document.addEventListener("keydown",e=>{if(e.key==="Escape")["drawer","settingsPanel","addPanel","domainPanel","itemPanel","personPanel"].forEach(hide)});
+window.addEventListener("resize",render);document.addEventListener("keydown",e=>{if(e.key==="Escape")["drawer","settingsPanel","calendarPanel","addPanel","domainPanel","itemPanel","personPanel"].forEach(hide)});
 syncDomainLabels();applySettings();setInterval(updateClock,1000);render();
 </script>
 </body>
